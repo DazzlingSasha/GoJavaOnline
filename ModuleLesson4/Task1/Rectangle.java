@@ -13,14 +13,6 @@ public class Rectangle {
         this.width = width;
         this.height = height;
     }
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
     public int area(){
         return width*height;
     }
