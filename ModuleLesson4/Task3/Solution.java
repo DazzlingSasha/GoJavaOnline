@@ -4,10 +4,10 @@ package ModuleLesson4.Task3;
  * Created by Dazzling on 21.12.15.
  */
 public class Solution {
-    private int x1;
-    private int x2;
-    private int y1;
-    private int y2;
+    private int x1; //point one
+    private int x2; //point two
+    private int y1; //point one
+    private int y2; //point two
     public Solution(int x1, int y1, int x2, int y2){
         this.x1 = x1;
         this.x2 = x2;
