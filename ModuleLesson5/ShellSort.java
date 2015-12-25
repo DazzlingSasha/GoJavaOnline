@@ -14,12 +14,21 @@ public class ShellSort {
 
         try {
             int searchStep = array.length / 2;
-            int[] arrayStep = {1, 3, 5, 9, 17, 33, 65};
+            int[] arrayStep = new int[searchStep-1];
+            int indexArrayStep =0;
+            int degree = 0;
+            while(indexArrayStep<array.length){
+                if(degree==0) {
+                    indexArrayStep = (int) Math.pow(2, degree);
+                }else{
+                    indexArrayStep = (int) Math.pow(2, degree) + 1;
+                }
+                arrayStep[degree] = indexArrayStep;
+                degree++;
+            }
 
-            int i = 0;
-            while (arrayStep[i] < array.length / 2) {
+            for (int i = 0; arrayStep[i] < searchStep; i++) {
                 step = i;
-                i++;
             }
 
             while (step >= 0 && array.length>1) {
