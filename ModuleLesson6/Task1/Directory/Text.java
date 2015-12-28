@@ -1,4 +1,4 @@
-package ModuleLesson6.Task1.Directors;
+package ModuleLesson6.Task1.Directory;
 
 /**
  * Created by Konfetka on 27.12.2015.

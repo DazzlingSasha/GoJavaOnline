@@ -1,4 +1,4 @@
-package ModuleLesson6.Task1.Directors;
+package ModuleLesson6.Task1.Directory;
 
 class Audio extends File{
     @Override
