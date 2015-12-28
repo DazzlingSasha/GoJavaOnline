@@ -13,5 +13,5 @@ public class BouquetOfFlowers {
     class Rose  extends Flower{}
     class Chamomile extends Flower{}
     class Tulip extends Flower{}
-    class PinkRose extends Rose{}
+    class PinkBush extends Rose{}
 }
