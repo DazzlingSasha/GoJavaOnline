@@ -79,12 +79,12 @@ public class ShellSort {
     }
 
 
-//    public static void main(String[] args){
-//        int[] array = {-77, 2, 3222, 66, 777, -234, -7, 55, -999, 355, 456, 2345, 11};
-//        ShellSort s = new ShellSort();
-//        s.sort(array);
-//        for(int h : array) {
-//            System.out.print(h+" ");
-//        }
-//    }
+    public static void main(String[] args){
+        int[] array = {-77, 2, 3222, 66, 777, -234, -7, 55, -999, 355, 456, 2345, 11};
+        ShellSort s = new ShellSort();
+        s.sort(array);
+        for(int h : array) {
+            System.out.print(h+" ");
+        }
+    }
 }
