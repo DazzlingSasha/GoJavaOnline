@@ -1,11 +1,16 @@
 package ModuleLesson6.Task1.Directory;
 
-/**
- * Created by Konfetka on 27.12.2015.
- */
-class Text extends File{
+
+public class Text extends File{
+    private String path = "c://file.txt";
     @Override
     public String getNameFile() {
-        return "";
+        return path;
+    }
+
+    @Override
+    public String toString() {
+        return "Text" +
+                " path = '" + path + '\'';
     }
 }

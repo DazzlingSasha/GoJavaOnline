@@ -1,8 +1,15 @@
 package ModuleLesson6.Task1.Directory;
 
-class Audio extends File{
+public class Audio extends File{
+    private String path = null;
     @Override
     public String getNameFile() {
-        return null;
+        return path;
+    }
+
+    @Override
+    public String toString() {
+        return "Audio " +
+                "path = '" + path + '\'';
     }
 }
