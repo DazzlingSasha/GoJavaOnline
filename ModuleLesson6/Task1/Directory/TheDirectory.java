@@ -1,5 +1,7 @@
 package ModuleLesson6.Task1.Directory;
 
+import ModuleLesson8.PrintAndSortCollection;
+
 import java.util.ArrayList;
 
 /**
@@ -11,10 +13,18 @@ public class TheDirectory {
         File audioFile = new Audio();
         File textFile = new Text();
 
+
         ArrayList<File> listFilesInDirectory = new ArrayList<>();
             listFilesInDirectory.add(imageFile);
             listFilesInDirectory.add(audioFile);
             listFilesInDirectory.add(textFile);
+
+        // The homework task 8
+        PrintAndSortCollection<File> printAndSortCollection = new PrintAndSortCollection<File>();
+        printAndSortCollection.printList(listFilesInDirectory); //до сортировки
+        printAndSortCollection.sortList(listFilesInDirectory);  //сортировка
+        printAndSortCollection.printList(listFilesInDirectory); //после сортировки
+        // The end task 8
 
         try {
 
