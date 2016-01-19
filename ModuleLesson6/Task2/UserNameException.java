@@ -1,8 +1,5 @@
-package Task2;
+package ModuleLesson6.Task2;
 
-/**
- * Created by Konfetka on 27.12.2015.
- */
 public class UserNameException extends Throwable {
     private String userName;
     public UserNameException(final String userName) {

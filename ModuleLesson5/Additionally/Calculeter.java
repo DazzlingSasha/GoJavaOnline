@@ -62,5 +62,8 @@ public class Calculeter {
 
         int a = 52;
         if (a != Calculeter.kayMatrix(calculeter.addMatrix(matrix1, matrix2))) throw new AssertionError();
+        for(int i = 0; ++i > 0;){
+            System.out.println(i);
+        }
     }
 }

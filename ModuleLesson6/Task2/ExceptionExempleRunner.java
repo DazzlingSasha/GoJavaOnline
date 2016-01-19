@@ -1,4 +1,4 @@
-package Task2;
+package ModuleLesson6.Task2;
 
 import java.util.Scanner;
 
