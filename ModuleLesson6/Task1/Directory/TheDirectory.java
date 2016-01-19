@@ -1,12 +1,10 @@
 package ModuleLesson6.Task1.Directory;
 
 import ModuleLesson8.PrintAndSortCollection;
+import ModuleLesson9.EncryptAndDecryptTheText;
 
 import java.util.ArrayList;
 
-/**
- * Created by Konfetka on 27.12.2015.
- */
 public class TheDirectory {
     public static void main(String[] args){
         File imageFile = new Image();
@@ -21,11 +19,21 @@ public class TheDirectory {
 
         // The homework task 8
         PrintAndSortCollection<File> printAndSortCollection = new PrintAndSortCollection<File>();
-        printAndSortCollection.printList(listFilesInDirectory); //до сортировки
-        printAndSortCollection.sortList(listFilesInDirectory);  //сортировка
-        printAndSortCollection.printList(listFilesInDirectory); //после сортировки
+            printAndSortCollection.printList(listFilesInDirectory); //Before sorting
+            printAndSortCollection.sortList(listFilesInDirectory);  //Sort
+            printAndSortCollection.printList(listFilesInDirectory); //after sorting
         // The end task 8
 
+        // The homework task 9
+        System.out.println(listFilesInDirectory);                      //Before encoding
+        EncryptAndDecryptTheText ed = new EncryptAndDecryptTheText();
+
+        String encryptText = ed.encrypt(listFilesInDirectory.toString());  // Encoding
+        System.out.println(encryptText);
+        String decrypt = ed.decrypt(encryptText);                          // Decoding
+        System.out.println(decrypt);
+        // The end task 9
+        System.out.println();
         try {
 
             for(File file : listFilesInDirectory) {
