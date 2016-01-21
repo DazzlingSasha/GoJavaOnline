@@ -12,7 +12,7 @@ public class SaveAndEncryptOrLoadAndDecryptFile {
         File pathOnFile = new File(file);
         try(final BufferedWriter out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
             final Scanner scanner = new Scanner(System.in)) {
-            System.out.println("Enter text for encryption and the file is saved in the directors : "+pathOnFile.getAbsolutePath());
+            System.out.println("The enter text for encryption. For exit and save in the file, enter: \'exit\'. The file is saved in the directory: "+pathOnFile.getAbsolutePath());
             String text = scanner.nextLine();
 
             do {
