@@ -2,32 +2,28 @@ package LifoFifoStructure;
 
 import java.util.*;
 
-public class QueueLifoOrFifo extends Thread{
+public class QueueLifoOrFifo{
 
-    private static volatile Deque<String> queueMail = new ArrayDeque<>();
+    private Deque<String> queueMail = new ArrayDeque<>();
 
-    public static synchronized Queue<String> getQueueMail() {
+    public Deque<String> getQueueMail() {
         return queueMail;
     }
-
-    public synchronized void addQueueMailLIFO(String textMail) {
+    public void addQueueMailLIFO(String textMail) {
         queueMail.offerFirst(textMail);
     }
-    public synchronized void addQueueMailFIFO(String textMail) {
+    public void addQueueMailFIFO(String textMail) {
         queueMail.offer(textMail);
     }
-    public void run() {
-        try {
-            System.out.println("The sending messages will start after 3 seconds. But can writing next messages.");
-            while (!queueMail.isEmpty()) {
-                sleep(3000);
-                System.out.println(Colors.ANSI_CYAN + String.format("The remaining %s posts", queueMail.size())+ Colors.ANSI_RESET);
-                System.out.println(Colors.ANSI_CYAN + queueMail.poll() + Colors.ANSI_RESET);
-            }
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+    public void send(){
+        System.out.println(Colors.ANSI_CYAN + "Connecting to the server. The message was sent"+ Colors.ANSI_RESET);
+        System.out.println(Colors.ANSI_CYAN + queueMail.poll() + Colors.ANSI_RESET);
+    }
+    public void sendAll(){
+        System.out.println(Colors.ANSI_CYAN + "Connecting to the server. The message was sent" + Colors.ANSI_RESET);
+        while (!getQueueMail().isEmpty()) {
+            System.out.println(Colors.ANSI_CYAN + queueMail.poll() + Colors.ANSI_RESET);
         }
-
     }
 
 }

@@ -3,18 +3,17 @@ package LifoFifoStructure;
 
 import java.util.*;
 
-public class SendYourEmails extends Thread {
+public class SendYourEmails {
     public SendYourEmails() {
         start();
     }
 
-    public void run() {
+    public void start() {
         final Scanner scanner = new Scanner(System.in);
 
         int numberMail = 1;
         String textMail;
         boolean isCloseProgram = false;
-        boolean isCloseMail = false;
         boolean isFifoLifo = false;
         System.out.println("What method to send messages? " +
                 "Enter: " + Colors.ANSI_CYAN + "1 " + Colors.ANSI_RESET + "if FiFo or " +
@@ -26,11 +25,8 @@ public class SendYourEmails extends Thread {
         if (("2").equals(textMail)) {
             isFifoLifo = false;
         }
-
+        QueueLifoOrFifo queueLifoOrFifo = new QueueLifoOrFifo();
         while (!isCloseProgram) {
-            QueueLifoOrFifo queueLifoOrFifo = new QueueLifoOrFifo();
-
-            while (!isCloseMail) {
                 System.out.println("The enter the message: Message_" + numberMail++);
                 textMail = scanner.nextLine();
 
@@ -40,16 +36,13 @@ public class SendYourEmails extends Thread {
                         break;
                     case "show":
                         numberMail--;
-                        QueueLifoOrFifo.getQueueMail().stream().forEach(System.out::println);
+                        queueLifoOrFifo.getQueueMail().stream().forEach(System.out::println);
                         break;
                     case "send":
-                        numberMail--;
-                        queueLifoOrFifo.start();
-                        isCloseMail = true;
+                        queueLifoOrFifo.sendAll();
                         break;
                     case "exit":
                         numberMail--;
-                        isCloseMail = true;
                         isCloseProgram = true;
                         break;
                     default:
@@ -59,16 +52,16 @@ public class SendYourEmails extends Thread {
                             queueLifoOrFifo.addQueueMailLIFO(textMail);
                         }
                         System.out.print("The message added in queue. ");
-                        System.out.print("For send messages, enter: " + Colors.ANSI_RED + "\'send\'" + Colors.ANSI_RESET + ". ");
+                        System.out.print("For send all messages, enter: " + Colors.ANSI_RED + "\'send\'" + Colors.ANSI_RESET + ". ");
                         System.out.print("For show all messages, enter: " + Colors.ANSI_RED + "\'show\'" + Colors.ANSI_RESET + ". ");
                         System.out.println("For exit, enter: " + Colors.ANSI_RED + "\'exit\'" + Colors.ANSI_RESET + ".");
                         break;
                 }
+                if(queueLifoOrFifo.getQueueMail().size() == 10){
+                    queueLifoOrFifo.send();
+                }
 
-            }
-            if (("send").equals(textMail)) {
-                isCloseMail = false;
-            }
+
         }
     }
 
