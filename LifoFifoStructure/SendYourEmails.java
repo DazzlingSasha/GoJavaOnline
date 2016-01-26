@@ -32,17 +32,17 @@ public class SendYourEmails {
 
                 switch (textMail) {
                     case "":
-                        numberMail--;
+                        numberMail = getNumberMail(numberMail);
                         break;
                     case "show":
-                        numberMail--;
+                        numberMail = getNumberMail(numberMail);
                         queueLifoOrFifo.getQueueMail().stream().forEach(System.out::println);
                         break;
                     case "send":
                         queueLifoOrFifo.sendAll();
                         break;
                     case "exit":
-                        numberMail--;
+                        numberMail = getNumberMail(numberMail);
                         isCloseProgram = true;
                         break;
                     default:
@@ -63,6 +63,11 @@ public class SendYourEmails {
 
 
         }
+    }
+
+    private int getNumberMail(int numberMail) {
+        numberMail--;
+        return numberMail;
     }
 
     public static void main(String[] args) {
