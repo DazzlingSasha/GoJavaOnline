@@ -71,7 +71,14 @@ public class Lifo {
     }
 
     public String front() {
-        return arr[size() - 1];
+        String lastElement = null;
+        for (int i = arr.length - 1; i >= 0; i--) {
+            if (arr[i] != null) {
+                lastElement = arr[i];
+                break;
+            }
+        }
+        return lastElement;
     }
 
     public void push(String element) {
