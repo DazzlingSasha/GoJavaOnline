@@ -7,10 +7,12 @@ public class PrintAndSortCollection<T> {
 
     public void printList(List<T> list) {
         final int[] num = {0};
-        System.out.println("№  - Name collection ");
+        System.out.printf("|\t%s\t|%40s|\n", "№",  "Name collection");
         list
                 .stream()
-                .forEach(index -> System.out.println(++num[0] + " - " + index));
+                .forEach(index -> System.out.printf("|\t%s\t|%40s|\n", ++num[0], index));
+
+
     }
 
     public List<T> sortList(List<T> list) {
