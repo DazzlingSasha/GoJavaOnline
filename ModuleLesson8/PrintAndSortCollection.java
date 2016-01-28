@@ -8,7 +8,7 @@ public class PrintAndSortCollection<T> {
     public void printList(List<T> list) {
         final int[] num = {0};
         System.out.printf("|\t%s\t|%40s|\n", "№",  "Name collection");
-        System.out.print(String.format("|%48s|\n", "_").replace(" ", "_"));
+        System.out.print(String.format("|%7s|%40s|\n", "-", "-").replace(" ", "-"));
 
         list
                 .stream()
