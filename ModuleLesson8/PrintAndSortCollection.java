@@ -8,6 +8,8 @@ public class PrintAndSortCollection<T> {
     public void printList(List<T> list) {
         final int[] num = {0};
         System.out.printf("|\t%s\t|%40s|\n", "№",  "Name collection");
+        System.out.print(String.format("|%48s|\n", "_").replace(" ", "_"));
+
         list
                 .stream()
                 .forEach(index -> System.out.printf("|\t%s\t|%40s|\n", ++num[0], index));
