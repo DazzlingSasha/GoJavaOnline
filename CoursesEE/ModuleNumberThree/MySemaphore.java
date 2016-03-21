@@ -5,6 +5,7 @@ public class MySemaphore implements Semaphore {
     final Object lock = new Object();
 
     public MySemaphore() {
+        
     }
 
     public MySemaphore(int count) {
