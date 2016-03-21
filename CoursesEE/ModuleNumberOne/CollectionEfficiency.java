@@ -5,9 +5,9 @@ import java.util.Scanner;
 
 public class CollectionEfficiency {
     public static void main(String[] args) {
-        int[] arrayStepsInList = {1_000, 10_000, 1000_000};
+        int[] arrayStepsInList = {10_000, 100_000, 1_000_000};
 //        int step = 10000;
-        int cycle = 10;
+        int cycle = 100;
 
 
         final BufferedWriter out;
