@@ -1,8 +1,5 @@
 package CoursesEE.ModuleNumberThree;
 
-import java.util.List;
-import java.util.ArrayList;
-
 public class MySemaphore implements Semaphore {
     private volatile int count = 0;
     final Object lock = new Object();
