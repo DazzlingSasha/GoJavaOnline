@@ -68,11 +68,4 @@ public class SumElementsArray implements SquareSum {
 
         return maxSum;
     }
-
-    public static void main(String[] args) {
-        int[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-        SumElementsArray ser = new SumElementsArray();
-        System.out.println(ser.getSquareSum(arr, 3));
-    }
-
 }
