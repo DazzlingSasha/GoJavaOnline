@@ -2,7 +2,11 @@ package LifoFifoStructure;
 
 
 public abstract class PiratseQueue {
-    String[] arr = new String[10];
+    private String[] arr = new String[10];
+
+    public String[] getArr() {
+        return arr;
+    }
 
     public void print() {
         for (String anArr : arr) {
@@ -25,7 +29,7 @@ public abstract class PiratseQueue {
     }
 
     public boolean empty() {
-        return size() != 0;
+        return size() == 0;
     }
 
     public abstract String pop();
@@ -33,4 +37,10 @@ public abstract class PiratseQueue {
     public abstract void push(String element);
 
     public abstract String peek();
+
+    public static void main(String[] args) {
+        PiratseQueue p = new Lifo();
+        p.push("ss");
+        System.out.println(p.empty());
+    }
 }

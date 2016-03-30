@@ -1,10 +1,11 @@
 package LifoFifoStructure;
 
 public class Lifo extends PiratseQueue{
+    private String[] arr = getArr();
     @Override
     public String pop() {
         String lastElement = null;
-        for (int i = arr.length - 1; i >= 0; i--) {
+        for (int i = getArr().length - 1; i >= 0; i--) {
             if (arr[i] != null) {
                 lastElement = arr[i];
                 arr[i] = null;

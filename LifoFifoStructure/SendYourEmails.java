@@ -71,7 +71,21 @@ public class SendYourEmails {
     }
 
     public static void main(String[] args) {
-        final SendYourEmails sendYourEmails = new SendYourEmails();
+//        final SendYourEmails sendYourEmails = new SendYourEmails();
+        String[] s = new String[10];
+        s[4] = "1";
+        s[1] = "1";
+        s[0] = "1";
+        s[2] = "1";
+        s[3] = "1";
+        s[4] = "1";
+        for(int i=s.length-1; i >=0 ; i--)
+            if(null != s[i]){
+                s[i] = null;
+            }
+        for(String d : s){
+            System.out.println(d);
+        }
     }
 
 }

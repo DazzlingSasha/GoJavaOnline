@@ -29,13 +29,13 @@ public class SaveAndEncryptOrLoadAndDecryptFile {
             e.printStackTrace();
         }
     }
-    public void loadDecryptFile(String file) {
+    public String loadDecryptFile(String file) {
         EncryptAndDecryptTheText encryptDecrypt = new EncryptAndDecryptTheText();
-
+        StringBuilder sb = new StringBuilder();
         try(final BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(file)))) {
 
             while (in.ready()) {
-                System.out.println(encryptDecrypt.decrypt(in.readLine()));
+                sb.append(encryptDecrypt.decrypt(in.readLine()));
             }
 
         } catch (FileNotFoundException e) {
@@ -45,6 +45,7 @@ public class SaveAndEncryptOrLoadAndDecryptFile {
             System.out.println("Error Input/Output ");
             e.printStackTrace();
         }
+        return String.valueOf(sb);
     }
     public static void main(String[] args) {
         final String file = "c:\\111.txt";
