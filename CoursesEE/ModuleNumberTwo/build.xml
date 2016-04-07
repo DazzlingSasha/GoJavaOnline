@@ -1,0 +1,82 @@
+<project name = "executableTwo" basedir = ".">
+    <property name="src" location="src"/>
+    <property name="build" location="build" />
+    <property name="dist" location="dist" />
+    <property name="test.src" location="test" />
+    <property name="test.build" location="test.build" />
+    <property name="test.report" location="test-report" />
+    <property name="lib" location="lib" />
+
+
+    <property name="full-compile" value="true" />
+
+
+    <!--<path id="test.classpath">-->
+    <!--&lt;!&ndash;<pathelement location="${lib}/testng-6.9.10.jar"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;<pathelement location="${lib}/bsh-2.0b4.jar"/>&ndash;&gt;-->
+    <!--&lt;!&ndash;<pathelement location="${lib}/jcommander-1.48.jar"/>&ndash;&gt;-->
+    <!--<pathelement location="${lib}/junit-4.11.jar"/>-->
+    <!--</path>-->
+
+    <path id="test.classpath">
+        <pathelement location="${lib}/junit-4.11.jar" />
+        <pathelement location="${test.build}" />
+        <pathelement location="${src}" />
+    </path>
+
+    <target name="init">
+        <mkdir dir = "${build}" />
+        <mkdir dir = "${dist}" />
+        <mkdir dir = "${test.build}" />
+        <mkdir dir = "${test.report}" />
+    </target>
+
+    <target name="compile" depends="init">
+        <javac srcdir="${src}" destdir="${build}" source="1.8" target="1.8"/>
+    </target>
+
+
+    <target name="compile.test" depends="compile">
+        <javac srcdir="${test.src}" destdir="${test.build}" verbose="${full-compile}" source="1.8" target="1.8">
+            <classpath>
+                <pathelement location="${build}" />
+                <path refid="test.classpath" />
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="test" depends="compile.test">
+        <junit>
+            <classpath>
+                <pathelement location="${test.build}"/>
+                <path refid="test.classpath"/>
+            </classpath>
+        </junit>
+    </target>
+
+    <target name="dist" depends="test" description="Create jar-file">
+        <jar destfile="${dist}/executableModuleTwo.jar">
+            <fileset dir="build"/>
+            <manifest>
+                <attribute name="Main-Class" value="CoursesEE/ModuleNumberTwo/src/ExecutorImpl"/>
+            </manifest>
+            <fileset dir="test.build"/>
+        </jar>
+    </target>
+
+    <!-- Эта задача упаковывает файлы с исходными кодами и ресурсами
+        в zip-архив -->
+    <target name="packSrc">
+        <zip destfile="archive_moduleTwo.zip">
+            <fileset dir="." includes="**/*.java, **/*.mf, **/*.xml"/>
+        </zip>
+    </target>
+
+
+    <target name="clean">
+        <delete dir = "${build}" />
+        <delete dir = "${dist}" />
+        <delete dir = "${test.build}" />
+        <delete dir = "${test.report}" />
+    </target>
+</project>
