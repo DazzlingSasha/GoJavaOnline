@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="multitasking" class="Multitasking" abstract="true"/>
+
+    <bean id="adding" class="Adding" parent="multitasking"/>
+    <bean id="subtracting" class="Subtracting" parent="multitasking"/>
+    <bean id="multiplication" class="Multiplication" parent="multitasking"/>
+    <bean id="division" class="Division" parent="multitasking"/>
+
+
+    <bean id="calculator" class="Calculator">
+        <constructor-arg>
+            <map>
+                <entry key="+" value-ref="adding"/>
+                <entry key="-" value-ref="subtracting"/>
+                <entry key="*" value-ref="multiplication"/>
+                <entry key="/" value-ref="division"/>
+                <entry key="d" value-ref="date"/>
+            </map>
+        </constructor-arg>
+    </bean>
+</beans>
