@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:aop="http://www.springframework.org/schema/aop"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <bean id="multitasking" class="Multitasking" abstract="true"/>
 
@@ -18,8 +23,19 @@
                 <entry key="-" value-ref="subtracting"/>
                 <entry key="*" value-ref="multiplication"/>
                 <entry key="/" value-ref="division"/>
-                <entry key="d" value-ref="date"/>
             </map>
         </constructor-arg>
     </bean>
+
+    <aop:config>
+        <aop:aspect id="myAspect" ref="logging">
+            <aop:pointcut id="service" expression="execution(* *.*(..))"/>
+            <aop:before pointcut-ref="service" method="beforeAdvice"/>
+
+            <aop:after-returning pointcut-ref="service" returning="retVal"  method="afterReturningAdvice"/>
+            <aop:after pointcut-ref="service"  method="afterAdvice"/>
+            <aop:after-throwing pointcut-ref="service" throwing="ex" method="AfterThrowingAdvice"/>
+        </aop:aspect>
+    </aop:config>
+    <bean id="logging" class="Logging"/>
 </beans>

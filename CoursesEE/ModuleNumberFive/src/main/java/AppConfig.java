@@ -1,13 +1,15 @@
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 import java.util.HashMap;
 
 @Configuration
-public class AppConfig{
+@EnableAspectJAutoProxy(proxyTargetClass=true)
+public class AppConfig {
 
     @Bean
-    public Calculator calculator(){
+    public Calculator calculator() {
         HashMap<String, Multitasking> map = new HashMap<>();
         map.put("+", adding());
         map.put("-", subtracting());
@@ -16,21 +18,29 @@ public class AppConfig{
         Calculator calculator = new Calculator(map);
         return calculator;
     }
+
     @Bean
-    public Adding adding(){
+    public Multitasking adding() {
         return new Adding();
     }
+
     @Bean
-    public Subtracting subtracting(){
+    public Multitasking subtracting() {
         return new Subtracting();
     }
+
     @Bean
-    public Multiplication multiplication(){
+    public Multitasking multiplication() {
         return new Multiplication();
     }
+
     @Bean
-    public Division division(){
+    public Multitasking division() {
         return new Division();
     }
 
+    @Bean
+    public Logging logging() {
+        return new Logging();
+    }
 }
