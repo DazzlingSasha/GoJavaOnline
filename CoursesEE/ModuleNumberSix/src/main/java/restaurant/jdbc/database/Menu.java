@@ -1,4 +1,4 @@
-package restaurant.jdbc.databace;
+package restaurant.jdbc.database;
 
 public class Menu {
     private int id;

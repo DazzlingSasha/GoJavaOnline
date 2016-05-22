@@ -1,4 +1,4 @@
-package restaurant.jdbc.databace;
+package restaurant.jdbc.database;
 
 import java.sql.Date;
 

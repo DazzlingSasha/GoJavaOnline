@@ -1,9 +1,8 @@
-package restaurant.jdbc.databace;
+package restaurant.jdbc.database;
 
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import restaurant.JavaToSQLQuery;
 
 import java.sql.*;
 import java.util.ArrayList;

@@ -2,7 +2,7 @@ package restaurant;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import restaurant.jdbc.databace.*;
+import restaurant.jdbc.database.*;
 
 import java.sql.*;
 

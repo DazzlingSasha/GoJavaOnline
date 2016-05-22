@@ -1,6 +1,5 @@
-package restaurant.jdbc.databace;
+package restaurant.jdbc.database;
 
-import java.sql.Date;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 
