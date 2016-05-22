@@ -1,11 +1,25 @@
 package restaurant;
 
 
-import restaurant.jdbc.databace.*;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import restaurant.controllers.DishController;
 
-public class Main {
+public class Main extends Application{
 
-    public static void main(String[] args) {
+    private DishController dishController;
+
+    public static void main(String[] args)  {
+        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+//        DishDao dishDao = (DishDao) context.getBean("dishDao");
+        Main main = (Main) context.getBean("main");
+        main.start();
+        launch(args);
 //        JavaToSQLQuery sqlQuery = new JavaToSQLQuery();
 //        sqlQuery.selectNameIngredientsAndQuantity();
 //
@@ -31,7 +45,34 @@ public class Main {
 //        OrderWaiterDao order = new OrderWaiterDao();
 //        order.allInfoAboutOrder().forEach(System.out::println);
 
-        PreparedDishDao preparedDish = new PreparedDishDao();
-        preparedDish.allInfoAboutPreparedDish().forEach(System.out::println);
+//        PreparedDishDao preparedDish = new PreparedDishDao();
+//        preparedDish.allInfoAboutPreparedDish().forEach(System.out::println);
+
+    }
+
+    private void start() {
+        dishController.getAllDish().forEach(System.out::println);
+    }
+
+    public void setDishController(DishController dishController) {
+        this.dishController = dishController;
+    }
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("/views/main.fxml"));
+//        Button button = new Button("test");
+//        Text text = new Text(10, 30, "ddddd");
+//        text.setFont(new Font(40));
+//
+//        BorderPane panel = new BorderPane();
+//        panel.setCenter(button);
+//        panel.setTop(text);
+
+        Scene scene = new Scene(root);
+//scene.getStylesheets().add(0, "/views/style/style.css");
+        primaryStage.setTitle("JDBC restaurant");
+        primaryStage.setScene(scene);
+        primaryStage.show();
     }
 }

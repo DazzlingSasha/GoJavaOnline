@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="624.0" stylesheets="/views/style/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="restaurant.controllers.DishController">
+    <children>
+        <!-- Таблица в которую мы будем выводит наш pojo -->
+        <TableView fx:id="tableUsers" layoutX="12.0" layoutY="62.0" prefHeight="324.0" prefWidth="600.0">
+            <columns>
+                <!-- Колонки таблицы -->
+                <TableColumn fx:id="idColumn" prefWidth="80.0" text="№" />
+                <TableColumn fx:id="loginColumn" prefWidth="150.0" text="Login" />
+                <TableColumn fx:id="passwordColumn" prefWidth="150.0" text="Password" />
+                <TableColumn fx:id="emailColumn" prefWidth="220.0" text="Email" />
+            </columns>
+        </TableView>
+
+        <Label layoutX="14.0" layoutY="31.0" text="List all users:">
+            <font>
+                <Font name="Verdana" size="24.0" />
+            </font>
+        </Label>
+      <Button layoutX="12.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionDish2" text="Button111" />
+      <Button layoutX="95.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionDish" text="Button112" />
+
+    </children>
+</AnchorPane>

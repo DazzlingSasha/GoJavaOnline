@@ -1,29 +1,28 @@
-package restaurant.jdbc.databace;
+package restaurant.jdbc.database;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import restaurant.JavaToSQLQuery;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DishDao {
-    private final String url;
-    private final String user;
-    private final String password;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(DishDao.class);
 
-    public DishDao() {
-        LoadDriver loadDriver = new LoadDriver();
-        url = loadDriver.getUrl();
-        user = loadDriver.getUser();
-        password = loadDriver.getPassword();
+    private DataSource dataSource;
+
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     public List<Dish> allInfoAboutDishes() {
         List<Dish> result = new ArrayList<>();
-        try (Connection connection = DriverManager.getConnection(url, user, password);
+
+        try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement()) {
 
             String query = "SELECT * FROM DISH";
@@ -34,7 +33,7 @@ public class DishDao {
             while (rs.next()) {
                 Dish dish = new Dish();
                 dish.setId(rs.getInt("id"));
-                dish.setName(rs.getString(2));
+                dish.setName(rs.getString("name"));
                 dish.setCategory(rs.getInt("id_category"));
                 dish.setIngredientsForDishes(rs.getString("ids_ingredients_dish"));
                 dish.setCost(rs.getInt("cost"));
