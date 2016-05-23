@@ -9,17 +9,22 @@ import javafx.stage.Stage;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import restaurant.controllers.DishController;
+import restaurant.controllers.UsersController;
+import restaurant.jdbc.database.DishDao;
+import restaurant.jdbc.database.UsersDao;
 
 public class Main extends Application{
 
     private DishController dishController;
 
     public static void main(String[] args)  {
-        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-//        DishDao dishDao = (DishDao) context.getBean("dishDao");
-        Main main = (Main) context.getBean("main");
-        main.start();
+//        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+//        DishController dishDao = (DishController) context.getBean("dishController");
+//        dishDao.getAllDish();
+//        Main main = (Main) context.getBean("main");
+//        main.start();
         launch(args);
+
 //        JavaToSQLQuery sqlQuery = new JavaToSQLQuery();
 //        sqlQuery.selectNameIngredientsAndQuantity();
 //
@@ -39,8 +44,8 @@ public class Main extends Application{
 //        WarehouseDao warehouse = new WarehouseDao();
 //        warehouse.allInfoAboutWarehouse().forEach(System.out::println);
 
-//        UsersDao user = new UsersDao();
-//        user.allInfoAboutUsers().forEach(System.out::println);
+//        UsersController user = (UsersController) context.getBean("usersController");
+//        user.getAllUsers().forEach(System.out::println);
 
 //        OrderWaiterDao order = new OrderWaiterDao();
 //        order.allInfoAboutOrder().forEach(System.out::println);
@@ -61,16 +66,8 @@ public class Main extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/views/main.fxml"));
-//        Button button = new Button("test");
-//        Text text = new Text(10, 30, "ddddd");
-//        text.setFont(new Font(40));
-//
-//        BorderPane panel = new BorderPane();
-//        panel.setCenter(button);
-//        panel.setTop(text);
-
         Scene scene = new Scene(root);
-//scene.getStylesheets().add(0, "/views/style/style.css");
+
         primaryStage.setTitle("JDBC restaurant");
         primaryStage.setScene(scene);
         primaryStage.show();

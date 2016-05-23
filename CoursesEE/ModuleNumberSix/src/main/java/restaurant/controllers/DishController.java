@@ -22,21 +22,30 @@ public class DishController {
 
     private PlatformTransactionManager txManager;
     private DishDao dishDao;
-    private ObservableList<Dish> usersData = FXCollections.observableArrayList();
+    private ObservableList<Dish> dishData = FXCollections.observableArrayList();
+
     @FXML
-    private TableView<Dish> tableUsers;
+    private TableView<Dish> tableDish;
 
     @FXML
     private TableColumn<Dish, Integer> idColumn;
 
     @FXML
-    private TableColumn<Dish, String> loginColumn;
+    private TableColumn<Dish, String> nameColumn;
 
     @FXML
-    private TableColumn<Dish, String> passwordColumn;
+    private TableColumn<Dish, Integer> categoryColumn;
 
     @FXML
-    private TableColumn<Dish, Integer> emailColumn;
+    private TableColumn<Dish, String> ingredientsForDishesColumn;
+
+    @FXML
+    private TableColumn<Dish, Integer> costColumn;
+
+    @FXML
+    private TableColumn<Dish, Integer> weightColumn;
+
+
 
     @FXML
     private void initialize() {
@@ -44,33 +53,43 @@ public class DishController {
 
         // устанавливаем тип и значение которое должно хранится в колонке
         idColumn.setCellValueFactory(new PropertyValueFactory<Dish, Integer>("id"));
-        loginColumn.setCellValueFactory(new PropertyValueFactory<Dish, String>("name"));
-        passwordColumn.setCellValueFactory(new PropertyValueFactory<Dish, String>("ids_ingredients_dish"));
-        emailColumn.setCellValueFactory(new PropertyValueFactory<Dish, Integer>("cost"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<Dish, String>("name"));
+        categoryColumn.setCellValueFactory(new PropertyValueFactory<Dish, Integer>("category"));
+        ingredientsForDishesColumn.setCellValueFactory(new PropertyValueFactory<Dish, String>("ingredientsForDishes"));
+        costColumn.setCellValueFactory(new PropertyValueFactory<Dish, Integer>("cost"));
+        weightColumn.setCellValueFactory(new PropertyValueFactory<Dish, Integer>("weight"));
 
         // заполняем таблицу данными
-        tableUsers.setItems(usersData);
+        tableDish.setItems(dishData);
     }
+    private void initData() {
+        List<Dish> list = getAllDish();
+        System.out.println(list.size()+"//////////////////////////////////////////////////////////");
+        for(int i = 0; i<list.size(); i++){
+            System.out.println("----------------------------------------------" + i + " >> " + list.get(i));
+            dishData.add(list.get(i));
+        }
+//        dishData.addAll(dishDao.allInfoAboutDishes().stream().collect(Collectors.toList()));
+    }
+        public List<Dish> getAllDish() {
+        TransactionStatus status = txManager.getTransaction(new DefaultTransactionDefinition(TransactionDefinition.PROPAGATION_REQUIRED));
+        //PROPAGATION_REQUIRED - если транзакция еще не была создана, тогда создаст, а если была тогда будет использовать еще и дальше
+        //PROPAGATION_REQUIRED_NEW - создает новую транзакцию а остальные приостанавливает
+        //PROPAGATION_MANDATORY - до вызова getTransaction уже должен быть открытый или создана транзакция
+        try{
+            List<Dish> result = dishDao.allInfoAboutDishes();
+            txManager.commit(status);
+            return result;
+        } catch (Exception e){
+            txManager.rollback(status);
+            throw new RuntimeException(e);
+        }
 
-    //    public List<Dish> getAllDish() {
-//        TransactionStatus status = txManager.getTransaction(new DefaultTransactionDefinition(TransactionDefinition.PROPAGATION_REQUIRED));
-//        //PROPAGATION_REQUIRED - если транзакция еще не была создана, тогда создаст, а если была тогда будет использовать еще и дальше
-//        //PROPAGATION_REQUIRED_NEW - создает новую транзакцию а остальные приостанавливает
-//        //PROPAGATION_MANDATORY - до вызова getTransaction уже должен быть открытый или создана транзакция
-//        try{
-//            List<Dish> result = dishDao.allInfoAboutDishes();
-//            txManager.commit(status);
-//            return result;
-//        } catch (Exception e){
-//            txManager.rollback(status);
-//            throw new RuntimeException(e);
-//        }
-//
-//    }
-    @Transactional(propagation = Propagation.REQUIRED)
-    public List<Dish> getAllDish() {
-        return dishDao.allInfoAboutDishes();
     }
+//    @Transactional(propagation = Propagation.REQUIRED)
+//    public List<Dish> getAllDish() {
+//        return dishDao.allInfoAboutDishes();
+//    }
 
     public void setTxManager(PlatformTransactionManager txManager) {
         this.txManager = txManager;
@@ -87,4 +106,16 @@ public class DishController {
     public void ActionDish(ActionEvent actionEvent) {
         System.out.println("ddddd");
     }
+
+//    @FXML
+//    public void addContact() {
+//        Contact contact = new Contact(txtName.getText(), txtPhone.getText(), txtEmail.getText());
+//        contactService.save(contact);
+//        data.add(contact);
+//
+//        // чистим поля
+//        txtName.setText("");
+//        txtPhone.setText("");
+//        txtEmail.setText("");
+//    }
 }

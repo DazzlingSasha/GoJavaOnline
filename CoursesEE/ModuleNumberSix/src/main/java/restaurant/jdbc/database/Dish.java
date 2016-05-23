@@ -1,12 +1,25 @@
 package restaurant.jdbc.database;
 
 public class Dish {
+
     private int id;
     private String name;
     private int category;
     private String ingredientsForDishes;
     private int cost;
     private int weight;
+
+    public Dish() {
+    }
+
+    public Dish(int id, String name, int category, String ingredientsForDishes, int cost, int weight) {
+        this.id = id;
+        this.name = name;
+        this.category = category;
+        this.ingredientsForDishes = ingredientsForDishes;
+        this.cost = cost;
+        this.weight = weight;
+    }
 
     public int getId() {
         return id;

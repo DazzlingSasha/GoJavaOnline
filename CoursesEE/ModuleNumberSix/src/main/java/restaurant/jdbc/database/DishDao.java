@@ -2,6 +2,8 @@ package restaurant.jdbc.database;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import restaurant.JavaToSQLQuery;
 
 import javax.sql.DataSource;
@@ -19,6 +21,29 @@ public class DishDao {
         this.dataSource = dataSource;
     }
 
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void createNewDish(String name, int idCategory, String idsIngredientsDish, int cost, int weight) {
+        String query = "INSERT INTO DISH (NAME, ID_CATEGORY, IDS_INGREDIENTS_DISH, COST, WEIGHT) VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            LOGGER.info("Connect with databased DISH and Add new Dish");
+            statement.setString(1, name);
+            statement.setInt(2, idCategory);
+            statement.setString(3, idsIngredientsDish);
+            statement.setInt(4, cost);
+            statement.setInt(5, weight);
+            statement.executeUpdate();
+
+        } catch (SQLException sqlEx) {
+            LOGGER.error("An error has occurred query to the database 'DISH': " + sqlEx);
+            throw new RuntimeException();
+        }
+
+    }
+
+//    @Transactional(propagation = Propagation.MANDATORY)
     public List<Dish> allInfoAboutDishes() {
         List<Dish> result = new ArrayList<>();
 
