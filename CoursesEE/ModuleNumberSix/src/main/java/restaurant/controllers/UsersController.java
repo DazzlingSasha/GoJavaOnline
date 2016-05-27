@@ -12,7 +12,7 @@ import restaurant.jdbc.database.UsersDao;
 import java.sql.Date;
 import java.util.List;
 
-public class UsersController {
+public class UsersController implements MainMethodController<Users> {
     private static final Logger LOGGER = LoggerFactory.getLogger(UsersController.class);
     private UsersDao usersDao;
     private PlatformTransactionManager txManager;
@@ -25,24 +25,33 @@ public class UsersController {
         this.usersDao = usersDao;
     }
 
-
+    @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public List<Users> getAllUsers() {
+    public void addInDatabase(Users user) {
+        LOGGER.info("Add new user! ");
+        usersDao.createNewUser(user.getFirstName(), user.getLastName(), user.getBirthday(), user.getPhone(), user.getPositionUser(), user.getSalary());
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public List<Users> selectAll() {
         LOGGER.info("Select all users! ");
         return usersDao.allInfoAboutUsers();
     }
 
+    @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public List<Users> getAllUsersAndCreateUser() {
-        LOGGER.info("Select all users! ");
-        usersDao.createNewUser("Ira", "Vaskina", new Date(1980-01-01), "044-553-22-22", "WAITER", 30000);
-        Users users = usersDao.findByIdUser(7);
-        if(users.equals(null)){
-            LOGGER.error("Can not user with id: "+7);
-            throw new RuntimeException();
-        }
-        System.out.println(users);
-        usersDao.deleteUser(7);
-        return usersDao.allInfoAboutUsers();
+    public void deleteWithDatabase(int id) {
+        LOGGER.info("Delete user! ");
+        usersDao.deleteUser(id);
+
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void updateInDatabase(Users user) {
+        LOGGER.info("Update user! ");
+        System.out.println("usersControllers " + user);
+        usersDao.updateUser(user);
     }
 }

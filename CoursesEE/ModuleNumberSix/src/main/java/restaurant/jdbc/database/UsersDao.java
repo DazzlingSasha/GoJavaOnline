@@ -61,7 +61,7 @@ public class UsersDao {
 
     }
 
-        @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional(propagation = Propagation.MANDATORY)
     public List<Users> findByNameUser(String firstName) {
         List<Users> result = new ArrayList<>();
         String query = "SELECT * FROM  USERS WHERE first_name LIKE " + "'%" + firstName + "%'";
@@ -91,7 +91,7 @@ public class UsersDao {
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement()) {
 
-            LOGGER.info("Connect with databased USERS find by id: "+ id);
+            LOGGER.info("Connect with databased USERS find by id: " + id);
             ResultSet resultSet = statement.executeQuery(query);
 
             while (resultSet.next()) {
@@ -127,6 +127,31 @@ public class UsersDao {
         }
 
         return result;
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void updateUser(Users user) {
+        String query = "UPDATE USERS SET FIRST_NAME = ?, LAST_NAME=?, BIRTHDAY=?, PHONE=?, POSITION_USER=?, SALARY=? WHERE id = ?";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            LOGGER.info("Connect with databased USERS and Add new USER");
+            statement.setString(1, user.getFirstName());
+            statement.setString(2, user.getLastName());
+            statement.setDate(3, user.getBirthday());
+            statement.setString(4, user.getPhone());
+            statement.setString(5, user.getPositionUser());
+            statement.setInt(6, user.getSalary());
+            statement.setInt(7, user.getId());
+
+            statement.executeUpdate();
+
+        } catch (SQLException sqlEx) {
+            LOGGER.error("An error has occurred query to the database 'USERS': " + sqlEx);
+            throw new RuntimeException();
+        }
+
     }
 
     public Users getUsers(ResultSet resultSet) throws SQLException {

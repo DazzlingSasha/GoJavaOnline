@@ -71,12 +71,12 @@ public class Users {
     public String toString() {
         return "User{" +
                 "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", birthday=" + birthday +
-                ", phone='" + phone + '\'' +
-                ", positionUser='" + positionUser + '\'' +
-                ", salary=" + salary +"grn"+
+                ", First Name='" + firstName + '\'' +
+                ", Last Name='" + lastName + '\'' +
+                ", Birthday=" + birthday +
+                ", Phone='" + phone + '\'' +
+                ", Position User='" + positionUser + '\'' +
+                ", Salary=" + salary +" grn"+
                 '}';
     }
 }

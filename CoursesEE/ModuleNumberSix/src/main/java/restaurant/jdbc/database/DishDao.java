@@ -43,7 +43,7 @@ public class DishDao {
 
     }
 
-//    @Transactional(propagation = Propagation.MANDATORY)
+    @Transactional(propagation = Propagation.MANDATORY)
     public List<Dish> allInfoAboutDishes() {
         List<Dish> result = new ArrayList<>();
 
