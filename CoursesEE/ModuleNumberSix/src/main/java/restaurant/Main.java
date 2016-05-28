@@ -8,19 +8,21 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import restaurant.controllers.*;
-import restaurant.jdbc.database.Dish;
+import restaurant.controllers.DishController;
+import restaurant.controllers.UsersController;
 import restaurant.jdbc.database.DishDao;
-import restaurant.jdbc.database.Users;
 import restaurant.jdbc.database.UsersDao;
 
-import java.util.List;
+public class Main extends Application{
 
-public class Main extends Application {
-    private static ApplicationContext context;
+    private DishController dishController;
 
-    public static void main(String[] args) {
-        context = new ClassPathXmlApplicationContext("applicationContext.xml");
+    public static void main(String[] args)  {
+//        ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+//        DishController dishDao = (DishController) context.getBean("dishController");
+//        dishDao.getAllDish();
+//        Main main = (Main) context.getBean("main");
+//        main.start();
         launch(args);
 
 //        JavaToSQLQuery sqlQuery = new JavaToSQLQuery();
@@ -53,25 +55,21 @@ public class Main extends Application {
 
     }
 
+    private void start() {
+        dishController.getAllDish().forEach(System.out::println);
+    }
+
+    public void setDishController(DishController dishController) {
+        this.dishController = dishController;
+    }
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-
-        Parent root = FXMLLoader.load(getClass().getResource("/views/menu.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/views/main.fxml"));
         Scene scene = new Scene(root);
+
         primaryStage.setTitle("JDBC restaurant");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
-
-    public static UsersController beanUserController() {
-        UsersController dishDao = (UsersController) context.getBean("usersController");
-        return dishDao;
-//        return dishDao.selectAll();
-    }
-
-    public static List<Dish> beanDishController() {
-        DishController dishDao = (DishController) context.getBean("dishController");
-        return dishDao.selectAll();
-    }
-//    public static void
 }
