@@ -9,27 +9,31 @@
 
     <tx:annotation-driven transaction-manager="txManager" proxy-target-class="true"/>
 
-    <bean id="main" class="restaurant.Main" >
-        <property name="dishController" ref="dishController"/>
-    </bean>
+    <!--<bean id="main" class="restaurant.Main">-->
+    <!--<property name="dishController" ref="dishController"/>-->
+    <!--</bean>-->
 
     <bean id="usersDao" class="restaurant.jdbc.database.UsersDao">
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <bean id="usersController" class="restaurant.controllers.UsersController" >
+    <bean id="usersController" class="restaurant.controllers.UsersController">
         <property name="txManager" ref="txManager"/>
         <property name="usersDao" ref="usersDao"/>
     </bean>
 
-    <bean id="dishDao" class="restaurant.jdbc.database.DishDao" >
+    <bean id="dishDao" class="restaurant.jdbc.database.DishDao">
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
-    <bean id="dishController" class="restaurant.controllers.DishController" >
+    <bean id="dishController" class="restaurant.controllers.DishController">
         <property name="txManager" ref="txManager"/>
         <property name="dishDao" ref="dishDao"/>
     </bean>
+
+    <!--<bean id="screensConfiguration" class="restaurant.controllers.ScreensConfiguration">-->
+
+    <!--</bean>-->
 
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="driverClass" value="${jdbc.driver.class}"/>
@@ -39,7 +43,7 @@
         <property name="maxPoolSize" value="${jdbc.max.connections}"/>
         <property name="minPoolSize" value="${jdbc.min.connections}"/>
         <property name="acquireIncrement" value="${jdbc.acquire.increment}"/> <!-- сколько за раз будут создаваться соединений-->
-   </bean>
+    </bean>
 
     <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource"/>

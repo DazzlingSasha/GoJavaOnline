@@ -64,7 +64,7 @@ public class UsersDao {
     @Transactional(propagation = Propagation.MANDATORY)
     public List<Users> findByNameUser(String firstName) {
         List<Users> result = new ArrayList<>();
-        String query = "SELECT * FROM  USERS WHERE first_name LIKE " + "'%" + firstName + "%'";
+        String query = "SELECT * FROM  USERS WHERE first_name ILIKE " + "'%" + firstName + "%'";
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement()) {
 

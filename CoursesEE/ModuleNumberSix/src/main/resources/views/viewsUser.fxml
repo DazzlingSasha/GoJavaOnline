@@ -5,10 +5,8 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity"
-            minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="400.0" prefWidth="670.0"
-            stylesheets="/views/style/style.css" xmlns="http://javafx.com/javafx/8"
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="400.0" prefWidth="670.0" stylesheets="/views/style/style.css" xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="restaurant.Views.ViewsUser">
     <children>
         <!-- Таблица в которую мы будем выводит наш pojo -->
@@ -31,10 +29,17 @@
             </font>
         </Label>
 
-        <Button layoutX="12.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionUser" text="Add User" fx:id="butAdd"/>
-        <Button layoutX="95.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionUser" text="Delete User" fx:id="butDelete"/>
-        <Button layoutX="178.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionUser" text="Search by Name" fx:id="butSearch"/>
-        <Button layoutX="291.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionUser" text="Edit user" fx:id="butEdit"/>
-        <Button layoutX="365.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionUser" text="Select all" fx:id="butSelectAll"/>
+        <Button fx:id="butAdd" layoutX="12.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionUser" text="Add User"/>
+        <Button fx:id="butDelete" layoutX="192.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionUser" text="Delete User"/>
+        <Button fx:id="butEdit" layoutX="84.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionUser" prefWidth="100.0" text="Edit user"/>
+        <Button fx:id="selectAll" layoutX="277.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionUser" text="Select all users"/>
+
+        <AnchorPane layoutX="375.0" layoutY="4.0" prefHeight="30.0" prefWidth="293.0">
+            <children>
+                <Button fx:id="butSearch" layoutX="190.0" layoutY="2.0" mnemonicParsing="false" onAction="#ActionUser"
+                        text="Search by Name"/>
+                <TextField fx:id="textSearch" layoutX="5.0" layoutY="2.0" prefHeight="25.0" prefWidth="179.0"/>
+            </children>
+        </AnchorPane>
     </children>
 </AnchorPane>

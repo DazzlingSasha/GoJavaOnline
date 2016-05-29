@@ -20,7 +20,12 @@ public class MainMenuController {
     public Button butHistory;
     public Button butWarehouse;
 
+    public MainMenuController() {
+
+    }
+    private ActionEvent actionEvent;
     public void ActionMainMenu(ActionEvent actionEvent) {
+        this.actionEvent = actionEvent;
         Object source = actionEvent.getSource();
 
         if (!(source instanceof Button)) {
@@ -51,10 +56,17 @@ public class MainMenuController {
         }
     }
 
+    public void closeStage() {
+        stage.close();
+        newStage(actionEvent, "/views/viewsUser.fxml", "Users");
+    }
+
+    private static Stage stage;
+
     public void newStage(ActionEvent actionEvent, String views, String title) {
         Parent root = null;
         try {
-            Stage stage = new Stage();
+            stage = new Stage();
             root = FXMLLoader.load(getClass().getResource(views));
 //                    stage.setMinHeight(500);
 //                    stage.setMaxHeight(500);
@@ -63,7 +75,7 @@ public class MainMenuController {
             stage.initModality(Modality.WINDOW_MODAL);
             stage.setScene(new Scene(root));
             stage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
-            stage.setTitle("Everything \""+title+"\"");
+            stage.setTitle("Everything \"" + title + "\"");
             stage.show();
 
         } catch (IOException e) {

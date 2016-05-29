@@ -54,4 +54,16 @@ public class UsersController implements MainMethodController<Users> {
         System.out.println("usersControllers " + user);
         usersDao.updateUser(user);
     }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Users findByIdUser(int id) {
+        LOGGER.info("Find user by id where id =" + id);
+        return usersDao.findByIdUser(id);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public List<Users> findByNameUser(String name) {
+        LOGGER.info("Find all users by first name where name or part name =" + name);
+        return usersDao.findByNameUser(name);
+    }
 }
