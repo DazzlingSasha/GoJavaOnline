@@ -9,10 +9,6 @@
 
     <tx:annotation-driven transaction-manager="txManager" proxy-target-class="true"/>
 
-    <!--<bean id="main" class="restaurant.Main">-->
-    <!--<property name="dishController" ref="dishController"/>-->
-    <!--</bean>-->
-
     <bean id="usersDao" class="restaurant.jdbc.database.UsersDao">
         <property name="dataSource" ref="dataSource"/>
     </bean>
@@ -31,9 +27,14 @@
         <property name="dishDao" ref="dishDao"/>
     </bean>
 
-    <!--<bean id="screensConfiguration" class="restaurant.controllers.ScreensConfiguration">-->
+    <bean id="warehouseDao" class="restaurant.jdbc.database.WarehouseDao">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
 
-    <!--</bean>-->
+    <bean id="warehouseController" class="restaurant.controllers.WarehouseController">
+        <property name="txManager" ref="txManager"/>
+        <property name="warehouseDao" ref="warehouseDao"/>
+    </bean>
 
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
         <property name="driverClass" value="${jdbc.driver.class}"/>

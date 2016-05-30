@@ -64,8 +64,8 @@ public class Main extends Application {
     }
 
     public static UsersController beanUserController() {
-        UsersController dishDao = (UsersController) context.getBean("usersController");
-        return dishDao;
+        UsersController users = (UsersController) context.getBean("usersController");
+        return users;
 //        return dishDao.selectAll();
     }
 
@@ -73,5 +73,9 @@ public class Main extends Application {
         DishController dishDao = (DishController) context.getBean("dishController");
         return dishDao.selectAll();
     }
-//    public static void
+
+    public static WarehouseController beanWarehouseController() {
+        WarehouseController warehouse = context.getBean(WarehouseController.class);
+        return warehouse;
+    }
 }

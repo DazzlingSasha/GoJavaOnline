@@ -3,6 +3,7 @@ package restaurant.jdbc.database;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,13 +12,17 @@ public class WarehouseDao {
     private final String url;
     private final String user;
     private final String password;
-    private static final Logger LOGGER = LoggerFactory.getLogger(MenuDao.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WarehouseDao.class);
+    private DataSource dataSource;
 
     public WarehouseDao() {
         LoadDriver loadDriver = new LoadDriver();
         url = loadDriver.getUrl();
         user = loadDriver.getUser();
         password = loadDriver.getPassword();
+    }
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     public List<Warehouse> allInfoAboutWarehouse() {
