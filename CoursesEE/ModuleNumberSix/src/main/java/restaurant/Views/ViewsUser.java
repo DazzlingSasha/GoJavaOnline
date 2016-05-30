@@ -3,7 +3,6 @@ package restaurant.Views;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -11,16 +10,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 import restaurant.Main;
 import restaurant.controllers.EditUser;
-import restaurant.controllers.MainMenuController;
 import restaurant.jdbc.database.Users;
 
 import java.io.IOException;
-import java.util.List;
 
 public class ViewsUser {
 
@@ -55,7 +52,6 @@ public class ViewsUser {
         initData();
         // устанавливаем тип и значение которое должно хранится в колонке
         idColumn.setCellValueFactory(new PropertyValueFactory<Users, Integer>("id"));
-//        idColumn.getCellObservableValue(0);
         firstNameColumn.setCellValueFactory(new PropertyValueFactory<Users, String>("firstName"));
         lastNameColumn.setCellValueFactory(new PropertyValueFactory<Users, Integer>("lastName"));
         birthdayColumn.setCellValueFactory(new PropertyValueFactory<Users, String>("birthday"));  // date??
@@ -85,22 +81,24 @@ public class ViewsUser {
     }
 
     private void initData() {
-        List<Users> list = Main.beanUserController().selectAll();
-//        for (Users aList : list) {
-//            System.out.println(aList);
-        usersData.addAll(list);
-//        }
+        usersData.addAll(Main.beanUserController().selectAll());
     }
+
     @FXML
     public Button butAdd;
+
     @FXML
     public Button butDelete;
+
     @FXML
     public Button butSearch;
+
     @FXML
     public Button butEdit;
+
     @FXML
     public Button selectAll;
+
     @FXML
     private TextField textSearch;
 
@@ -114,6 +112,7 @@ public class ViewsUser {
         Users selectUser = tableUsers.getSelectionModel().getSelectedItem();
         Button button = (Button) source;
         int selectedIndex = tableUsers.getSelectionModel().getSelectedIndex();
+
         switch (button.getId()) {
             case "butAdd":
                 handleNewUser(actionEvent);
@@ -123,17 +122,14 @@ public class ViewsUser {
                 if (selectedIndex >= 0) {
                     tableUsers.getItems().remove(selectedIndex);
                     Main.beanUserController().deleteWithDatabase(selectUser.getId());
-                } else {
-                    // Ничего не выбрано.
+                } else {// Ничего не выбрано.
                     unspecifiedField();
                 }
                 break;
 
             case "butSearch":
                 usersData.clear();
-                System.out.println(textSearch.getText().toLowerCase());
-                List<Users> searchList = Main.beanUserController().findByNameUser(textSearch.getText().toLowerCase());
-                usersData.addAll(searchList);
+                usersData.addAll(Main.beanUserController().findByNameUser(textSearch.getText().toLowerCase()));
                 tableUsers.setItems(usersData);
                 break;
 
@@ -141,7 +137,6 @@ public class ViewsUser {
                 handleEditUser(actionEvent);
                 usersData.set(selectedIndex, Main.beanUserController().findByIdUser(selectUser.getId()));
                 tableUsers.setItems(usersData);
-//                userViews.closeStage();
                 break;
 
             case "selectAll":
@@ -170,10 +165,8 @@ public class ViewsUser {
         if (selectedUser != null) {
             boolean okClicked = showPersonEditDialog(actionEvent, selectedUser);
             if (okClicked) {
-                System.out.println(selectedUser);
                 Main.beanUserController().updateInDatabase(selectedUser);
             }
-            System.out.println(okClicked);
         } else {
             unspecifiedField();
         }
@@ -185,7 +178,6 @@ public class ViewsUser {
         alert.setTitle("No Selection");
         alert.setHeaderText("No User Selected");
         alert.setContentText("Please select a user in the table.");
-
         alert.showAndWait();
     }
 
@@ -193,7 +185,7 @@ public class ViewsUser {
         try {
             Stage dialogStage = new Stage();
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/views/userEditDialog.fxml"));
+            loader.setLocation(getClass().getResource("/views/userEditAndAddDialog.fxml"));
             Parent editFxml = loader.load();
 
             dialogStage.initModality(Modality.WINDOW_MODAL);
@@ -207,7 +199,6 @@ public class ViewsUser {
 
             // Отображаем диалоговое окно и ждём, пока пользователь его не закроет
             dialogStage.showAndWait();
-
             return controller.isOkClicked();
         } catch (IOException e) {
             e.printStackTrace();

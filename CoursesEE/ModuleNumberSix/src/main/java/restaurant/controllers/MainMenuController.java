@@ -68,10 +68,6 @@ public class MainMenuController {
         try {
             stage = new Stage();
             root = FXMLLoader.load(getClass().getResource(views));
-//                    stage.setMinHeight(500);
-//                    stage.setMaxHeight(500);
-//                    stage.setMinWidth(500);
-//                    stage.setMaxWidth(500);
             stage.initModality(Modality.WINDOW_MODAL);
             stage.setScene(new Scene(root));
             stage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());

@@ -28,21 +28,21 @@ public class UsersController implements MainMethodController<Users> {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void addInDatabase(Users user) {
-        LOGGER.info("Add new user! ");
+        LOGGER.info("Add new user!");
         usersDao.createNewUser(user.getFirstName(), user.getLastName(), user.getBirthday(), user.getPhone(), user.getPositionUser(), user.getSalary());
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public List<Users> selectAll() {
-        LOGGER.info("Select all users! ");
+        LOGGER.info("Select all users!");
         return usersDao.allInfoAboutUsers();
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void deleteWithDatabase(int id) {
-        LOGGER.info("Delete user! ");
+        LOGGER.info("Delete user! With id: " + id);
         usersDao.deleteUser(id);
 
     }
@@ -50,20 +50,19 @@ public class UsersController implements MainMethodController<Users> {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void updateInDatabase(Users user) {
-        LOGGER.info("Update user! ");
-        System.out.println("usersControllers " + user);
+        LOGGER.info("Update user! With id: " + user.getId());
         usersDao.updateUser(user);
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
     public Users findByIdUser(int id) {
-        LOGGER.info("Find user by id where id =" + id);
+        LOGGER.info("Find user by id where id: " + id);
         return usersDao.findByIdUser(id);
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
     public List<Users> findByNameUser(String name) {
-        LOGGER.info("Find all users by first name where name or part name =" + name);
+        LOGGER.info("Find all users by first name where name or part name " + name);
         return usersDao.findByNameUser(name);
     }
 }
