@@ -6,39 +6,44 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="400.0" prefWidth="670.0" stylesheets="/views/style/style.css" xmlns="http://javafx.com/javafx/8"
+            prefHeight="500.0" prefWidth="800.0" stylesheets="/views/style/style.css" xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="restaurant.Views.ViewsUser">
     <children>
         <!-- Таблица в которую мы будем выводит наш pojo -->
-        <TableView fx:id="tableUsers" layoutX="12.0" layoutY="62.0" prefHeight="324.0" prefWidth="652.0">
+        <TableView fx:id="tableUsers" layoutX="10.0" layoutY="60.0" prefHeight="430.0" prefWidth="780.0">
             <columns>
                 <!-- Колонки таблицы -->
-                <TableColumn fx:id="idColumn" prefWidth="50.0" text="№ id"/>
-                <TableColumn fx:id="firstNameColumn" prefWidth="100.0" text="First Name"/>
-                <TableColumn fx:id="lastNameColumn" prefWidth="100.0" text="Last Name"/>
+                <TableColumn fx:id="idColumn" prefWidth="48.0" text="№ id"/>
+                <TableColumn fx:id="firstNameColumn" prefWidth="150.0" text="First Name"/>
+                <TableColumn fx:id="lastNameColumn" prefWidth="150.0" text="Last Name"/>
                 <TableColumn fx:id="birthdayColumn" prefWidth="100.0" text="Birthday"/>
                 <TableColumn fx:id="phoneColumn" prefWidth="100.0" text="Phone"/>
-                <TableColumn fx:id="positionUserColumn" prefWidth="100.0" text="Position"/>
-                <TableColumn fx:id="salaryColumn" prefWidth="100.0" text="Salary"/>
+                <TableColumn fx:id="positionUserColumn" prefWidth="140.0" text="Position"/>
+                <TableColumn fx:id="salaryColumn" prefWidth="90.0" text="Salary"/>
             </columns>
         </TableView>
 
-        <Label layoutX="14.0" layoutY="31.0" text="List all users:">
+        <Label layoutX="14.0" layoutY="31.0" text="List users:">
             <font>
-                <Font name="Verdana" size="24.0"/>
+                <Font name="Verdana" size="20.0"/>
             </font>
         </Label>
 
-        <Button fx:id="butAdd" layoutX="12.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionUser" text="Add User"/>
-        <Button fx:id="butDelete" layoutX="192.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionUser" text="Delete User"/>
-        <Button fx:id="butEdit" layoutX="84.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionUser" prefWidth="100.0" text="Edit user"/>
-        <Button fx:id="selectAll" layoutX="277.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionUser" text="Select all users"/>
+        <Button fx:id="butAdd" layoutX="20.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionUser"
+                prefHeight="25.0" prefWidth="100.0" text="Add User"/>
+        <Button fx:id="butDelete" layoutX="130.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionUser"
+                prefHeight="25.0" prefWidth="100.0" text="Delete User"/>
+        <Button fx:id="butEdit" layoutX="240.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionUser"
+                prefHeight="25.0" prefWidth="100.0" text="Edit user"/>
+        <Button fx:id="selectAll" layoutX="350.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionUser"
+                prefHeight="25.0" prefWidth="100.0" text="Select all users"/>
 
-        <AnchorPane layoutX="375.0" layoutY="4.0" prefHeight="30.0" prefWidth="293.0">
+        <AnchorPane layoutX="480.0" layoutY="4.0" prefHeight="30.0" prefWidth="300.0">
             <children>
-                <Button fx:id="butSearch" layoutX="190.0" layoutY="2.0" mnemonicParsing="false" onAction="#ActionUser"
+                <Button fx:id="butSearch" layoutX="195.0" layoutY="2.0" mnemonicParsing="false" onAction="#ActionUser"
+                        prefHeight="25.0" prefWidth="100.0"
                         text="Search by Name"/>
-                <TextField fx:id="textSearch" layoutX="5.0" layoutY="2.0" prefHeight="25.0" prefWidth="179.0"/>
+                <TextField fx:id="textSearch" layoutX="5.0" layoutY="2.0" prefHeight="25.0" prefWidth="180.0"/>
             </children>
         </AnchorPane>
     </children>

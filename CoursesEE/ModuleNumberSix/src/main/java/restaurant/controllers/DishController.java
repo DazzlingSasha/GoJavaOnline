@@ -58,20 +58,4 @@ public class DishController implements MainMethodController<Dish>{
 
     }
 
-
-//    public List<Dish> getAllDish() {
-//        TransactionStatus status = txManager.getTransaction(new DefaultTransactionDefinition(TransactionDefinition.PROPAGATION_REQUIRED));
-//        //PROPAGATION_REQUIRED - если транзакция еще не была создана, тогда создаст, а если была тогда будет использовать еще и дальше
-//        //PROPAGATION_REQUIRED_NEW - создает новую транзакцию а остальные приостанавливает
-//        //PROPAGATION_MANDATORY - до вызова getTransaction уже должен быть открытый или создана транзакция
-//        try{
-//            List<Dish> result = dishDao.allInfoAboutDishes();
-//            txManager.commit(status);
-//            return result;
-//        } catch (Exception e){
-//            txManager.rollback(status);
-//            throw new RuntimeException(e);
-//        }
-//
-//    }
 }
