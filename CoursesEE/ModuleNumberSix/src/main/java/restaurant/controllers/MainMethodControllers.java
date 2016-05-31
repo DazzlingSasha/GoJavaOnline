@@ -2,7 +2,7 @@ package restaurant.controllers;
 
 import java.util.List;
 
-public interface MainMethodController<T> {
+public interface MainMethodControllers<T> {
     void addInDatabase(T item);
 
     List<T> selectAll();

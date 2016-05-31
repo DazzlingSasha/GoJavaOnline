@@ -14,7 +14,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import restaurant.Main;
-import restaurant.controllers.EditUser;
 import restaurant.jdbc.database.Users;
 
 import java.io.IOException;
@@ -22,6 +21,7 @@ import java.io.IOException;
 public class ViewsUser {
 
     private ObservableList<Users> usersData = FXCollections.observableArrayList();
+    private AlertAndErrorMessages alertAndErrorMessages = new AlertAndErrorMessages();
 
     @FXML
     private TableView<Users> tableUsers;
@@ -123,7 +123,7 @@ public class ViewsUser {
                     tableUsers.getItems().remove(selectedIndex);
                     Main.beanUserController().deleteWithDatabase(selectUser.getId());
                 } else {// Ничего не выбрано.
-                    unspecifiedField();
+                    alertAndErrorMessages.unspecifiedDialog();
                 }
                 break;
 
@@ -168,18 +168,10 @@ public class ViewsUser {
                 Main.beanUserController().updateInDatabase(selectedUser);
             }
         } else {
-            unspecifiedField();
+            alertAndErrorMessages.unspecifiedDialog();
         }
     }
 
-    private void unspecifiedField() {
-        // Ничего не выбрано.
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("No Selection");
-        alert.setHeaderText("No User Selected");
-        alert.setContentText("Please select a user in the table.");
-        alert.showAndWait();
-    }
 
     private boolean showPersonEditDialog(ActionEvent actionEvent, Users user) {
         try {

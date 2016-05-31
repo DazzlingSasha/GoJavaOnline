@@ -1,29 +1,17 @@
 package restaurant.controllers;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.transaction.support.DefaultTransactionDefinition;
-import restaurant.Main;
 import restaurant.jdbc.database.Dish;
 import restaurant.jdbc.database.DishDao;
 
 import java.util.List;
 
-public class DishController implements MainMethodController<Dish>{
-
+public class DishController implements MainMethodControllers<Dish> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DishController.class);
     private PlatformTransactionManager txManager;
 
     private DishDao dishDao;
@@ -39,23 +27,24 @@ public class DishController implements MainMethodController<Dish>{
 
     @Override
     public void addInDatabase(Dish dish) {
-
+        LOGGER.info("Add new user!");
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public List<Dish> selectAll() {
+        LOGGER.info("Add new user!");
         return dishDao.allInfoAboutDishes();
     }
 
     @Override
     public void deleteWithDatabase(int id) {
-
+        LOGGER.info("Add new user!");
     }
 
     @Override
     public void updateInDatabase(Dish dish) {
-
+        LOGGER.info("Add new user!");
     }
 
 }

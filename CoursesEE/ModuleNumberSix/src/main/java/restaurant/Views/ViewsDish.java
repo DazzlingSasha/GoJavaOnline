@@ -4,14 +4,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import restaurant.Main;
 import restaurant.jdbc.database.Dish;
 
-import java.util.List;
+import java.io.IOException;
 
 public class ViewsDish {
     private ObservableList<Dish> dishData = FXCollections.observableArrayList();
@@ -52,12 +58,9 @@ public class ViewsDish {
         // заполняем таблицу данными
         tableDish.setItems(dishData);
     }
+
     private void initData() {
-        List<Dish> list = Main.beanDishController();
-        for(int i = 0; i<list.size(); i++){
-            System.out.println(list.get(i));
-            dishData.add(list.get(i));
-        }
+        dishData.addAll(Main.beanDishController());
     }
 
     public Button butAdd;
@@ -68,12 +71,12 @@ public class ViewsDish {
     public void ActionDish(ActionEvent actionEvent) {
         Object source = actionEvent.getSource();
 
-        if(!(source instanceof Button)){
+        if (!(source instanceof Button)) {
             return;
         }
         Dish selectDish = tableDish.getSelectionModel().getSelectedItem();
         Button button = (Button) source;
-        switch (button.getId()){
+        switch (button.getId()) {
             case "butAdd":
                 System.out.println("ssss1" + selectDish);
                 break;
@@ -89,15 +92,28 @@ public class ViewsDish {
 
         }
     }
-    //    @FXML
-//    public void addContact() {
-//        Contact contact = new Contact(txtName.getText(), txtPhone.getText(), txtEmail.getText());
-//        contactService.save(contact);
-//        data.add(contact);
-//
-//        // чистим поля
-//        txtName.setText("");
-//        txtPhone.setText("");
-//        txtEmail.setText("");
-//    }
+    private boolean showPersonEditDialog(ActionEvent actionEvent, Dish dish) {
+        try {
+            Stage dialogStage = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/views/dishEditAndAddDialog.fxml"));
+            Parent editFxml = loader.load();
+
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.setScene(new Scene(editFxml));
+            dialogStage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
+            dialogStage.setTitle("Edit Dish");
+
+            EditDish controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setDish(dish);
+
+            // Отображаем диалоговое окно и ждём, пока пользователь его не закроет
+            dialogStage.showAndWait();
+            return controller.isOkClicked();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

@@ -1,7 +1,6 @@
-package restaurant.controllers;
+package restaurant.Views;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import restaurant.DateSQL;
@@ -28,6 +27,7 @@ public class EditUser {
     private Stage dialogStage;
     private Users user;
     private boolean okClicked = false;
+    private AlertAndErrorMessages alertAndErrorMessages = new AlertAndErrorMessages();
 
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
@@ -73,13 +73,9 @@ public class EditUser {
 
     private boolean isInputValid() {
         StringBuilder errorMessage = new StringBuilder();
+        errorMessage.append(alertAndErrorMessages.validStringField(firstNameField, "first name"));
+        errorMessage.append(alertAndErrorMessages.validStringField(lastNameField, "last name"));
 
-        if (firstNameField.getText() == null || firstNameField.getText().length() == 0) {
-            errorMessage.append("No valid first name!\n");
-        }
-        if (lastNameField.getText() == null || lastNameField.getText().length() == 0) {
-            errorMessage.append("No valid last name!\n");
-        }
         if (birthdayField.getText() == null || birthdayField.getText().length() == 0) {
             errorMessage.append("No valid birthday!\n");
         } else {
@@ -87,39 +83,16 @@ public class EditUser {
                 errorMessage.append("No valid birthday. Use the format dd.mm.yyyy!\n");
             }
         }
-        if (phoneField.getText() == null || phoneField.getText().length() == 0) {
-            errorMessage.append("No valid phone!\n");
-        }
 
-
-        if (positionUserField.getText() == null || positionUserField.getText().length() == 0) {
-            errorMessage.append("No valid position user!\n");
-        }
-
-        if (salaryField.getText() == null || salaryField.getText().length() == 0) {
-            errorMessage.append("No valid salary!\n");
-        } else {
-            // пытаемся преобразовать почтовый код в int.
-            try {
-                Integer.parseInt(salaryField.getText());
-            } catch (NumberFormatException e) {
-                errorMessage.append("No valid salary (must be an integer)!\n");
-            }
-        }
-
+        errorMessage.append(alertAndErrorMessages.validStringField(phoneField, "phone"));
+        errorMessage.append(alertAndErrorMessages.validStringField(positionUserField, "position user"));
+        errorMessage.append(alertAndErrorMessages.validIntegerAndNull(salaryField, "salary"));
 
         if (errorMessage.length() == 0) {
             return true;
         } else {
             // Показываем сообщение об ошибке.
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.initOwner(dialogStage);
-            alert.setTitle("Invalid Fields");
-            alert.setHeaderText("Please correct invalid fields");
-            alert.setContentText(errorMessage.toString());
-
-            alert.showAndWait();
-
+            alertAndErrorMessages.dialogFields(dialogStage, errorMessage.toString());
             return false;
         }
     }
