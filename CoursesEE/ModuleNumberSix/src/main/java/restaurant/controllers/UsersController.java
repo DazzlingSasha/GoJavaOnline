@@ -9,10 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 import restaurant.jdbc.database.Users;
 import restaurant.jdbc.database.UsersDao;
 
-import java.sql.Date;
 import java.util.List;
 
-public class UsersController implements MainMethodController<Users> {
+public class UsersController implements MainMethodControllers<Users> {
     private static final Logger LOGGER = LoggerFactory.getLogger(UsersController.class);
     private UsersDao usersDao;
     private PlatformTransactionManager txManager;
