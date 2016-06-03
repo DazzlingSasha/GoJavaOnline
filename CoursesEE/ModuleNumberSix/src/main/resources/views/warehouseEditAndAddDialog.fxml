@@ -21,10 +21,10 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
             </rowConstraints>
             <children>
-                <Label text="First Name" GridPane.rowIndex="0"/>
-                <Label text="Last Name" GridPane.rowIndex="1"/>
-                <Label text="Birthday" GridPane.rowIndex="2"/>
-                <TextField fx:id="idIngredientColumn" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+                <Label text="Ingredients" GridPane.rowIndex="0"/>
+                <Label text="Quantity" GridPane.rowIndex="1"/>
+                <Label text="Unit" GridPane.rowIndex="2"/>
+                <ComboBox fx:id="idIngredientColumn" prefWidth="150.0" accessibleText="Ingredient" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
                 <TextField fx:id="quantityColumn" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
                 <TextField fx:id="unitColumn" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
             </children>

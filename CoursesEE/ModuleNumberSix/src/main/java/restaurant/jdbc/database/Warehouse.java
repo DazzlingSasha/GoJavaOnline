@@ -3,15 +3,25 @@ package restaurant.jdbc.database;
 public class Warehouse {
     private int id;
     private int idIngredient;
+
+    private String itemWithDatabaseIngredients;
+
     private double quantity;
     private String unit;
-
     public void setId(int id) {
         this.id = id;
     }
 
     public void setIdIngredient(int idIngredient) {
         this.idIngredient = idIngredient;
+    }
+
+    public String getItemWithDatabaseIngredients() {
+        return itemWithDatabaseIngredients;
+    }
+
+    public void setItemWithDatabaseIngredients(String itemWithDatabaseIngredients) {
+        this.itemWithDatabaseIngredients = itemWithDatabaseIngredients;
     }
 
     public int getId() {

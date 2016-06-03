@@ -1,16 +1,18 @@
 package restaurant.Views;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import restaurant.DateSQL;
-import restaurant.jdbc.database.Users;
+import restaurant.AlertAndErrorMessages;
+import restaurant.Main;
+import restaurant.jdbc.database.Ingredient;
 import restaurant.jdbc.database.Warehouse;
 
-public class EditWarehouse {
+public class EditWarehouse{
+
     @FXML
-    public TextField idIngredientColumn;
+    public ComboBox<Ingredient> idIngredientColumn;
     @FXML
     public TextField quantityColumn;
     @FXML
@@ -23,6 +25,7 @@ public class EditWarehouse {
     private Stage dialogStage;
     private Warehouse warehouse;
     private boolean okClicked = false;
+    private AlertAndErrorMessages alertAndErrorMessages = new AlertAndErrorMessages();
 
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
@@ -30,9 +33,17 @@ public class EditWarehouse {
 
     public void setUser(Warehouse warehouse) {
         this.warehouse = warehouse;
-        idIngredientColumn.setText(Integer.toString(warehouse.getIdIngredient()));
+        addInComboBox();
+        idIngredientColumn.setPromptText("New item");
+        idIngredientColumn.setValue(Main.beanIngredientController().findById(warehouse.getIdIngredient()));
         quantityColumn.setText(Double.toString(warehouse.getQuantity()));
         unitColumn.setText(warehouse.getUnit());
+    }
+
+    private void addInComboBox() {
+        for (Ingredient item : Main.beanIngredientController().selectAll()) {
+            idIngredientColumn.getItems().add(item);
+        }
     }
 
     public boolean isOkClicked() {
@@ -42,7 +53,8 @@ public class EditWarehouse {
     @FXML
     private void handleOk() {
         if (isInputValid()) {
-            warehouse.setIdIngredient(Integer.parseInt(idIngredientColumn.getText()));
+            warehouse.setIdIngredient(idIngredientColumn.getSelectionModel().getSelectedItem().getId());
+            warehouse.setItemWithDatabaseIngredients(idIngredientColumn.getSelectionModel().getSelectedItem().getName());
             warehouse.setQuantity(Double.parseDouble(quantityColumn.getText()));
             warehouse.setUnit(unitColumn.getText());
 
@@ -59,42 +71,17 @@ public class EditWarehouse {
     private boolean isInputValid() {
         StringBuilder errorMessage = new StringBuilder();
 
-        if (idIngredientColumn.getText() == null || idIngredientColumn.getText().length() == 0) {
-            errorMessage.append("No valid salary!\n");
-        } else {
-            // пытаемся преобразовать почтовый код в int.
-            try {
-                Integer.parseInt(idIngredientColumn.getText());
-            } catch (NumberFormatException e) {
-                errorMessage.append("No valid salary (must be an integer)!\n");
-            }
+        if (idIngredientColumn.getSelectionModel().getSelectedItem() == null) {
+            errorMessage.append("No valid ComboBox Ingredient!\n");
         }
-        if (quantityColumn.getText() == null || quantityColumn.getText().length() == 0) {
-            errorMessage.append("No valid salary!\n");
-        } else {
-            // пытаемся преобразовать почтовый код в int.
-            try {
-                Double.parseDouble(quantityColumn.getText());
-            } catch (NumberFormatException e) {
-                errorMessage.append("No valid salary (must be an integer)!\n");
-            }
-        }
-        if (unitColumn.getText() == null || unitColumn.getText().length() == 0) {
-            errorMessage.append("No valid phone!\n");
-        }
+        errorMessage.append(alertAndErrorMessages.validDoubleAndNull(quantityColumn, "quantity"));
+        errorMessage.append(alertAndErrorMessages.validStringField(unitColumn, "unit"));
 
         if (errorMessage.length() == 0) {
             return true;
         } else {
             // Показываем сообщение об ошибке.
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.initOwner(dialogStage);
-            alert.setTitle("Invalid Fields");
-            alert.setHeaderText("Please correct invalid fields");
-            alert.setContentText(errorMessage.toString());
-
-            alert.showAndWait();
-
+            alertAndErrorMessages.dialogFields(dialogStage, errorMessage.toString());
             return false;
         }
     }

@@ -13,6 +13,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import restaurant.AlertAndErrorMessages;
 import restaurant.Main;
 import restaurant.jdbc.database.Users;
 
@@ -61,20 +62,6 @@ public class ViewsUser {
 
         // заполняем таблицу данными
         tableUsers.setItems(usersData);
-
-//        tableUsers.setOnMouseClicked(new EventHandler<MouseEvent>() {
-//            @Override
-//            public void handle(MouseEvent event) {
-//                if(event.getClickCount() == 2){
-//                    ActionEvent actionEvent = null;
-//                    actionEvent = new ActionEvent(actionEvent.getSource(), butEdit);
-//                    handleEditUser(actionEvent);
-//                    usersData.set(selectedIndex, Main.beanUserController().findByIdUser(selectUser.getId()));
-//                    tableUsers.setItems(usersData);
-//                }
-//            }
-//        });
-
 
 //        tableUsers.getSelectionModel().selectedItemProperty().addListener(
 //                (observable, oldValue, newValue) -> showPersonDetails(newValue));
@@ -129,13 +116,13 @@ public class ViewsUser {
 
             case "butSearch":
                 usersData.clear();
-                usersData.addAll(Main.beanUserController().findByNameUser(textSearch.getText().toLowerCase()));
+                usersData.addAll(Main.beanUserController().findByName(textSearch.getText().toLowerCase()));
                 tableUsers.setItems(usersData);
                 break;
 
             case "butEdit":
                 handleEditUser(actionEvent);
-                usersData.set(selectedIndex, Main.beanUserController().findByIdUser(selectUser.getId()));
+                usersData.set(selectedIndex, Main.beanUserController().findById(selectUser.getId()));
                 tableUsers.setItems(usersData);
                 break;
 

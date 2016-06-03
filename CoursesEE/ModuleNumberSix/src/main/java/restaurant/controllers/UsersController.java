@@ -53,14 +53,16 @@ public class UsersController implements MainMethodControllers<Users> {
         usersDao.updateUser(user);
     }
 
+    @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public Users findByIdUser(int id) {
+    public Users findById(int id) {
         LOGGER.info("Find user by id where id: " + id);
         return usersDao.findByIdUser(id);
     }
 
+    @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public List<Users> findByNameUser(String name) {
+    public List<Users> findByName(String name) {
         LOGGER.info("Find all users by first name where name or part name " + name);
         return usersDao.findByNameUser(name);
     }

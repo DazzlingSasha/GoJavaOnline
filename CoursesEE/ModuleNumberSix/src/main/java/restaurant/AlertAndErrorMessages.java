@@ -1,4 +1,4 @@
-package restaurant.Views;
+package restaurant;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
@@ -36,6 +36,20 @@ public class AlertAndErrorMessages {
                 return "";
             } catch (NumberFormatException e) {
                 return "No valid "+nameField+" (must be an integer)!\n";
+            }
+        }
+    }
+
+    public String validDoubleAndNull(TextField field, String nameField){
+        if (field.getText() == null || field.getText().length() == 0) {
+            return "No valid "+nameField+"\n";
+        } else {
+            // пытаемся преобразовать почтовый код в double.
+            try {
+                Double.parseDouble(field.getText());
+                return "";
+            } catch (NumberFormatException e) {
+                return "No valid "+nameField+" (must be an double)!\n";
             }
         }
     }

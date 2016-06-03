@@ -6,36 +6,40 @@
 <?import javafx.scene.text.*?>
 
 <AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-            prefHeight="400.0" prefWidth="670.0" stylesheets="/views/style/style.css" xmlns="http://javafx.com/javafx/8"
+            prefHeight="550.0" prefWidth="340.0" stylesheets="/views/style/style.css" xmlns="http://javafx.com/javafx/8"
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="restaurant.Views.ViewsWarehouse">
     <children>
         <!-- Таблица в которую мы будем выводит наш pojo -->
-        <TableView fx:id="tableWarehouse" layoutX="12.0" layoutY="62.0" prefHeight="324.0" prefWidth="252.0">
+        <TableView fx:id="tableWarehouse" layoutX="12.0" layoutY="125.0" prefHeight="400.0" prefWidth="322.0">
             <columns>
                 <!-- Колонки таблицы -->
                 <TableColumn fx:id="idColumn" prefWidth="50.0" text="№ id"/>
-                <TableColumn fx:id="idIngredientColumn" prefWidth="100.0" text="Ingredient"/>
-                <TableColumn fx:id="quantityColumn" prefWidth="50.0" text="Quantity"/>
+                <TableColumn fx:id="idIngredientColumn" prefWidth="150.0" text="Ingredient"/>
+                <TableColumn fx:id="quantityColumn" prefWidth="70.0" text="Quantity"/>
                 <TableColumn fx:id="unitColumn" prefWidth="50.0" text="Unit"/>
             </columns>
         </TableView>
 
-        <Label layoutX="14.0" layoutY="31.0" text="List all users:">
+        <Label layoutX="14.0" layoutY="96.0" text="All items in Warehouse:">
             <font>
-                <Font name="Verdana" size="24.0"/>
+                <Font name="Verdana" size="20.0"/>
             </font>
         </Label>
 
-        <Button fx:id="butAdd" layoutX="12.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionUser" text="Add new ingredient"/>
-        <Button fx:id="butDelete" layoutX="192.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionUser" text="Delete ingredient"/>
-        <Button fx:id="butEdit" layoutX="84.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionUser" prefWidth="100.0" text="Edit ingredient"/>
-        <Button fx:id="butSelectAll" layoutX="277.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionUser" text="Select all ingredients"/>
-        <Button fx:id="butSelectEnds" layoutX="277.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionUser" text="Select ingredients ends"/>
-        <AnchorPane layoutX="375.0" layoutY="4.0" prefHeight="30.0" prefWidth="293.0">
+        <Button fx:id="butAdd" layoutX="10.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionUser" prefWidth="100.0" text="Add new ingredient"/>
+        <Button fx:id="butDelete" layoutX="120.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionUser" prefWidth="100.0" text="Delete ingredient"/>
+        <Button fx:id="butEdit" layoutX="230.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionUser" prefWidth="100.0" text="Edit ingredient"/>
+        <Button fx:id="butSelectAll" layoutX="10.0" layoutY="37.0" mnemonicParsing="false" onAction="#ActionUser" prefWidth="100.0" text="Select all ingredients"/>
+        <Button fx:id="butSelectEnds" layoutX="120.0" layoutY="37.0" mnemonicParsing="false" onAction="#ActionUser" prefWidth="100.0" text="Select ingredients ends"/>
+
+
+        <Button fx:id="butForIngredients" layoutX="230.0" layoutY="37.0" mnemonicParsing="false" onAction="#ActionForIngredients" prefWidth="100.0" text="FOR Ingredients"/>
+
+        <AnchorPane layoutX="0.0" layoutY="65.0" prefHeight="30.0" prefWidth="340.0">
             <children>
-                <Button fx:id="butSearch" layoutX="190.0" layoutY="2.0" mnemonicParsing="false" onAction="#ActionUser"
-                        text="Search ingredient"/>
-                <TextField fx:id="textSearch" layoutX="5.0" layoutY="2.0" prefHeight="25.0" prefWidth="179.0"/>
+                <Button fx:id="butSearch" layoutX="230.0" layoutY="2.0" mnemonicParsing="false" prefWidth="100.0" onAction="#ActionUser"
+                        text="Search Items"/>
+                <TextField fx:id="textSearch" layoutX="10.0" layoutY="2.0" prefHeight="23.0" prefWidth="210.0"/>
             </children>
         </AnchorPane>
     </children>

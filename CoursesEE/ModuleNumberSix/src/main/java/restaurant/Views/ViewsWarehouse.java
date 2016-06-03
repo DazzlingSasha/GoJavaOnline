@@ -12,7 +12,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import restaurant.AlertAndErrorMessages;
 import restaurant.Main;
+import restaurant.controllers.MainMenuController;
+import restaurant.controllers.NewMenu;
 import restaurant.jdbc.database.Warehouse;
 
 import java.io.IOException;
@@ -20,6 +23,7 @@ import java.util.List;
 
 public class ViewsWarehouse {
     private ObservableList<Warehouse> warehouseData = FXCollections.observableArrayList();
+    private AlertAndErrorMessages alertAndErrorMessages = new AlertAndErrorMessages();
 
     @FXML
     private TableView<Warehouse> tableWarehouse;
@@ -28,29 +32,28 @@ public class ViewsWarehouse {
     private TableColumn<Warehouse, Integer> idColumn;
 
     @FXML
-    private TableColumn<Warehouse, Integer> idIngredientColumn;
+    private TableColumn<Warehouse, String> idIngredientColumn;
 
     @FXML
     private TableColumn<Warehouse, Double> quantityColumn;
+
 
     @FXML
     private TableColumn<Warehouse, String> unitColumn;
 
     @FXML
     private void initialize() {
-        initData();
+        warehouseData.addAll(Main.beanWarehouseController().selectAll());
+
         // устанавливаем тип и значение которое должно хранится в колонке
         idColumn.setCellValueFactory(new PropertyValueFactory<Warehouse, Integer>("id"));
-        idIngredientColumn.setCellValueFactory(new PropertyValueFactory<Warehouse, Integer>("idIngredient"));
+        PropertyValueFactory d = new PropertyValueFactory<Warehouse, Integer>("idIngredient");
+        idIngredientColumn.setCellValueFactory(new PropertyValueFactory<Warehouse, String>("itemWithDatabaseIngredients"));
         quantityColumn.setCellValueFactory(new PropertyValueFactory<Warehouse, Double>("quantity"));
         unitColumn.setCellValueFactory(new PropertyValueFactory<Warehouse, String>("unit"));
 
         // заполняем таблицу данными
         tableWarehouse.setItems(warehouseData);
-    }
-
-    private void initData() {
-        warehouseData.addAll(Main.beanWarehouseController().selectAll());
     }
 
     @FXML
@@ -68,6 +71,7 @@ public class ViewsWarehouse {
     @FXML
     private TextField textSearch;
 
+    private NewMenu newMenu = new NewMenu();
     public void ActionUser(ActionEvent actionEvent) {
         Object source = actionEvent.getSource();
 
@@ -89,18 +93,18 @@ public class ViewsWarehouse {
                     Main.beanWarehouseController().deleteWithDatabase(selectWarehouse.getId());
                 } else {
                     // Ничего не выбрано.
-                    unspecifiedField();
+                    alertAndErrorMessages.unspecifiedDialog();
                 }
                 break;
 
-
             case "butEdit":
-            handleEditUser(actionEvent);
-//            warehouseData.set(selectedIndex, Main.beanWarehouseController().findByIdUser(selectUser.getId()));
-            tableWarehouse.setItems(warehouseData);
-            break;
+                handleEditUser(actionEvent);
+                warehouseData.set(selectedIndex, Main.beanWarehouseController().findById(selectWarehouse.getId()));
+                tableWarehouse.setItems(warehouseData);
 
-            case "selectAll":
+                break;
+
+            case "butSelectAll":
                 warehouseData.clear();
                 warehouseData.addAll(Main.beanWarehouseController().selectAll());
                 tableWarehouse.setItems(warehouseData);
@@ -108,17 +112,17 @@ public class ViewsWarehouse {
 
             case "butSelectEnds":
                 warehouseData.clear();
-                warehouseData.addAll(Main.beanWarehouseController().selectAll());
+                warehouseData.addAll(Main.beanWarehouseController().findEndsItemsInWarehouse());
                 tableWarehouse.setItems(warehouseData);
                 break;
 
             case "butSearch":
-            warehouseData.clear();
-            System.out.println(textSearch.getText().toLowerCase());
-//            List<Warehouse> searchList = Main.beanWarehouseController().findByNameUser(textSearch.getText().toLowerCase());
-//            warehouseData.addAll(searchList);
-            tableWarehouse.setItems(warehouseData);
-            break;
+                warehouseData.clear();
+                System.out.println(textSearch.getText().toLowerCase());
+                List<Warehouse> searchList = Main.beanWarehouseController().findByName(textSearch.getText().toLowerCase());
+                warehouseData.addAll(searchList);
+                tableWarehouse.setItems(warehouseData);
+                break;
 
         }
     }
@@ -126,7 +130,7 @@ public class ViewsWarehouse {
     @FXML
     private void handleNewUser(ActionEvent actionEvent) {
         Warehouse warehouse = new Warehouse();
-        boolean okClicked = showPersonEditDialog(actionEvent, warehouse);
+        boolean okClicked = showWarehouseEditDialog(actionEvent, warehouse);
         System.out.println(okClicked);
         if (okClicked) {
             Main.beanWarehouseController().addInDatabase(warehouse);
@@ -135,42 +139,33 @@ public class ViewsWarehouse {
         }
     }
 
+
     @FXML
     private void handleEditUser(ActionEvent actionEvent) {
         Warehouse selectedWarehouse = tableWarehouse.getSelectionModel().getSelectedItem();
         if (selectedWarehouse != null) {
-            boolean okClicked = showPersonEditDialog(actionEvent, selectedWarehouse);
+            boolean okClicked = showWarehouseEditDialog(actionEvent, selectedWarehouse);
             if (okClicked) {
                 System.out.println(selectedWarehouse);
                 Main.beanWarehouseController().updateInDatabase(selectedWarehouse);
             }
             System.out.println(okClicked);
         } else {
-            unspecifiedField();
+            alertAndErrorMessages.unspecifiedDialog();
         }
     }
 
-    private void unspecifiedField() {
-        // Ничего не выбрано.
-        Alert alert = new Alert(Alert.AlertType.WARNING);
-        alert.setTitle("No Selection");
-        alert.setHeaderText("No User Selected");
-        alert.setContentText("Please select a user in the table.");
-
-        alert.showAndWait();
-    }
-
-    private boolean showPersonEditDialog(ActionEvent actionEvent, Warehouse warehouse) {
+    private boolean showWarehouseEditDialog(ActionEvent actionEvent, Warehouse warehouse) {
         try {
             Stage dialogStage = new Stage();
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/views/warehouseEditDialog.fxml"));
+            loader.setLocation(getClass().getResource("/views/warehouseEditAndAddDialog.fxml"));
             Parent editFxml = loader.load();
 
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.setScene(new Scene(editFxml));
             dialogStage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
-            dialogStage.setTitle("Edit User");
+            dialogStage.setTitle("Edit Warehouse");
 
             EditWarehouse controller = loader.getController();
             controller.setDialogStage(dialogStage);
@@ -184,5 +179,18 @@ public class ViewsWarehouse {
             e.printStackTrace();
         }
         return false;
+    }
+
+    @FXML
+    public Button butForIngredients;
+
+    public void ActionForIngredients(ActionEvent actionEvent) {
+        Object source = actionEvent.getSource();
+
+        if (!(source instanceof Button)) {
+            return;
+        }
+
+        new MainMenuController().newStage(actionEvent, "/views/viewsIngredients.fxml", "Ingredients");
     }
 }

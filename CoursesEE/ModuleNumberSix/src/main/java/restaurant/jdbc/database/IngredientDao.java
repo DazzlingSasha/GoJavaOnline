@@ -2,7 +2,10 @@ package restaurant.jdbc.database;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.sql.DataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,21 +13,17 @@ import java.util.List;
 public class IngredientDao {
     private static final Logger LOGGER = LoggerFactory.getLogger(IngredientDao.class);
 
-    private  final String url;
-    private  final String user;
-    private  final String password;
-
-
-    public IngredientDao() {
-        LoadDriver loadDriver = new LoadDriver();
-        url = loadDriver.getUrl();
-        user = loadDriver.getUser();
-        password = loadDriver.getPassword();
+    private DataSource dataSource;
+    public void setDataSource(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
+
+
+    @Transactional(propagation = Propagation.MANDATORY)
     public List<Ingredient> allInfoAboutIngredients() {
         List<Ingredient> result = new ArrayList<>();
-        try (Connection connection = DriverManager.getConnection(url, user, password);
+        try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement()) {
 
             String query = "SELECT * FROM ingredients";
@@ -44,10 +43,10 @@ public class IngredientDao {
         }
         return result;
     }
-
-    public void insertInIngredients(String values) {
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void createInIngredients(String values) {
         String query = "INSERT INTO INGREDIENTS (NAME_INGREDIENT) VALUES ( ? )";
-        try (Connection connection = DriverManager.getConnection(url, user, password);
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             LOGGER.info("Connect with databased INGREDIENTS");
 
@@ -58,11 +57,11 @@ public class IngredientDao {
             throw new RuntimeException();
         }
     }
-
+    @Transactional(propagation = Propagation.MANDATORY)
     public Ingredient loadOneIngredient(int id) {
         Ingredient ingredient = null;
         String query = "SELECT * FROM ingredients WHERE id = ?";
-        try (Connection connection = DriverManager.getConnection(url, user, password);
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
@@ -70,9 +69,7 @@ public class IngredientDao {
             LOGGER.info("Connect with databased INGREDIENTS");
 
             while (rs.next()) {
-                ingredient = new Ingredient();
-                ingredient.setId(rs.getInt("id"));
-                ingredient.setName(rs.getString("name_ingredient"));
+                ingredient = getIngredient(rs);
             }
 
         } catch (SQLException sqlEx) {
@@ -81,20 +78,20 @@ public class IngredientDao {
         }
         return ingredient;
     }
-
-    public Ingredient updateInIngredients(int id, String newIngredient) {
+    @Transactional(propagation = Propagation.MANDATORY)
+    public Ingredient updateInIngredients(Ingredient item) {
         String query = "UPDATE INGREDIENTS SET NAME_INGREDIENT = ? WHERE id = ?";
-        try (Connection connection = DriverManager.getConnection(url, user, password);
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             LOGGER.info("Connect with databased INGREDIENTS");
-            statement.setString(1, newIngredient);
-            statement.setInt(2, id);
+            statement.setString(1, item.getName());
+            statement.setInt(2, item.getId());
 
             if (statement.executeUpdate() == 1) {
-                return loadOneIngredient(id);
+                return loadOneIngredient(item.getId());
             } else {
-                throw new RuntimeException("Cannot find id with databased INGREDIENTS: " + id);
+                throw new RuntimeException("Cannot find id with databased INGREDIENTS: " + item.getId());
             }
         } catch (SQLException sqlEx) {
             LOGGER.error("An error has occurred query to the database 'Ingredients': " + sqlEx);
@@ -102,9 +99,10 @@ public class IngredientDao {
         }
 
     }
+    @Transactional(propagation = Propagation.MANDATORY)
     public void deleteIngredient(int id) {
         String query = "DELETE FROM INGREDIENTS WHERE id = ?";
-        try (Connection connection = DriverManager.getConnection(url, user, password);
+        try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             LOGGER.info("Connect with databased INGREDIENTS");
@@ -117,5 +115,33 @@ public class IngredientDao {
 
     }
 
+    @Transactional(propagation = Propagation.MANDATORY)
+    public List<Ingredient> findByName(String name) {
+        List<Ingredient> result = new ArrayList<>();
+        String query = "SELECT * FROM  ingredients WHERE ingredients.name_ingredient ILIKE " + "'%" + name + "%'";
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
 
+            LOGGER.info("Connect with databased USERS find by name");
+            ResultSet resultSet = statement.executeQuery(query);
+
+            while (resultSet.next()) {
+                Ingredient item = getIngredient(resultSet);
+                result.add(item);
+            }
+
+        } catch (SQLException e) {
+            LOGGER.error("An error has occurred query to the database 'USERS': " + e);
+            throw new RuntimeException();
+        }
+
+        return result;
+    }
+
+    private Ingredient getIngredient(ResultSet resultSet) throws SQLException {
+        Ingredient item = new Ingredient();
+        item.setId(resultSet.getInt("id"));
+        item.setName(resultSet.getString("name_ingredient"));
+        return item;
+    }
 }

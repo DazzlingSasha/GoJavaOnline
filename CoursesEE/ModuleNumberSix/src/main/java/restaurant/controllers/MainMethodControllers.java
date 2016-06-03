@@ -10,4 +10,8 @@ public interface MainMethodControllers<T> {
     void deleteWithDatabase(int id);
 
     void updateInDatabase(T item);
+
+    T findById(int id);
+
+    List<T> findByName(String name);
 }

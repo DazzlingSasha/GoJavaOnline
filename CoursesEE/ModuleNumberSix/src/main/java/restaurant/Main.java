@@ -22,35 +22,6 @@ public class Main extends Application {
     public static void main(String[] args) {
         context = new ClassPathXmlApplicationContext("applicationContext.xml");
         launch(args);
-
-//        JavaToSQLQuery sqlQuery = new JavaToSQLQuery();
-//        sqlQuery.selectNameIngredientsAndQuantity();
-//
-//        IngredientDao ingredientDao = new IngredientDao();
-////        System.out.println(ingredientDao.updateInIngredients(14, "fffff4"));
-//        for(int i = 9; i < 28; i++) {
-//            ingredientDao.deleteIngredient(i);
-//        }
-//        ingredientDao.allInfoAboutIngredients().forEach(System.out::println);
-//
-//        MenuDao menuDao = new MenuDao();
-//        menuDao.allInfoAboutMenu().forEach(System.out::println);
-//
-//        DishDao dishDao= new DishDao();
-//        dishDao.allInfoAboutDishes().forEach(System.out::println);
-//
-//        WarehouseDao warehouse = new WarehouseDao();
-//        warehouse.allInfoAboutWarehouse().forEach(System.out::println);
-
-//        UsersController user = (UsersController) context.getBean("usersController");
-//        user.getAllUsers().forEach(System.out::println);
-
-//        OrderWaiterDao order = new OrderWaiterDao();
-//        order.allInfoAboutOrder().forEach(System.out::println);
-
-//        PreparedDishDao preparedDish = new PreparedDishDao();
-//        preparedDish.allInfoAboutPreparedDish().forEach(System.out::println);
-
     }
 
     @Override
@@ -64,9 +35,7 @@ public class Main extends Application {
     }
 
     public static UsersController beanUserController() {
-        UsersController users = (UsersController) context.getBean("usersController");
-        return users;
-//        return dishDao.selectAll();
+        return (UsersController) context.getBean("usersController");
     }
 
     public static List<Dish> beanDishController() {
@@ -75,7 +44,14 @@ public class Main extends Application {
     }
 
     public static WarehouseController beanWarehouseController() {
-        WarehouseController warehouse = context.getBean(WarehouseController.class);
-        return warehouse;
+        return (WarehouseController) context.getBean("warehouseController");
+    }
+
+    public static IngredientController beanIngredientController() {
+        return (IngredientController) context.getBean("ingredientController");
+    }
+
+    public static OrderController beanOrderController() {
+        return context.getBean(OrderController.class);
     }
 }

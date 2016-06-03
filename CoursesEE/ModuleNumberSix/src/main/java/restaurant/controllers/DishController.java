@@ -47,4 +47,14 @@ public class DishController implements MainMethodControllers<Dish> {
         LOGGER.info("Add new user!");
     }
 
+    @Override
+    public Dish findById(int id) {
+        return null;
+    }
+
+    @Override
+    public List<Dish> findByName(String name) {
+        return null;
+    }
+
 }
