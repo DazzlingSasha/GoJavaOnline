@@ -38,7 +38,7 @@ public class ViewsOrder {
     @FXML
     public TableColumn<OrderWaiter, Integer> tableColumn;
     @FXML
-    public TableColumn openOrCloseColumn;
+    public TableColumn<OrderWaiter, Integer> openOrCloseColumn;
 
     @FXML
     private void initialize() {
@@ -66,13 +66,11 @@ public class ViewsOrder {
     @FXML
     public Button butEditOrder;
     @FXML
-    public Button butDeleteDish;//-------------not work
-    @FXML
-    public Button butAddDish;//-------------not work
-    @FXML
     public Button butSelectAllOpen;
     @FXML
     public Button butSelectAllClose;
+    @FXML
+    public Button butSelectAll;
 
     public void ActionOrder(ActionEvent actionEvent) {
         Object source = actionEvent.getSource();
@@ -91,18 +89,22 @@ public class ViewsOrder {
                 break;
 
             case "butDeleteOrder":
-                if (selectedIndex >= 0) {
-                    tableOrder.getItems().remove(selectedIndex);
-                    Main.beanUserController().deleteWithDatabase(selectOrder.getId());
-                } else {// Ничего не выбрано.
-                    alertAndErrorMessages.unspecifiedDialog();
+                if(selectOrder.getCloseOrOpenOrder() != 1) {
+                    if (selectedIndex >= 0) {
+                        tableOrder.getItems().remove(selectedIndex);
+                        Main.beanOrderController().deleteWithDatabase(selectOrder.getId());
+                    } else {// Ничего не выбрано.
+                        alertAndErrorMessages.unspecifiedDialog();
+                    }
+                } else {
+                    alertAndErrorMessages.unspecifiedDialogOrderClose();
                 }
                 break;
 
             case "butCloseOrder":
                 if (selectedIndex >= 0) {
                     if(Main.beanOrderController().closeOrder(selectOrder.getId())) {
-                        orderData.set(selectedIndex, orderData.get(selectOrder.getId()));
+                        orderData.set(selectedIndex, Main.beanOrderController().findById(selectOrder.getId()));
                         tableOrder.setItems(orderData);
                     }
                 } else {// Ничего не выбрано.
@@ -111,9 +113,13 @@ public class ViewsOrder {
                 break;
 
             case "butEditOrder":
-                handleEditUser(actionEvent);
-                orderData.set(selectedIndex, Main.beanOrderController().findById(selectOrder.getId()));
-                tableOrder.setItems(orderData);
+                if(selectOrder.getCloseOrOpenOrder() != 1) {
+                    handleEditUser(actionEvent);
+                    orderData.set(selectedIndex, Main.beanOrderController().findById(selectOrder.getId()));
+                    tableOrder.setItems(orderData);
+                } else {
+                    alertAndErrorMessages.unspecifiedDialogOrderClose();
+                }
                 break;
 
             case "butSelectAllOpen":
@@ -125,6 +131,12 @@ public class ViewsOrder {
             case "butSelectAllClose":
                 orderData.clear();
                 orderData.addAll(Main.beanOrderController().selectAllCloseOrder());
+                tableOrder.setItems(orderData);
+                break;
+
+            case "butSelectAll":
+                orderData.clear();
+                orderData.addAll(Main.beanOrderController().selectAll());
                 tableOrder.setItems(orderData);
                 break;
 

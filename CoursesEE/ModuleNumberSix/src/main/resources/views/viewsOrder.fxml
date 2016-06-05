@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -9,7 +10,7 @@
             xmlns:fx="http://javafx.com/fxml/1" fx:controller="restaurant.Views.ViewsOrder">
     <children>
         <!-- Таблица в которую мы будем выводит наш pojo -->
-        <TableView fx:id="tableOrder" layoutX="12.0" layoutY="93.0" prefHeight="293.0" prefWidth="600.0">
+        <TableView fx:id="tableOrder" layoutX="12.0" layoutY="102.0" prefHeight="284.0" prefWidth="600.0">
             <columns>
                 <!-- Колонки таблицы -->
                 <TableColumn fx:id="idColumn" prefWidth="78.0" text="№ id_order"/>
@@ -26,23 +27,20 @@
             </font>
         </Label>
 
-        <Button fx:id="butCloseOrder" layoutX="113.0" layoutY="39.0" maxWidth="130.0" minWidth="130.0" mnemonicParsing="false"
-                onAction="#ActionOrder" prefWidth="130.0" text="Close order"/>
-        <Button fx:id="butDeleteDish" layoutX="406.0" layoutY="39.0" maxWidth="100.0" minWidth="100.0"
-                mnemonicParsing="false" onAction="#ActionOrder" prefWidth="100.0" text="Delete Dish"/>
-        <Button fx:id="butAddDish" layoutX="406.0" layoutY="7.0" maxWidth="100.0" minWidth="100.0"
-                mnemonicParsing="false" onAction="#ActionOrder" prefWidth="100.0" text="Add dish"/>
+        <Button fx:id="butCloseOrder" layoutX="113.0" layoutY="39.0" maxWidth="130.0" minWidth="130.0"
+                mnemonicParsing="false" onAction="#ActionOrder" prefWidth="130.0" text="Close order"/>
         <Button fx:id="butSelectAllOpen" layoutX="517.0" layoutY="7.0" maxWidth="100.0" minWidth="100.0"
                 mnemonicParsing="false" onAction="#ActionOrder" prefWidth="100.0" text="All open order"/>
-        <Button fx:id="butEditOrder" layoutX="113.0" layoutY="7.0" maxWidth="130.0" minWidth="130.0" mnemonicParsing="false"
-                onAction="#ActionOrder" prefWidth="130.0" text="Edit order"/>
+        <Button fx:id="butEditOrder" layoutX="113.0" layoutY="7.0" maxWidth="130.0" minWidth="130.0"
+                mnemonicParsing="false" onAction="#ActionOrder" prefWidth="130.0" text="Edit order"/>
         <Button fx:id="butDeleteOrder" layoutX="16.0" layoutY="39.0" minWidth="70.0" mnemonicParsing="false"
                 onAction="#ActionOrder" prefWidth="90.0" text="Delete order"/>
-        <ComboBox layoutX="250.0" layoutY="7.0" prefWidth="150.0" promptText="add dish in order"/>
         <Button fx:id="butCreateOrder" layoutX="16.0" layoutY="7.0" mnemonicParsing="false" onAction="#ActionOrder"
                 prefWidth="90.0" text="Create order"/>
         <Button fx:id="butSelectAllClose" layoutX="517.0" layoutY="39.0" maxWidth="100.0" minWidth="100.0"
                 mnemonicParsing="false" onAction="#ActionOrder" prefWidth="100.0" text="All close order"/>
+        <Button fx:id="butSelectAll" layoutX="517.0" layoutY="69.0" maxWidth="100.0" minWidth="100.0"
+                mnemonicParsing="false" onAction="#ActionOrder" prefWidth="100.0" text="All order"/>
 
     </children>
 </AnchorPane>

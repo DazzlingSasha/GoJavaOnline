@@ -1,6 +1,5 @@
 package restaurant.Views;
 
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,6 +25,7 @@ import java.util.List;
 public class ViewsIngredients {
     private ObservableList<Ingredient> ingredientData = FXCollections.observableArrayList();
     private AlertAndErrorMessages alertAndErrorMessages = new AlertAndErrorMessages();
+
     @FXML
     private TableView<Ingredient> ingredientTableView;
     @FXML

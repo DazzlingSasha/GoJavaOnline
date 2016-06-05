@@ -66,4 +66,10 @@ public class UsersController implements MainMethodControllers<Users> {
         LOGGER.info("Find all users by first name where name or part name " + name);
         return usersDao.findByNameUser(name);
     }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public List<Users> allUsersWaiter() {
+        LOGGER.info("Select all users waiter ");
+        return usersDao.allUsersWaiter();
+    }
 }

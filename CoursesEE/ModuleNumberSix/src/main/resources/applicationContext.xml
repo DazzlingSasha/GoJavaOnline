@@ -55,6 +55,15 @@
         <property name="orderWaiterDao" ref="orderWaiterDao"/>
     </bean>
 
+    <bean id="preparedDishDao" class="restaurant.jdbc.database.PreparedDishDao">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="preparedController" class="restaurant.controllers.PreparedController">
+        <property name="txManager" ref="txManager"/>
+        <property name="preparedDishDao" ref="preparedDishDao"/>
+    </bean>
+
     <bean id="viewsWarehouse" class="restaurant.Views.ViewsWarehouse">
         <!--<property name="alertAndErrorMessages" ref="alertAndErrorMessages"/>-->
     </bean>

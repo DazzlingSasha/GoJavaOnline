@@ -65,7 +65,7 @@ public class WarehouseDao {
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
-            LOGGER.info("Connect with databased WAREHOUSE and Add new Item");
+            LOGGER.info("Connect with databased WAREHOUSE and update  Item");
             statement.setInt(1, item.getIdIngredient());
             statement.setDouble(2, item.getQuantity());
             statement.setString(3, item.getUnit());
@@ -74,7 +74,7 @@ public class WarehouseDao {
             statement.executeUpdate();
 
         } catch (SQLException sqlEx) {
-            LOGGER.error("An error has occurred query to the database 'WAREHOUSE': " + sqlEx);
+            LOGGER.error("An error has occurred query to the database 'WAREHOUSE' and update  Item: " + sqlEx);
             throw new RuntimeException();
         }
 

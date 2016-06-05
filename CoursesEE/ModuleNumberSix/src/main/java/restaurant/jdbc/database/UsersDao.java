@@ -130,6 +130,29 @@ public class UsersDao {
     }
 
     @Transactional(propagation = Propagation.MANDATORY)
+    public List<Users> allUsersWaiter() {
+        List<Users> result = new ArrayList<>();
+        String query = "SELECT * FROM  USERS WHERE position_user='WAITER'";
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
+
+            LOGGER.info("Connect with databased USERS and select all waiter");
+
+            ResultSet resultSet = statement.executeQuery(query);
+            while (resultSet.next()) {
+                Users user = getUsers(resultSet);
+                result.add(user);
+            }
+
+        } catch (SQLException e) {
+            LOGGER.error("An error has occurred query to the database 'USERS' and select all waiter: " + e);
+            throw new RuntimeException();
+        }
+
+        return result;
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
     public void updateUser(Users user) {
         String query = "UPDATE USERS SET FIRST_NAME = ?, LAST_NAME=?, BIRTHDAY=?, PHONE=?, POSITION_USER=?, SALARY=? WHERE id = ?";
 

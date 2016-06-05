@@ -1,24 +1,64 @@
 package restaurant.Views;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import restaurant.AlertAndErrorMessages;
 import restaurant.Main;
+import restaurant.jdbc.database.Dish;
 import restaurant.jdbc.database.OrderWaiter;
-
+import restaurant.jdbc.database.PreparedDish;
+import restaurant.jdbc.database.Users;
 
 public class EditOrder {
+    private ObservableList<Dish> dishData = FXCollections.observableArrayList();
+    private ObservableList<Dish> preparedData = FXCollections.observableArrayList();
 
     @FXML
-    public ComboBox userColumn;
+    private TableView<Dish> tableDish;
     @FXML
-    public TextField tableColumn;
+    private TableColumn<Dish, Integer> idColumn;
+    @FXML
+    private TableColumn<Dish, String> nameColumn;
+    @FXML
+    private TableColumn<Dish, Integer> categoryColumn;
+
+    @FXML
+    private TableView<PreparedDish> tablePrepared;
+    @FXML
+    private TableColumn<PreparedDish, Integer> idPreparedColumn;
+    @FXML
+    private TableColumn<PreparedDish, String> namePreparedColumn;
+    @FXML
+    private TableColumn<PreparedDish, Integer> categoryPreparedColumn;
 
     @FXML
     private void initialize() {
+        preparedData.addAll(Main.beanPreparedController().findAllDishThisOrder(order.getId()));
+
+        dishData.addAll(Main.beanDishController());
+
+        // устанавливаем тип и значение которое должно хранится в колонке
+        idColumn.setCellValueFactory(new PropertyValueFactory<Dish, Integer>("id"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<Dish, String>("name"));
+        categoryColumn.setCellValueFactory(new PropertyValueFactory<Dish, Integer>("category"));
+
+        // заполняем таблицу данными
+        tableDish.setItems(dishData);
     }
+
+
+    @FXML
+    public ComboBox<Users> userColumn;
+    @FXML
+    public TextField tableColumn;
 
     private Stage dialogStage;
     private OrderWaiter order;
@@ -31,10 +71,16 @@ public class EditOrder {
 
     public void setOrder(OrderWaiter order) {
         this.order = order;
-        tableColumn.setText(Integer.toString(order.getNumberTable()));
-        userColumn.setValue(Main.beanUserController().selectAll());
-    }
+        addInComboBox();
 
+        userColumn.setValue(Main.beanUserController().findById(order.getId_user()));
+        tableColumn.setText(Integer.toString(order.getNumberTable()));
+    }
+    private void addInComboBox() {
+        for (Users item : Main.beanUserController().allUsersWaiter()) {
+            userColumn.getItems().add(item);
+        }
+    }
     public boolean isOkClicked() {
         return okClicked;
     }
@@ -42,11 +88,8 @@ public class EditOrder {
     @FXML
     private void handleOk() {
         if (isInputValid()) {
-//            order.setName(nameField.getText());
-//            order.setCategory(Integer.parseInt(idCategoryField.getText()));
-//            order.setIngredientsForDishes(idsIngredientsDishField.getText());
-//            order.setCost(Integer.parseInt(costField.getText()));
-//            order.setWeight(Integer.parseInt(weightField.getText()));
+            order.setId_user(userColumn.getSelectionModel().getSelectedItem().getId());
+            order.setNumberTable(Integer.parseInt(tableColumn.getText()));
 
             okClicked = true;
             dialogStage.close();
@@ -60,12 +103,10 @@ public class EditOrder {
 
     private boolean isInputValid() {
         StringBuilder errorMessage = new StringBuilder();
-
-//        errorMessage.append(alertAndErrorMessages.validStringField(nameField, "name dish"));
-//        errorMessage.append(alertAndErrorMessages.validIntegerAndNull(idCategoryField, "id category"));
-//        errorMessage.append(alertAndErrorMessages.validStringField(idsIngredientsDishField, "idsIngredientsDishField"));
-//        errorMessage.append(alertAndErrorMessages.validIntegerAndNull(costField, "cost"));
-//        errorMessage.append(alertAndErrorMessages.validIntegerAndNull(weightField, "weight"));
+        errorMessage.append(alertAndErrorMessages.validIntegerAndNull(tableColumn, "table"));
+        if (userColumn.getSelectionModel().getSelectedItem() == null) {
+            errorMessage.append("No valid ComboBox waiter tables!\n");
+        }
 
         if (errorMessage.length() == 0) {
             return true;
@@ -74,5 +115,12 @@ public class EditOrder {
             alertAndErrorMessages.dialogFields(dialogStage, errorMessage.toString());
             return false;
         }
+    }
+
+    public void ActionAdd(ActionEvent actionEvent) {
+
+    }
+
+    public void ActionDelete(ActionEvent actionEvent) {
     }
 }

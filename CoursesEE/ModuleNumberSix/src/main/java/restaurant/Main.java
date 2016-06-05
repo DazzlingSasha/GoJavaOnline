@@ -9,10 +9,7 @@ import javafx.stage.Stage;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import restaurant.controllers.*;
-import restaurant.jdbc.database.Dish;
-import restaurant.jdbc.database.DishDao;
-import restaurant.jdbc.database.Users;
-import restaurant.jdbc.database.UsersDao;
+import restaurant.jdbc.database.*;
 
 import java.util.List;
 
@@ -53,5 +50,9 @@ public class Main extends Application {
 
     public static OrderController beanOrderController() {
         return context.getBean(OrderController.class);
+    }
+
+    public static PreparedController beanPreparedController() {
+        return context.getBean(PreparedController.class);
     }
 }

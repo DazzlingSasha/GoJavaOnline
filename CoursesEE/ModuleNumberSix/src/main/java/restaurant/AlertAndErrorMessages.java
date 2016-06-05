@@ -21,7 +21,16 @@ public class AlertAndErrorMessages {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle("No Selection");
         alert.setHeaderText("No User Selected");
-        alert.setContentText("Please select a user in the table.");
+        alert.setContentText("Please select a user in the table");
+
+        alert.showAndWait();
+    }
+    public void unspecifiedDialogOrderClose() {
+        // Ничего не выбрано.
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Not delete order");
+        alert.setHeaderText("Is not delete or edit selecting order but order is closing");
+        alert.setContentText("Please select a order with value open = 0");
 
         alert.showAndWait();
     }

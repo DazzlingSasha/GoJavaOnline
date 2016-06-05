@@ -1,6 +1,7 @@
 package restaurant.jdbc.database;
 
 
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,6 +14,7 @@ public class PreparedDishDao {
     private final String user;
     private final String password;
     private static final Logger LOGGER = LoggerFactory.getLogger(PreparedDishDao.class);
+    private ComboPooledDataSource dataSource;
 
     public PreparedDishDao() {
         LoadDriver loadDriver = new LoadDriver();
@@ -57,5 +59,9 @@ public class PreparedDishDao {
         }
 
         return result;
+    }
+
+    public void setDataSource(ComboPooledDataSource dataSource) {
+        this.dataSource = dataSource;
     }
 }

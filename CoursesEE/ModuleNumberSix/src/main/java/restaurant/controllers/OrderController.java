@@ -15,7 +15,6 @@ public class OrderController implements MainMethodControllers<OrderWaiter> {
     private DataSourceTransactionManager txManager;
     private OrderWaiterDao orderWaiterDao;
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderController.class);
-    private UsersController usersController;
 
     public void setTxManager(DataSourceTransactionManager txManager) {
         this.txManager = txManager;
@@ -25,15 +24,11 @@ public class OrderController implements MainMethodControllers<OrderWaiter> {
         this.orderWaiterDao = orderWaiterDao;
     }
 
-    public void setUsersController(UsersController usersController) {
-        this.usersController = usersController;
-    }
-
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void addInDatabase(OrderWaiter item) {
+    public void addInDatabase(OrderWaiter order) {
         LOGGER.info("Add new order in Database!");
-//        orderWaiterDao.createOrder();
+        orderWaiterDao.createOrder(order);
     }
 
     @Override
@@ -52,22 +47,22 @@ public class OrderController implements MainMethodControllers<OrderWaiter> {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public void updateInDatabase(OrderWaiter item) {
+    public void updateInDatabase(OrderWaiter order) {
         LOGGER.info("Update order in Database!");
-
+        orderWaiterDao.updateOrder(order);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public OrderWaiter findById(int id) {
         LOGGER.info("Find order in Database of the id: "+ id);
-        return null;
+        return orderWaiterDao.findByIdOrder(id);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public List<OrderWaiter> findByName(String name) {
-        return null;
+        return null;                                  // not method
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
