@@ -177,7 +177,7 @@ public class UsersDao {
 
     }
 
-    public Users getUsers(ResultSet resultSet) throws SQLException {
+    private Users getUsers(ResultSet resultSet) throws SQLException {
         Users user = new Users();
         user.setId(resultSet.getInt("id"));
         user.setFirstName(resultSet.getString("first_name"));

@@ -28,7 +28,8 @@ public class OrderController implements MainMethodControllers<OrderWaiter> {
     @Transactional(propagation = Propagation.REQUIRED)
     public void addInDatabase(OrderWaiter order) {
         LOGGER.info("Add new order in Database!");
-        orderWaiterDao.createOrder(order);
+        int f = orderWaiterDao.createOrder(order);
+        System.out.println(f);
     }
 
     @Override

@@ -141,24 +141,49 @@ public class OrderWaiterDao {
     }
 
     @Transactional(propagation = Propagation.MANDATORY)
-    public void createOrder(OrderWaiter order) {
+    public int createOrder(OrderWaiter order) {
         String query = "INSERT INTO ORDER_WAITER (id_user, ids_dishes, number_table, open_close) VALUES (?, ?, ?, 0)";
-
+        int index = 0;
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
-
+             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
             LOGGER.info("Connect with databased ORDER_WAITER and Add new order");
+
             statement.setInt(1, order.getId_user());
             statement.setString(2, order.getIdsDishes());
             statement.setInt(3, order.getNumberTable());
+//                    order.setId(statement.getGeneratedKeys().getInt(1));
             statement.executeUpdate();
 
+            ResultSet rs = statement.getGeneratedKeys();
+                if (rs.next()) {
+                    order.setId(statement.getGeneratedKeys().getInt(1));
+                    index = order.getId();
+                    System.out.println(order.getId());
+                }
+                rs.close();
         } catch (SQLException sqlEx) {
             LOGGER.error("An error has occurred query to the database 'ORDER_WAITER' and Add new order: " + sqlEx);
             throw new RuntimeException();
         }
-
+        return index;
     }
+
+//    @Transactional(propagation = Propagation.MANDATORY)
+//    public int findLastRow() {
+//
+//        try (Connection connection = dataSource.getConnection();
+//             Statement stat = connection.createStatement();) {
+//            LOGGER.info("Connect with databased ORDER_WAITER findLastRow");
+////            System.out.println(statement.getGeneratedKeys().getConcurrency());
+//            ResultSet resultSet = stat.executeQuery("SELECT id FROM ORDER_WAITER WHERE id = LAST_INSERT_ID");
+//            return resultSet.;
+//        } catch (SQLException sqlEx) {
+//            LOGGER.error("An error has occurred query to the database 'ORDER_WAITER' findLastRow: " + sqlEx);
+//            throw new RuntimeException();
+//        }
+//
+//    }
+
     private OrderWaiter getOrder(ResultSet resultSet) throws SQLException {
         OrderWaiter order = new OrderWaiter();
         order.setId(resultSet.getInt("id"));

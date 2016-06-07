@@ -64,6 +64,15 @@
         <property name="preparedDishDao" ref="preparedDishDao"/>
     </bean>
 
+    <bean id="menuDao" class="restaurant.jdbc.database.MenuDao">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <bean id="menuController" class="restaurant.controllers.MenuController">
+        <property name="txManager" ref="txManager"/>
+        <property name="menuDao" ref="menuDao"/>
+    </bean>
+
     <bean id="viewsWarehouse" class="restaurant.Views.ViewsWarehouse">
         <!--<property name="alertAndErrorMessages" ref="alertAndErrorMessages"/>-->
     </bean>

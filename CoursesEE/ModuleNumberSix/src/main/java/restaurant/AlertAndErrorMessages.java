@@ -25,6 +25,15 @@ public class AlertAndErrorMessages {
 
         alert.showAndWait();
     }
+    public void selectOtherCategoryDialog() {
+        // Ничего не выбрано.
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Not Category");
+        alert.setHeaderText("Is not select this category");
+        alert.setContentText("Please select a other category");
+
+        alert.showAndWait();
+    }
     public void unspecifiedDialogOrderClose() {
         // Ничего не выбрано.
         Alert alert = new Alert(Alert.AlertType.WARNING);

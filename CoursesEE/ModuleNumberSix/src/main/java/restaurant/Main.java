@@ -1,6 +1,5 @@
 package restaurant;
 
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -9,9 +8,6 @@ import javafx.stage.Stage;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import restaurant.controllers.*;
-import restaurant.jdbc.database.*;
-
-import java.util.List;
 
 public class Main extends Application {
     private static ApplicationContext context;
@@ -23,7 +19,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-
         Parent root = FXMLLoader.load(getClass().getResource("/views/menu.fxml"));
         Scene scene = new Scene(root);
         primaryStage.setTitle("JDBC restaurant");
@@ -35,17 +30,16 @@ public class Main extends Application {
         return (UsersController) context.getBean("usersController");
     }
 
-    public static List<Dish> beanDishController() {
-        DishController dishDao = (DishController) context.getBean("dishController");
-        return dishDao.selectAll();
+    public static DishController beanDishController() {
+         return (DishController) context.getBean("dishController");
     }
 
     public static WarehouseController beanWarehouseController() {
-        return (WarehouseController) context.getBean("warehouseController");
+        return context.getBean(WarehouseController.class);
     }
 
     public static IngredientController beanIngredientController() {
-        return (IngredientController) context.getBean("ingredientController");
+        return  context.getBean(IngredientController.class);
     }
 
     public static OrderController beanOrderController() {
@@ -54,5 +48,9 @@ public class Main extends Application {
 
     public static PreparedController beanPreparedController() {
         return context.getBean(PreparedController.class);
+    }
+
+    public static MenuController beanMenuController() {
+        return context.getBean(MenuController.class);
     }
 }

@@ -5,10 +5,12 @@ public class Dish {
     private int id;
     private String name;
     private int category;
+    private String nameCategory;
+
     private String ingredientsForDishes;
+
     private int cost;
     private int weight;
-
     public Dish() {
     }
 
@@ -31,6 +33,14 @@ public class Dish {
 
     public int getCategory() {
         return category;
+    }
+
+    public String getNameCategory() {
+        return nameCategory;
+    }
+
+    public void setNameCategory(String nameCategory) {
+        this.nameCategory = nameCategory;
     }
 
     public String getIngredientsForDishes() {

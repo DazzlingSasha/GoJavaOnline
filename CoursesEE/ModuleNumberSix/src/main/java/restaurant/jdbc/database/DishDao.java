@@ -22,53 +22,60 @@ public class DishDao {
     }
 
     @Transactional(propagation = Propagation.MANDATORY)
-    public void createNewDish(String name, int idCategory, String idsIngredientsDish, int cost, int weight) {
-        String query = "INSERT INTO DISH (NAME, ID_CATEGORY, IDS_INGREDIENTS_DISH, COST, WEIGHT) VALUES (?, ?, ?, ?, ?)";
+    public void createNewDish(Dish dish) {
+        String query = "INSERT INTO DISH (NAME, ID_CATEGORY, IDS_INGREDIENTS_DISH, COST, WEIGHT) VALUES (?, 1, 0, ?, ?)";
 
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
 
             LOGGER.info("Connect with databased DISH and Add new Dish");
-            statement.setString(1, name);
-            statement.setInt(2, idCategory);
-            statement.setString(3, idsIngredientsDish);
-            statement.setInt(4, cost);
-            statement.setInt(5, weight);
+            statement.setString(1, dish.getName());
+            statement.setInt(2, dish.getCost());
+            statement.setInt(3, dish.getWeight());
             statement.executeUpdate();
 
         } catch (SQLException sqlEx) {
-            LOGGER.error("An error has occurred query to the database 'DISH': " + sqlEx);
+            LOGGER.error("An error has occurred query to the database 'DISH' and Add new Dish: " + sqlEx);
             throw new RuntimeException();
         }
 
     }
-
     @Transactional(propagation = Propagation.MANDATORY)
-    public List<Dish> allInfoAboutDishes() {
+    public void updateDish(Dish dish) {
+        String query = "UPDATE DISH SET NAME = ?, COST=?, WEIGHT=? WHERE id = ?";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            LOGGER.info("Connect with databased Dish and update with id: " + dish.getId());
+            statement.setString(1, dish.getName());
+            statement.setInt(2, dish.getCost());
+            statement.setInt(3, dish.getWeight());
+            statement.setInt(4, dish.getId());
+
+            statement.executeUpdate();
+
+        } catch (SQLException sqlEx) {
+            LOGGER.error("An error has occurred query to the database 'Dish' and update: " + sqlEx);
+            throw new RuntimeException();
+        }
+
+    }
+    @Transactional(propagation = Propagation.MANDATORY)
+    public List<Dish> selectMenuJoinDish() {
         List<Dish> result = new ArrayList<>();
 
         try (Connection connection = dataSource.getConnection();
              Statement statement = connection.createStatement()) {
 
-            String query = "SELECT * FROM DISH";
-            LOGGER.info("Connect with databased DISH");
+            String query = "SELECT DISH.id, DISH.NAME, DISH.id_category, DISH.COST, DISH.WEIGHT, MENU.name_category FROM DISH " +
+                    "INNER JOIN MENU ON MENU.ID = dish.id_category ";
+            LOGGER.info("Connect with databased DISH select Menu Join Dish");
             ResultSet rs = statement.executeQuery(query);
-            // executing SELECT query
+
 
             while (rs.next()) {
-                Dish dish = new Dish();
-                dish.setId(rs.getInt("id"));
-                dish.setName(rs.getString("name"));
-                dish.setCategory(rs.getInt("id_category"));
-                dish.setIngredientsForDishes(rs.getString("ids_ingredients_dish"));
-                dish.setCost(rs.getInt("cost"));
-                dish.setWeight(rs.getInt("weight"));
-
-                String listIngredient = dish.getIngredientsForDishes();
-                String queryIngredients = "SELECT NAME_INGREDIENT FROM ingredients WHERE id = ?";
-                String allIngredients = JavaToSQLQuery.parserList(connection, listIngredient, queryIngredients, "NAME_INGREDIENT");
-
-                dish.setIngredientsForDishes(allIngredients);
+                Dish dish = getDish(rs);
                 result.add(dish);
             }
         } catch (SQLException sqlEx) {
@@ -76,5 +83,140 @@ public class DishDao {
             throw new RuntimeException();
         }
         return result;
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public List<Dish> selectMenuJoinDishOneCategory(int idCategory) {
+        List<Dish> result = new ArrayList<>();
+
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
+
+            String query = "SELECT DISH.id, DISH.NAME, DISH.id_category, DISH.COST, DISH.WEIGHT, MENU.name_category FROM DISH " +
+                    "INNER JOIN MENU ON MENU.ID = dish.id_category WHERE DISH.id_category = " + idCategory;
+            LOGGER.info("Connect with databased DISH select Menu Join Dish");
+            ResultSet rs = statement.executeQuery(query);
+            // executing SELECT query
+
+            while (rs.next()) {
+                Dish dish = getDish(rs);
+                result.add(dish);
+            }
+        } catch (SQLException sqlEx) {
+            LOGGER.error("An error has occurred query to the database 'DISH' select Menu Join Dish: " + sqlEx);
+            throw new RuntimeException();
+        }
+        return result;
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public List<Dish> findDishesByNameMenuJoinDish(String nameDish) {
+        List<Dish> result = new ArrayList<>();
+
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
+
+            String query = "SELECT DISH.id, DISH.NAME, DISH.id_category, DISH.COST, DISH.WEIGHT, MENU.name_category FROM DISH " +
+                    "INNER JOIN MENU ON MENU.ID = dish.id_category WHERE DISH.name ILIKE " + "'%" + nameDish + "%'";
+            LOGGER.info("Connect with databased DISH  find dishes by name Dish Join Menu");
+            ResultSet rs = statement.executeQuery(query);
+            // executing SELECT query
+
+            while (rs.next()) {
+                Dish dish = getDish(rs);
+                result.add(dish);
+            }
+        } catch (SQLException sqlEx) {
+            LOGGER.error("An error has occurred query to the database 'DISH' find dishes by name Dish Join Menu: " + sqlEx);
+            throw new RuntimeException();
+        }
+        return result;
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public Dish findDishByIdJoinManu(int id) {
+        Dish dish = null;
+
+        try (Connection connection = dataSource.getConnection();
+             Statement statement = connection.createStatement()) {
+
+            String query = "SELECT DISH.id, DISH.NAME, DISH.id_category, DISH.COST, DISH.WEIGHT, MENU.name_category FROM DISH " +
+                    "INNER JOIN MENU ON MENU.ID = dish.id_category WHERE DISH.id = " + id;
+            LOGGER.info("Connect with databased DISH select dish by id Join Menu");
+            ResultSet rs = statement.executeQuery(query);
+
+            while (rs.next()) {
+                dish = getDish(rs);
+            }
+        } catch (SQLException sqlEx) {
+            LOGGER.error("An error has occurred query to the database 'DISH' select dish by id Join Menu: " + sqlEx);
+            throw new RuntimeException();
+        }
+        return dish;
+    }
+
+    private Dish getDish(ResultSet resultSet) throws SQLException {
+        Dish dish = new Dish();
+        dish.setId(resultSet.getInt("id"));
+        dish.setName(resultSet.getString("name"));
+        dish.setCategory(resultSet.getInt("id_category"));
+        dish.setNameCategory(resultSet.getString("name_category"));
+        dish.setCost(resultSet.getInt("cost"));
+        dish.setWeight(resultSet.getInt("weight"));
+        return dish;
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void updateAllDishCategoryOnNOTCATEGORY(int category) {
+        String query = "UPDATE DISH SET  ID_CATEGORY = 1 WHERE ID_CATEGORY = ?";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            LOGGER.info("Connect with databased DISH and update category on NOT CATEGORY");
+            statement.setInt(1, category);
+            statement.executeUpdate();
+
+        } catch (SQLException sqlEx) {
+            LOGGER.error("An error has occurred query to the database 'DISH' and update category on NOT CATEGORY" + sqlEx);
+            throw new RuntimeException();
+        }
+
+    }
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void deleteCategory(int id) {
+        String query = "UPDATE DISH SET  ID_CATEGORY = 1 WHERE ID = ?";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            LOGGER.info("Connect with databased DISH and delete field Category with id: " + id);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+
+        } catch (SQLException sqlEx) {
+            LOGGER.error("An error has occurred query to the database 'DISH' and delete field Category" + sqlEx);
+            throw new RuntimeException();
+        }
+
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public void setDishCategory(int id, int numberCategory) {
+        String query = "UPDATE DISH SET  ID_CATEGORY = ? WHERE ID = ?";
+
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement statement = connection.prepareStatement(query)) {
+
+            LOGGER.info("Connect with databased DISH and set Category in the Dish with id: " + id);
+            statement.setInt(1, numberCategory);
+            statement.setInt(2, id);
+            statement.executeUpdate();
+
+        } catch (SQLException sqlEx) {
+            LOGGER.error("An error has occurred query to the database 'DISH' set Category in the Dish" + sqlEx);
+            throw new RuntimeException();
+        }
+
     }
 }
