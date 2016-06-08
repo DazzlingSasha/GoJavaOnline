@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import restaurant.jdbc.database.Dish;
 import restaurant.jdbc.database.DishDao;
+import restaurant.jdbc.database.DishIngredient;
 
 import java.util.List;
 
@@ -42,7 +43,9 @@ public class DishController implements MainMethodControllers<Dish> {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void deleteWithDatabase(int id) {
-
+        LOGGER.info("Delete dish and all ingredients this dish!");
+        dishDao.deleteAllIngredientsForDish(id);
+        dishDao.deleteDish(id);
     }
 
     @Override
@@ -88,5 +91,23 @@ public class DishController implements MainMethodControllers<Dish> {
     public List<Dish> selectAllDishOneCategory(int category) {
         LOGGER.info("Select all dish one category!");
         return dishDao.selectMenuJoinDishOneCategory(category);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public List<DishIngredient> selectAllIngredientsDish(int idDish) {
+        LOGGER.info("Select all ingredients for dish !");
+        return dishDao.selectIngredientsThisDish(idDish);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void addInDishIngredient(int idDish, int idIngredient, double quantity) {
+        LOGGER.info("Add new ingredient to dish!");
+        dishDao.addNewIngredientForDish(idDish, idIngredient, quantity);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void deleteIngredientsWithThisDish(int idIngredient) {
+        LOGGER.info("Delete ingredient with dish!");
+        dishDao.deleteIngredientForDish(idIngredient);
     }
 }

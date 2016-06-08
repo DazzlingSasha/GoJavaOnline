@@ -128,14 +128,35 @@ public class ViewsDish {
     @FXML
     public Button butAddIngredients;
 
-    public void ActionAddIngredientsDish(ActionEvent actionEvent) {
+    public void ActionAddIngredientsDish(ActionEvent actionEvent) throws IOException {
         Object source = actionEvent.getSource();
 
         if (!(source instanceof Button)) {
             return;
         }
+        Dish selectDish = tableDish.getSelectionModel().getSelectedItem();
+        if(selectDish != null) {
 
-        new MainMenuController().newStage(actionEvent, "/views/viewsAddIngredientsInDish.fxml", "Add or Edit Ingredients for Dish");
+            Stage dialogStage = new Stage();
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/views/viewsAddIngredientsInDish.fxml"));
+            Parent editFxml = loader.load();
+
+            dialogStage.initModality(Modality.WINDOW_MODAL);
+            dialogStage.setScene(new Scene(editFxml));
+            dialogStage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
+            dialogStage.setTitle("Add or Edit Ingredients for Dish");
+
+            ViewsIngredientsForDish controller = loader.getController();
+            controller.setDialogStage(dialogStage);
+            controller.setDish(selectDish);
+
+            // Отображаем диалоговое окно и ждём, пока пользователь его не закроет
+            dialogStage.showAndWait();
+        } else {
+            alertAndErrorMessages.unspecifiedDialog();
+        }
+//        new MainMenuController().newStage(actionEvent, "/views/viewsAddIngredientsInDish.fxml", "Add or Edit Ingredients for Dish");
     }
 
     @FXML
