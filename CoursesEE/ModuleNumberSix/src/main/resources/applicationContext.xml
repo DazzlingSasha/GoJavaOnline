@@ -53,6 +53,7 @@
     <bean id="orderController" class="restaurant.controllers.OrderController">
         <property name="txManager" ref="txManager"/>
         <property name="orderWaiterDao" ref="orderWaiterDao"/>
+        <property name="preparedDishDao" ref="preparedDishDao"/>
     </bean>
 
     <bean id="preparedDishDao" class="restaurant.jdbc.database.PreparedDishDao">

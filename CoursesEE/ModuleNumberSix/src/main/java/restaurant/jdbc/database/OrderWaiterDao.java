@@ -51,7 +51,6 @@ public class OrderWaiterDao {
         String query = "DELETE FROM order_waiter WHERE id = ?";
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
-
             LOGGER.info("Connect with databased ORDER_WAITER where id: " + id);
             statement.setInt(1, id);
             statement.executeUpdate();
@@ -142,25 +141,18 @@ public class OrderWaiterDao {
 
     @Transactional(propagation = Propagation.MANDATORY)
     public int createOrder(OrderWaiter order) {
-        String query = "INSERT INTO ORDER_WAITER (id_user, ids_dishes, number_table, open_close) VALUES (?, ?, ?, 0)";
+        String query = "INSERT INTO ORDER_WAITER (id_user, ids_dishes, number_table, open_close) VALUES (?, 'new Order', ?, 0)";
         int index = 0;
         try (Connection connection = dataSource.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement statement = connection.prepareStatement(query)) {
             LOGGER.info("Connect with databased ORDER_WAITER and Add new order");
 
             statement.setInt(1, order.getId_user());
-            statement.setString(2, order.getIdsDishes());
-            statement.setInt(3, order.getNumberTable());
+//            statement.setString(2, order.getIdsDishes());
+            statement.setInt(2, order.getNumberTable());
 //                    order.setId(statement.getGeneratedKeys().getInt(1));
             statement.executeUpdate();
 
-            ResultSet rs = statement.getGeneratedKeys();
-                if (rs.next()) {
-                    order.setId(statement.getGeneratedKeys().getInt(1));
-                    index = order.getId();
-                    System.out.println(order.getId());
-                }
-                rs.close();
         } catch (SQLException sqlEx) {
             LOGGER.error("An error has occurred query to the database 'ORDER_WAITER' and Add new order: " + sqlEx);
             throw new RuntimeException();

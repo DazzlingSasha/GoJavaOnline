@@ -1,18 +1,28 @@
 package restaurant.jdbc.database;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 
 public class PreparedDish {
     private int id;
     private int idDish;
-
     private String nameDish;
-
     private String categoryDish;
     private int idUser;
+    private String nameUser;
     private int idOrder;
-    private String datePreparedDish;
+    private Date datePreparedDish;
+    private int prepared;
+
+    public void setPrepared(int prepared) {
+        this.prepared = prepared;
+    }
+
+    public int getPrepared() {
+        return prepared;
+    }
+
     public int getId() {
         return id;
     }
@@ -45,12 +55,24 @@ public class PreparedDish {
         this.categoryDish = categoryDish;
     }
 
+    public void setDatePreparedDish(Date datePreparedDish) {
+        this.datePreparedDish = datePreparedDish;
+    }
+
     public int getIdUser() {
         return idUser;
     }
 
     public void setIdUser(int idUser) {
         this.idUser = idUser;
+    }
+
+    public String getNameUser() {
+        return nameUser;
+    }
+
+    public void setNameUser(String nameUser) {
+        this.nameUser = nameUser;
     }
 
     public int getIdOrder() {
@@ -61,14 +83,14 @@ public class PreparedDish {
         this.idOrder = idOrder;
     }
 
-    public String getDatePreparedDish() {
+    public Date getDatePreparedDish() {
         return datePreparedDish;
     }
 
-    public void formatDatePreparedDish(Time datePreparedDish) {
-        SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        this.datePreparedDish = f.format(datePreparedDish);
-    }
+//    public void formatDatePreparedDish(Time datePreparedDish) {
+//        SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+//        this.datePreparedDish = f.format(datePreparedDish);
+//    }
 
     @Override
     public String toString() {

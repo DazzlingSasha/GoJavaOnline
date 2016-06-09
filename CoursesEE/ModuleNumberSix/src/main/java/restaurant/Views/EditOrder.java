@@ -32,14 +32,6 @@ public class EditOrder {
 
     @FXML
     private void initialize() {
-        //-----------------------------first initialize the second table------------------------------------------------
-        dishData.addAll(Main.beanDishController().selectAll());
-        // устанавливаем тип и значение которое должно хранится в колонке
-        idColumn.setCellValueFactory(new PropertyValueFactory<Dish, Integer>("id"));
-        nameColumn.setCellValueFactory(new PropertyValueFactory<Dish, String>("name"));
-        categoryColumn.setCellValueFactory(new PropertyValueFactory<Dish, Integer>("category"));
-        // заполняем таблицу данными
-        tableDish.setItems(dishData);
     }
 
     private Stage dialogStage;
@@ -66,6 +58,15 @@ public class EditOrder {
         addInComboBox();
         userColumn.setValue(Main.beanUserController().findById(order.getId_user()));
         tableColumn.setText(Integer.toString(order.getNumberTable()));
+
+        //-----------------------------first initialize the second table------------------------------------------------
+        dishData.addAll(Main.beanDishController().selectAll());
+
+        idColumn.setCellValueFactory(new PropertyValueFactory<Dish, Integer>("id"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<Dish, String>("name"));
+        categoryColumn.setCellValueFactory(new PropertyValueFactory<Dish, Integer>("category"));
+
+        tableDish.setItems(dishData);
 
         //-----------------------------second initialize the first table------------------------------------------------
         preparedData.addAll(Main.beanPreparedController().findAllDishThisOrder(order.getId()));
@@ -143,5 +144,12 @@ public class EditOrder {
     }
 
     public void ActionDelete(ActionEvent actionEvent) {
+        int selectedIndex = tablePrepared.getSelectionModel().getSelectedIndex();
+        if (selectedIndex >= 0) {
+            tablePrepared.getItems().remove(selectedIndex);
+            Main.beanPreparedController().deleteWithDatabase(tablePrepared.getSelectionModel().getSelectedItem().getId());
+        } else {// Ничего не выбрано.
+            alertAndErrorMessages.unspecifiedDialog();
+        }
     }
 }

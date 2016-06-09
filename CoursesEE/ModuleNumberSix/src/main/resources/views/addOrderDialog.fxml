@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="447.0"
+            prefWidth="667.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="restaurant.Views.AddOrder">
+
+    <children>
+        <Label layoutX="14.0" layoutY="18.0" text="User"/>
+        <Label layoutX="213.0" layoutY="18.0" text="Table"/>
+        <Button defaultButton="true" layoutX="480.0" layoutY="410.0" mnemonicParsing="false" onAction="#handleOk"
+                prefHeight="25.0" prefWidth="78.0" text="OK"/>
+        <Button cancelButton="true" layoutX="575.0" layoutY="410.0" mnemonicParsing="false" onAction="#handleCancel"
+                prefHeight="25.0" prefWidth="78.0" text="Cancel"/>
+        <TextField fx:id="tableColumn" layoutX="258.0" layoutY="14.0" prefWidth="150.0"/>
+        <ComboBox fx:id="userColumn" layoutX="48.0" layoutY="14.0" prefWidth="150.0"/>
+
+    </children>
+</AnchorPane>

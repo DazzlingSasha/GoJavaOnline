@@ -1,6 +1,7 @@
 package restaurant;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -8,6 +9,8 @@ public class DateSQL {
 
     private static final String DATE_PATTERN = "dd.MM.yyyy";
     private static final SimpleDateFormat DATE_FORMATTER = new SimpleDateFormat(DATE_PATTERN);
+    private static final String DATE_PATTERN_TIME = "dd.MM.yyyy hh:mm:ss";
+    private static final SimpleDateFormat DATE_FORMATTER_TIME = new SimpleDateFormat(DATE_PATTERN_TIME);
 
     /**
      * Возвращает полученную дату в виде хорошо отформатированной строки.
@@ -23,6 +26,12 @@ public class DateSQL {
         return DATE_FORMATTER.format(date);
     }
 
+    public static String formatAndTime(Date date) {
+        if (date == null) {
+            return null;
+        }
+        return DATE_FORMATTER_TIME.format(date);
+    }
     /**
      * Преобразует строку, которая отформатирована по правилам
      * шаблона {@link DateSQL#DATE_PATTERN} в объект {@link Date}.
@@ -40,8 +49,7 @@ public class DateSQL {
             return null;
         }
     }
-
-    /**
+     /**
      * Проверяет, является ли строка корректной датой.
      *
      * @param dateString

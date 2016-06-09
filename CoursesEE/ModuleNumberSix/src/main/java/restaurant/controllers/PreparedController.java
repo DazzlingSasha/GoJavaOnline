@@ -31,21 +31,30 @@ public class PreparedController implements MainMethodControllers<PreparedDish> {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public List<PreparedDish> selectAll() {
-        return null;
+        LOGGER.info("Select all dishes prepared and not prepared");
+        return preparedDishDao.allInfoAboutPreparedDish();
     }
 
     @Override
     public void deleteWithDatabase(int id) {
+        LOGGER.info("Delete prepared dish by id: "+ id);
+        preparedDishDao.deletePreparedDish(id);
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void updateInDatabase(PreparedDish item) {
+        LOGGER.info("Status dish cooked!");
+        preparedDishDao.updateStatusCooked(item);
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public PreparedDish findById(int id) {
-        return null;
+        LOGGER.info("Find by id dish and cooked dish id = : " + id);
+        return preparedDishDao.findByIdPreparedDish(id);
     }
 
     @Override
@@ -53,7 +62,27 @@ public class PreparedController implements MainMethodControllers<PreparedDish> {
         return null;
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
     public List<PreparedDish> findAllDishThisOrder(int numberOrder) {
+        LOGGER.info("Select all dishes in the order where id order: " + numberOrder);
         return preparedDishDao.allDishesThisOrder(numberOrder);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public List<PreparedDish> selectAllPrepared() {
+        LOGGER.info("Select all prepared dishes");
+        return preparedDishDao.allPreparedDish();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public List<PreparedDish> selectAllNotPrepared() {
+        LOGGER.info("Select all not prepared dishes");
+        return preparedDishDao.allNotPreparedDish();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void deleteAllPreparedDishByOrder(int idOrder) {
+        LOGGER.info("Delete all dish by order, where order: "+ idOrder);
+        preparedDishDao.deleteAllDishesByOrder(idOrder);
     }
 }

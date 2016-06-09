@@ -15,6 +15,7 @@ public class OrderController implements MainMethodControllers<OrderWaiter> {
     private DataSourceTransactionManager txManager;
     private OrderWaiterDao orderWaiterDao;
     private static final Logger LOGGER = LoggerFactory.getLogger(OrderController.class);
+    private PreparedDishDao preparedDishDao;
 
     public void setTxManager(DataSourceTransactionManager txManager) {
         this.txManager = txManager;
@@ -24,12 +25,16 @@ public class OrderController implements MainMethodControllers<OrderWaiter> {
         this.orderWaiterDao = orderWaiterDao;
     }
 
+    public void setPreparedDishDao(PreparedDishDao preparedDishDao) {
+        this.preparedDishDao = preparedDishDao;
+    }
+
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void addInDatabase(OrderWaiter order) {
         LOGGER.info("Add new order in Database!");
-        int f = orderWaiterDao.createOrder(order);
-        System.out.println(f);
+        orderWaiterDao.createOrder(order);
+
     }
 
     @Override
@@ -42,6 +47,8 @@ public class OrderController implements MainMethodControllers<OrderWaiter> {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void deleteWithDatabase(int id) {
+        preparedDishDao.deleteAllDishesByOrder(id);
+        LOGGER.info("Delete all dishes with Database by order: "+ id);
         LOGGER.info("Delete order with Database where id: "+ id);
         orderWaiterDao.deleteOrder(id);
     }

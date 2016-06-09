@@ -64,7 +64,7 @@ public class ViewsOrder {
     @FXML
     public Button butCloseOrder;
     @FXML
-    public Button butEditOrder;
+    public Button butAddEditOrder;
     @FXML
     public Button butSelectAllOpen;
     @FXML
@@ -112,7 +112,7 @@ public class ViewsOrder {
                 }
                 break;
 
-            case "butEditOrder":
+            case "butAddEditOrder":
                 if(selectOrder.getCloseOrOpenOrder() != 1) {
                     handleEditUser(actionEvent);
                     orderData.set(selectedIndex, Main.beanOrderController().findById(selectOrder.getId()));
@@ -147,7 +147,8 @@ public class ViewsOrder {
     @FXML
     private void handleNewUser(ActionEvent actionEvent) {
         OrderWaiter order = new OrderWaiter();
-        boolean okClicked = showPersonEditDialog(actionEvent, order);
+        boolean okClicked = showPersonEditDialog(actionEvent, order, "/views/addOrderDialog.fxml", 0);
+
         System.out.println(okClicked);
         if (okClicked) {
             Main.beanOrderController().addInDatabase(order);
@@ -160,7 +161,7 @@ public class ViewsOrder {
     private void handleEditUser(ActionEvent actionEvent) {
         OrderWaiter selectedOrder = tableOrder.getSelectionModel().getSelectedItem();
         if (selectedOrder != null) {
-            boolean okClicked = showPersonEditDialog(actionEvent, selectedOrder);
+            boolean okClicked = showPersonEditDialog(actionEvent, selectedOrder, "/views/orderEditAndAddDialog.fxml", 1);
             if (okClicked) {
                 Main.beanOrderController().updateInDatabase(selectedOrder);
             }
@@ -170,28 +171,45 @@ public class ViewsOrder {
     }
 
 
-    private boolean showPersonEditDialog(ActionEvent actionEvent, OrderWaiter order) {
+    private boolean showPersonEditDialog(ActionEvent actionEvent, OrderWaiter order, String dialogFile, int addOrEdit) {
         try {
             Stage dialogStage = new Stage();
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/views/orderEditAndAddDialog.fxml"));
+            loader.setLocation(getClass().getResource(dialogFile));
             Parent editFxml = loader.load();
 
             dialogStage.initModality(Modality.WINDOW_MODAL);
             dialogStage.setScene(new Scene(editFxml));
             dialogStage.initOwner(((Node) actionEvent.getSource()).getScene().getWindow());
-            dialogStage.setTitle("Edit Order");
+            dialogStage.setTitle("Order");
 
-            EditOrder controller = loader.getController();
-            controller.setDialogStage(dialogStage);
-            controller.setOrder(order);
-
+            if(addOrEdit == 1) {
+                EditOrder controller =  getEditOrder(order, dialogStage, loader);
+                dialogStage.showAndWait();
+                return controller.isOkClicked();
+            } else {
+                AddOrder controller =  getAddOrder(order, dialogStage, loader);
+                dialogStage.showAndWait();
+                return controller.isOkClicked();
+            }
             // Отображаем диалоговое окно и ждём, пока пользователь его не закроет
-            dialogStage.showAndWait();
-            return controller.isOkClicked();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
         return false;
+    }
+
+    private EditOrder getEditOrder(OrderWaiter order, Stage dialogStage, FXMLLoader loader) {
+        EditOrder controller = loader.getController();
+        controller.setDialogStage(dialogStage);
+        controller.setOrder(order);
+        return controller;
+    }
+    private AddOrder getAddOrder(OrderWaiter order, Stage dialogStage, FXMLLoader loader) {
+        AddOrder controller = loader.getController();
+        controller.setDialogStage(dialogStage);
+        controller.setOrder(order);
+        return controller;
     }
 }
