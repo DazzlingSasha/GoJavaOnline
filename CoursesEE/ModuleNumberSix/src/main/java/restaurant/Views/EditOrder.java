@@ -4,10 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import restaurant.AlertAndErrorMessages;
@@ -18,6 +15,7 @@ import restaurant.jdbc.database.PreparedDish;
 import restaurant.jdbc.database.Users;
 
 public class EditOrder {
+
     private ObservableList<Dish> dishData = FXCollections.observableArrayList();
     private ObservableList<PreparedDish> preparedData = FXCollections.observableArrayList();
 
@@ -53,18 +51,23 @@ public class EditOrder {
     @FXML
     private TableColumn<PreparedDish, String> categoryPreparedColumn;
 
+    @FXML
+    public Label nameUser;
+    @FXML
+    public Label numberTable;
+
     public void setOrder(OrderWaiter order) {
         this.order = order;
-        addInComboBox();
-        userColumn.setValue(Main.beanUserController().findById(order.getId_user()));
-        tableColumn.setText(Integer.toString(order.getNumberTable()));
+
+        nameUser.setText(order.getNameUser());
+        numberTable.setText(order.getNumberTable()+"");
 
         //-----------------------------first initialize the second table------------------------------------------------
         dishData.addAll(Main.beanDishController().selectAll());
 
         idColumn.setCellValueFactory(new PropertyValueFactory<Dish, Integer>("id"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<Dish, String>("name"));
-        categoryColumn.setCellValueFactory(new PropertyValueFactory<Dish, Integer>("category"));
+        categoryColumn.setCellValueFactory(new PropertyValueFactory<Dish, Integer>("nameCategory"));
 
         tableDish.setItems(dishData);
 
@@ -77,18 +80,6 @@ public class EditOrder {
 
         tablePrepared.setItems(preparedData);
     }
-
-    private void addInComboBox() {
-        for (Users item : Main.beanUserController().allUsersWaiter()) {
-            userColumn.getItems().add(item);
-        }
-    }
-
-    @FXML
-    public ComboBox<Users> userColumn;
-
-    @FXML
-    public TextField tableColumn;
 
     public boolean isOkClicked() {
         return okClicked;
@@ -108,36 +99,26 @@ public class EditOrder {
     }
 
     private boolean isInputValid() {
-        StringBuilder errorMessage = new StringBuilder();
-        errorMessage.append(alertAndErrorMessages.validIntegerAndNull(tableColumn, "table"));
-        if (userColumn.getSelectionModel().getSelectedItem() == null) {
-            errorMessage.append("No valid ComboBox waiter tables!\n");
-        }
-//        if (preparedData.size() == 0) {
-//            errorMessage.append("No valid add one more dish!\n");
-//        }
-        if (errorMessage.length() == 0) {
-            return true;
-        } else {
-            // Показываем сообщение об ошибке.
-            alertAndErrorMessages.dialogFields(dialogStage, errorMessage.toString());
+
+        if (preparedData.size() == 0) {
+            alertAndErrorMessages.dialogFields(dialogStage, "No valid add one more dish!");
             return false;
+        } else {
+            return true;
         }
+
+
     }
 
     public void ActionAdd(ActionEvent actionEvent) {
-        if (order.getId() == 0) {
-            isInputValid();
-            order.setId_user(userColumn.getSelectionModel().getSelectedItem().getId());
-            order.setNumberTable(Integer.parseInt(tableColumn.getText()));
-            order.setIdsDishes(Integer.toString(preparedData.size()));
-            Main.beanOrderController().addInDatabase(order);
-            System.out.println(order.getId());
-        }
         PreparedDish addInDishToOrder = new PreparedDish();
-        addInDishToOrder.setIdDish(tableDish.getSelectionModel().getSelectedItem().getId());
+        order.setIdsDishes(Integer.toString(preparedData.size()+1));
+        Dish dish = tableDish.getSelectionModel().getSelectedItem();
+        addInDishToOrder.setIdDish(dish.getId());
+        addInDishToOrder.setIdUser(order.getId_user());
         addInDishToOrder.setIdOrder(order.getId());
-        addInDishToOrder.setIdUser(userColumn.getSelectionModel().getSelectedItem().getId());
+        addInDishToOrder.setNameDish(dish.getName());
+
         Main.beanPreparedController().addInDatabase(addInDishToOrder);
         preparedData.add(addInDishToOrder);
         tablePrepared.setItems(preparedData);

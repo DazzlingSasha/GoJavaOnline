@@ -61,6 +61,8 @@ public class AddOrder {
     @FXML
     private void handleOk() {
         if (isInputValid()) {
+            order.setId_user(userColumn.getSelectionModel().getSelectedItem().getId());
+            order.setNumberTable(Integer.parseInt(tableColumn.getText()));
             okClicked = true;
             dialogStage.close();
         }

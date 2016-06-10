@@ -78,7 +78,7 @@ public class PreparedDishDao {
         List<PreparedDish> result = new ArrayList<>();
 
         String query = "SELECT PREPARED_DISH.ID, DISH.NAME, PREPARED_DISH.ID_ORDER, USERS.first_name, USERS.last_name, " +
-                "PREPARED_DISH.data_dish, PREPARED_DISH.prepared_dish FROM PREPARED_DISH " +
+                "PREPARED_DISH.data_dish, PREPARED_DISH.prepared_dish, ORDER_WAITER.open_close FROM PREPARED_DISH " +
                 "INNER JOIN DISH ON DISH.ID = PREPARED_DISH.ID_DISH " +
                 "INNER JOIN USERS ON USERS.ID = PREPARED_DISH.ID_USER " +
                 "INNER JOIN ORDER_WAITER ON ORDER_WAITER.ID = PREPARED_DISH.ID_ORDER WHERE ORDER_WAITER.open_close = 1 AND PREPARED_DISH.prepared_dish = 0";

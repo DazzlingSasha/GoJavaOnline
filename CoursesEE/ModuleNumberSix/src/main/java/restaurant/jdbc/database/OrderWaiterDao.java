@@ -140,24 +140,24 @@ public class OrderWaiterDao {
     }
 
     @Transactional(propagation = Propagation.MANDATORY)
-    public int createOrder(OrderWaiter order) {
-        String query = "INSERT INTO ORDER_WAITER (id_user, ids_dishes, number_table, open_close) VALUES (?, 'new Order', ?, 0)";
-        int index = 0;
+    public void createOrder(OrderWaiter order) {
+        String query = "INSERT INTO ORDER_WAITER (id_user, ids_dishes, number_table, open_close) VALUES (?, ?, ?, ?)";
+
         try (Connection connection = dataSource.getConnection();
              PreparedStatement statement = connection.prepareStatement(query)) {
             LOGGER.info("Connect with databased ORDER_WAITER and Add new order");
 
             statement.setInt(1, order.getId_user());
-//            statement.setString(2, order.getIdsDishes());
-            statement.setInt(2, order.getNumberTable());
-//                    order.setId(statement.getGeneratedKeys().getInt(1));
+            statement.setString(2, "New order");
+            statement.setInt(3, order.getNumberTable());
+            statement.setInt(4, 0);
             statement.executeUpdate();
 
         } catch (SQLException sqlEx) {
             LOGGER.error("An error has occurred query to the database 'ORDER_WAITER' and Add new order: " + sqlEx);
             throw new RuntimeException();
         }
-        return index;
+
     }
 
 //    @Transactional(propagation = Propagation.MANDATORY)

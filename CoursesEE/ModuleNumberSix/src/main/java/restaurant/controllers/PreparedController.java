@@ -38,6 +38,7 @@ public class PreparedController implements MainMethodControllers<PreparedDish> {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public void deleteWithDatabase(int id) {
         LOGGER.info("Delete prepared dish by id: "+ id);
         preparedDishDao.deletePreparedDish(id);
@@ -58,6 +59,7 @@ public class PreparedController implements MainMethodControllers<PreparedDish> {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public List<PreparedDish> findByName(String name) {
         return null;
     }
