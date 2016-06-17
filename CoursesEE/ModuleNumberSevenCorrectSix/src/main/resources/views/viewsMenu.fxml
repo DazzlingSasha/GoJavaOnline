@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="624.0" stylesheets="/views/style/style.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="restaurant.Views.ViewsMenu">
+    <children>
+        <!-- Таблица в которую мы будем выводит наш pojo -->
+        <TableView fx:id="tableMenu" layoutX="12.0" layoutY="93.0" prefHeight="293.0" prefWidth="600.0">
+            <columns>
+                <!-- Колонки таблицы -->
+                <TableColumn fx:id="idColumn" prefWidth="49.0" text="№ id" />
+                <TableColumn fx:id="nameColumn" prefWidth="209.0" text="Name Dish" />
+                <TableColumn fx:id="categoryColumn" prefWidth="173.0" text="Category Menu" />
+                <TableColumn fx:id="costColumn" prefWidth="91.0" text="Cost" />
+                <TableColumn fx:id="weightColumn" prefWidth="76.0" text="Weight" />
+            </columns>
+        </TableView>
+
+        <Label layoutX="14.0" layoutY="66.0" text="Menu:">
+            <font>
+                <Font name="Verdana" size="24.0" />
+            </font>
+        </Label>
+
+        <Button fx:id="butNewCategory" layoutX="270.0" layoutY="7.0" maxWidth="130.0" minWidth="130.0" mnemonicParsing="false" onAction="#ActionMenu" prefWidth="130.0" text="New Category menu" />
+        <Button fx:id="butDeleteCategoryDish" layoutX="406.0" layoutY="39.0" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#ActionMenu" prefWidth="100.0" text="Delete Category Dish" />
+        <Button fx:id="butSetDishCategory" layoutX="406.0" layoutY="7.0" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#ActionMenu" prefWidth="100.0" text="Set dish category" />
+        <Button fx:id="butSelectAll" layoutX="517.0" layoutY="39.0" maxWidth="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#ActionMenu" prefWidth="100.0" text="Select all MENU" />
+      <Button fx:id="butEditCategory" layoutX="270.0" layoutY="39.0" maxWidth="130.0" minWidth="130.0" mnemonicParsing="false" onAction="#ActionMenu" prefWidth="130.0" text="Edit Category menu" />
+      <Button fx:id="butDeleteMenuAndAllDish" layoutX="171.0" layoutY="39.0" minWidth="70.0" mnemonicParsing="false" onAction="#ActionMenu" prefWidth="90.0" text="Delete menu" />
+      <ComboBox fx:id="butSelectMenu" layoutX="12.0" layoutY="7.0" prefWidth="150.0" promptText="select menu" />
+      <Button fx:id="butSelectOneCategory" layoutX="172.0" layoutY="7.0" mnemonicParsing="false" onAction="#ActionMenu" prefWidth="90.0" text="Select menu" />
+
+    </children>
+</AnchorPane>

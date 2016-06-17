@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="400.0" prefWidth="624.0" stylesheets="/views/style/style.css" xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="restaurant.Views.ViewsHistory">
+    <children>
+        <!-- Таблица в которую мы будем выводит наш pojo -->
+        <TableView fx:id="tableHistory" layoutX="12.0" layoutY="41.0" prefHeight="345.0" prefWidth="600.0">
+            <columns>
+                <!-- Колонки таблицы -->
+                <TableColumn fx:id="idColumn" prefWidth="50.0" text="№ id"/>
+                <TableColumn fx:id="nameColumn" prefWidth="100.0" text="Name dish"/>
+                <TableColumn fx:id="userColumn" prefWidth="100.0" text="User"/>
+                <TableColumn fx:id="idOrderColumn" prefWidth="150.0" text="IdOrder"/>
+                <TableColumn fx:id="dataColumn" prefWidth="100.0" text="Data prepared"/>
+                <TableColumn fx:id="preparedColumn" prefWidth="100.0" text="Prepared"/>
+            </columns>
+        </TableView>
+        <Button fx:id="butCooked" layoutX="10.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionHistory"
+                prefWidth="150.0" text="Cooked"/>
+        <Button fx:id="butAllPrepared" layoutX="170.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionHistory"
+                prefWidth="150.0" text="All Prepared"/>
+        <Button fx:id="butAllDish" layoutX="330.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionHistory"
+                prefWidth="150.0" text="All Dish"/>
+        <Button fx:id="butAllNotPrepared" layoutX="490.0" layoutY="6.0" mnemonicParsing="false" onAction="#ActionHistory"
+                                                           prefWidth="150.0" text="All Not prepared dish"/>
+    </children>
+</AnchorPane>

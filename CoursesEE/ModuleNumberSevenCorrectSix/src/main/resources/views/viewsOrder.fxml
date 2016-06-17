@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="400.0" prefWidth="624.0" stylesheets="/views/style/style.css" xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="restaurant.Views.ViewsOrder">
+    <children>
+        <!-- Таблица в которую мы будем выводит наш pojo -->
+        <TableView fx:id="tableOrder" layoutX="12.0" layoutY="102.0" prefHeight="284.0" prefWidth="600.0">
+            <columns>
+                <!-- Колонки таблицы -->
+                <TableColumn fx:id="idColumn" prefWidth="78.0" text="№ id_order"/>
+                <TableColumn fx:id="nameWaiterColumn" prefWidth="121.0" text="Name Waiter"/>
+                <TableColumn fx:id="prepareDishColumn" prefWidth="232.0" text="Prepare Dishes"/>
+                <TableColumn fx:id="tableColumn" prefWidth="81.0" text="Table"/>
+                <TableColumn fx:id="openOrCloseColumn" prefWidth="86.0" text="Open/Close"/>
+            </columns>
+        </TableView>
+
+        <Label layoutX="14.0" layoutY="66.0" text="Orders:">
+            <font>
+                <Font name="Verdana" size="24.0"/>
+            </font>
+        </Label>
+
+        <Button fx:id="butCloseOrder" layoutX="113.0" layoutY="39.0" maxWidth="130.0" minWidth="130.0"
+                mnemonicParsing="false" onAction="#ActionOrder" prefWidth="130.0" text="Close order"/>
+        <Button fx:id="butSelectAllOpen" layoutX="517.0" layoutY="7.0" maxWidth="100.0" minWidth="100.0"
+                mnemonicParsing="false" onAction="#ActionOrder" prefWidth="100.0" text="All open order"/>
+        <Button fx:id="butAddEditOrder" layoutX="113.0" layoutY="7.0" maxWidth="130.0" minWidth="130.0"
+                mnemonicParsing="false" onAction="#ActionOrder" prefWidth="130.0" text="Add/Edit dishes"/>
+        <Button fx:id="butDeleteOrder" layoutX="16.0" layoutY="39.0" minWidth="70.0" mnemonicParsing="false"
+                onAction="#ActionOrder" prefWidth="90.0" text="Delete order"/>
+        <Button fx:id="butCreateOrder" layoutX="16.0" layoutY="7.0" mnemonicParsing="false" onAction="#ActionOrder"
+                prefWidth="90.0" text="Create order"/>
+        <Button fx:id="butSelectAllClose" layoutX="517.0" layoutY="39.0" maxWidth="100.0" minWidth="100.0"
+                mnemonicParsing="false" onAction="#ActionOrder" prefWidth="100.0" text="All close order"/>
+        <Button fx:id="butSelectAll" layoutX="517.0" layoutY="69.0" maxWidth="100.0" minWidth="100.0"
+                mnemonicParsing="false" onAction="#ActionOrder" prefWidth="100.0" text="All order"/>
+
+    </children>
+</AnchorPane>

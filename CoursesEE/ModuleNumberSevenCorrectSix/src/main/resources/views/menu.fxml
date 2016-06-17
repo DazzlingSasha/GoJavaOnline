@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.shape.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="121.0"
+      prefWidth="360.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="restaurant.controllers.MainMenuController">
+    <children>
+        <Button layoutX="126.0" layoutY="34.0" maxWidth="100.0" minWidth="100.0"
+                mnemonicParsing="false" prefWidth="100.0" text="Menu" onAction="#ActionMainMenu" fx:id="butMenu"/>
+
+        <Button layoutX="20.0" layoutY="34.0" maxWidth="100.0" minWidth="100.0"
+                mnemonicParsing="false" prefWidth="100.0" text="Users" onAction="#ActionMainMenu" fx:id="butUsers"/>
+
+        <Button layoutX="20.0" layoutY="70.0" maxWidth="100.0" minWidth="100.0"
+                mnemonicParsing="false" prefWidth="100.0" text="Dishes" onAction="#ActionMainMenu" fx:id="butDishes"/>
+
+        <Button layoutX="232.0" layoutY="34.0" maxWidth="100.0" minWidth="100.0"
+                mnemonicParsing="false" prefWidth="100.0" text="Order" onAction="#ActionMainMenu" fx:id="butOrder"/>
+
+        <Button layoutX="126.0" layoutY="70.0" maxHeight="100.0" minWidth="100.0"
+                mnemonicParsing="false" prefWidth="100.0" text="History" onAction="#ActionMainMenu" fx:id="butHistory"/>
+
+        <Button layoutX="232.0" layoutY="70.0" maxWidth="100.0" minWidth="100.0"
+                mnemonicParsing="false" prefWidth="100.0" text="Warehouse" onAction="#ActionMainMenu"
+                fx:id="butWarehouse"/>
+
+    </children>
+</Pane>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="main" class="restaurant.Main"/>
+
+    <!--<bean id="alertAndErrorMessages" class="restaurant.AlertAndErrorMessages"/>-->
+
+    <!--<bean id="usersDao" class="restaurant.model.Hibernate.UsersDao">-->
+        <!--<property name="dataSource" ref="dataSource"/>-->
+    <!--</bean>-->
+
+    <bean id="usersController" class="restaurant.controllers.UsersController">
+        <!--<property name="usersDao" ref="usersDao"/>-->
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <!--<bean id="dishDao" class="restaurant.model.Hibernate.DishDao">-->
+        <!--<property name="dataSource" ref="dataSource"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="dishController" class="restaurant.controllers.DishController">-->
+        <!--<property name="dishDao" ref="dishDao"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="ingredientDao" class="restaurant.model.Hibernate.IngredientDao">-->
+        <!--<property name="dataSource" ref="dataSource"/>-->
+    <!--</bean>-->
+
+    <bean id="ingredientController" class="restaurant.controllers.IngredientController">
+        <!--<property name="ingredientDao" ref="ingredientDao"/>-->
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <!--<bean id="warehouseDao" class="restaurant.model.Hibernate.WarehouseDao">-->
+        <!--<property name="dataSource" ref="dataSource"/>-->
+    <!--</bean>-->
+
+    <bean id="warehouseController" class="restaurant.controllers.WarehouseController">
+        <!--<property name="warehouseDao" ref="warehouseDao"/>-->
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <!--<bean id="orderWaiterDao" class="restaurant.model.Hibernate.OrderWaiterDao">-->
+        <!--<property name="dataSource" ref="dataSource"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="orderController" class="restaurant.controllers.OrderController">-->
+        <!--<property name="orderWaiterDao" ref="orderWaiterDao"/>-->
+        <!--<property name="preparedDishDao" ref="preparedDishDao"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="preparedDishDao" class="restaurant.model.Hibernate.PreparedDishDao">-->
+        <!--<property name="dataSource" ref="dataSource"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="preparedController" class="restaurant.controllers.PreparedController">-->
+        <!--<property name="preparedDishDao" ref="preparedDishDao"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="menuDao" class="restaurant.model.Hibernate.MenuDao">-->
+        <!--<property name="dataSource" ref="dataSource"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="menuController" class="restaurant.controllers.MenuController">-->
+        <!--<property name="menuDao" ref="menuDao"/>-->
+    <!--</bean>-->
+
+    <!--<bean id="viewsWarehouse" class="restaurant.Views.ViewsWarehouse">-->
+        <!--&lt;!&ndash;<property name="alertAndErrorMessages" ref="alertAndErrorMessages"/>&ndash;&gt;-->
+    <!--</bean>-->
+
+
+</beans>

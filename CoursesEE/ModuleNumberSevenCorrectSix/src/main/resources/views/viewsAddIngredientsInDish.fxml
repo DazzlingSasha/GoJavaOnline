@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+            prefHeight="576.0" prefWidth="353.0" stylesheets="/views/style/style.css" xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="restaurant.Views.ViewsIngredientsForDish">
+    <children>
+        <!-- Таблица в которую мы будем выводит наш pojo -->
+        <TableView fx:id="ingredientTableView" layoutX="12.0" layoutY="125.0" prefHeight="400.0" prefWidth="322.0">
+            <columns>
+                <!-- Колонки таблицы -->
+                <TableColumn fx:id="idColumn" prefWidth="50.0" text="№ id"/>
+                <TableColumn fx:id="nameIngredientColumn" prefWidth="167.0" text="Ingredient"/>
+                <TableColumn fx:id="quantityColumn" prefWidth="104.0" text="Quantity"/>
+            </columns>
+        </TableView>
+
+        <Label layoutX="14.0" layoutY="23.0" prefHeight="17.0" prefWidth="57.0" text="Ingredient"/>
+        <ComboBox fx:id="butSelectIngredients" layoutX="80.0" layoutY="19.0" prefWidth="150.0"
+                  promptText="select menu"/>
+        <Label layoutX="12.0" layoutY="56.0" prefHeight="17.0" prefWidth="51.0" text="Quantity"/>
+        <TextField fx:id="nameField" layoutX="81.0" layoutY="52.0" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
+
+        <Label layoutX="14.0" layoutY="94.0" text="All Ingredients Dish:">
+            <font>
+                <Font name="Verdana" size="20.0"/>
+            </font>
+        </Label>
+
+        <Label fx:id="nameDish" layoutX="230.0" layoutY="94.0">
+            <font>
+                <Font name="System Italic" size="20.0"/>
+            </font>
+        </Label>
+
+
+
+        <Button fx:id="butAdd" layoutX="238.0" layoutY="19.0" mnemonicParsing="false" onAction="#ActionIngredient"
+                prefWidth="100.0" text="Add new ingredient"/>
+        <Button fx:id="butDelete" layoutX="238.0" layoutY="52.0" mnemonicParsing="false" onAction="#ActionIngredient"
+                prefWidth="100.0" text="Delete ingredient"/>
+
+        <Button cancelButton="true" layoutX="243.0" layoutY="537.0" mnemonicParsing="false" onAction="#handleCancel"
+                prefWidth="90.0" text="Cancel"/>
+
+    </children>
+</AnchorPane>
