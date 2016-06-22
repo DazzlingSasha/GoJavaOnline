@@ -1,5 +1,6 @@
 package restaurant.controllers;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -7,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import restaurant.model.Position;
 import restaurant.model.Users;
 import restaurant.model.Hibernate.UsersDao;
 
@@ -61,19 +63,29 @@ public class UsersController implements MainMethodControllers<Users> {
     @Transactional(propagation = Propagation.REQUIRED)
     public Users findById(int id) {
         LOGGER.info("Find user by id where id: " + id);
-        return usersDao.findByIdUser(id);
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select u from Users u where u.id =:id");
+        query.setParameter("id", id);
+        return (Users) query.uniqueResult();
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public List<Users> findByName(String name) {
         LOGGER.info("Find all users by first name where name or part name " + name);
-        return usersDao.findByNameUser(name);
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select u from Users u where u.firstName like :name");
+        query.setParameter("name", "%"+name+"%");
+        return query.list();
+//        return usersDao.findByNameUser(name);
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
     public List<Users> allUsersWaiter() {
         LOGGER.info("Select all users waiter ");
-        return usersDao.allUsersWaiter();
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select u from Users u where u.positionUser =:position");
+        query.setParameter("position", Position.WAITER);
+        return query.list();
     }
 }

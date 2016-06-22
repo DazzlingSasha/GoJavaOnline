@@ -6,7 +6,7 @@
 
     <bean id="main" class="restaurant.Main"/>
 
-    <!--<bean id="alertAndErrorMessages" class="restaurant.AlertAndErrorMessages"/>-->
+    <bean id="alertAndErrorMessages" class="restaurant.AlertAndErrorMessages"/>
 
     <!--<bean id="usersDao" class="restaurant.model.Hibernate.UsersDao">-->
         <!--<property name="dataSource" ref="dataSource"/>-->
@@ -21,9 +21,10 @@
         <!--<property name="dataSource" ref="dataSource"/>-->
     <!--</bean>-->
 
-    <!--<bean id="dishController" class="restaurant.controllers.DishController">-->
+    <bean id="dishController" class="restaurant.controllers.DishController">
         <!--<property name="dishDao" ref="dishDao"/>-->
-    <!--</bean>-->
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 
     <!--<bean id="ingredientDao" class="restaurant.model.Hibernate.IngredientDao">-->
         <!--<property name="dataSource" ref="dataSource"/>-->
@@ -47,30 +48,32 @@
         <!--<property name="dataSource" ref="dataSource"/>-->
     <!--</bean>-->
 
-    <!--<bean id="orderController" class="restaurant.controllers.OrderController">-->
+    <bean id="orderController" class="restaurant.controllers.OrderController">
         <!--<property name="orderWaiterDao" ref="orderWaiterDao"/>-->
         <!--<property name="preparedDishDao" ref="preparedDishDao"/>-->
-    <!--</bean>-->
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 
     <!--<bean id="preparedDishDao" class="restaurant.model.Hibernate.PreparedDishDao">-->
         <!--<property name="dataSource" ref="dataSource"/>-->
     <!--</bean>-->
 
-    <!--<bean id="preparedController" class="restaurant.controllers.PreparedController">-->
+    <bean id="preparedController" class="restaurant.controllers.PreparedController">
         <!--<property name="preparedDishDao" ref="preparedDishDao"/>-->
-    <!--</bean>-->
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 
     <!--<bean id="menuDao" class="restaurant.model.Hibernate.MenuDao">-->
         <!--<property name="dataSource" ref="dataSource"/>-->
     <!--</bean>-->
 
-    <!--<bean id="menuController" class="restaurant.controllers.MenuController">-->
+    <bean id="menuController" class="restaurant.controllers.MenuController">
         <!--<property name="menuDao" ref="menuDao"/>-->
-    <!--</bean>-->
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
 
-    <!--<bean id="viewsWarehouse" class="restaurant.Views.ViewsWarehouse">-->
-        <!--&lt;!&ndash;<property name="alertAndErrorMessages" ref="alertAndErrorMessages"/>&ndash;&gt;-->
-    <!--</bean>-->
+    <bean id="viewsWarehouse" class="restaurant.Views.ViewsWarehouse"/>
+
 
 
 </beans>

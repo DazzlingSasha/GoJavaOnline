@@ -1,5 +1,6 @@
 package restaurant.controllers;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
@@ -13,24 +14,16 @@ import restaurant.model.Hibernate.IngredientDao;
 import java.util.List;
 
 public class IngredientController implements MainMethodControllers<Ingredient>{
-    private DataSourceTransactionManager txManager;
-    private IngredientDao ingredientDao;
     private static final Logger LOGGER = LoggerFactory.getLogger(IngredientController.class);
     private SessionFactory sessionFactory;
 
-    public void setTxManager(DataSourceTransactionManager txManager) {
-        this.txManager = txManager;
-    }
-
-    public void setIngredientDao(IngredientDao ingredientDao) {
-        this.ingredientDao = ingredientDao;
-    }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void addInDatabase(Ingredient item) {
         LOGGER.info("Add new Ingredient!");
-        ingredientDao.createInIngredients(item.getName());
+        Session session = sessionFactory.getCurrentSession();
+        session.save(item);
     }
 
     @Override
@@ -53,21 +46,28 @@ public class IngredientController implements MainMethodControllers<Ingredient>{
     @Transactional(propagation = Propagation.REQUIRED)
     public void updateInDatabase(Ingredient item) {
         LOGGER.info("Update ingredients! ");
-        ingredientDao.updateInIngredients(item);
+        Session session = sessionFactory.getCurrentSession();
+        session.update(item);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public Ingredient findById(int id) {
         LOGGER.info("Select ingredients by id: "+ id);
-        return ingredientDao.loadOneIngredient(id);
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select i from Ingredient i where i.id =:id");
+        query.setParameter("id", id);
+        return (Ingredient) query.uniqueResult();
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public List<Ingredient> findByName(String name) {
         LOGGER.info("Select ingredients by name: "+ name);
-        return ingredientDao.findByName(name);
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select i from Ingredient i where i.name like :name");
+        query.setParameter("name", "%"+name+"%");
+        return query.list();
     }
 
     public void setSessionFactory(SessionFactory sessionFactory) {

@@ -33,9 +33,9 @@ public class EditWarehouse{
 
     public void setUser(Warehouse warehouse) {
         this.warehouse = warehouse;
-        addInComboBox();
         idIngredientColumn.setPromptText("New item");
-        idIngredientColumn.setValue(Main.beanIngredientController().findById(warehouse.getIdIngredient().getId()));
+        addInComboBox();
+        idIngredientColumn.setValue(warehouse.getIdIngredient());
         quantityColumn.setText(Double.toString(warehouse.getQuantity()));
         unitColumn.setText(warehouse.getUnit());
     }

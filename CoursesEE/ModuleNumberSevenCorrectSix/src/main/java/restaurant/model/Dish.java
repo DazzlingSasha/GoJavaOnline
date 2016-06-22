@@ -1,26 +1,35 @@
 package restaurant.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "dish")
 public class Dish {
-
+    @Id
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
+    @Column()
     private int id;
-    private String name;
-    private int category;
-    private String nameCategory;
 
+    @Column(name = "name")
+    private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "id_category")
+    private Menu category;
+
+    @Column(name = "ids_ingredients_dish")
     private String ingredientsForDishes;
 
+    @Column(name = "cost")
     private int cost;
-    private int weight;
-    public Dish() {
-    }
 
-    public Dish(int id, String name, int category, String ingredientsForDishes, int cost, int weight) {
-        this.id = id;
-        this.name = name;
-        this.category = category;
-        this.ingredientsForDishes = ingredientsForDishes;
-        this.cost = cost;
-        this.weight = weight;
+    @Column(name = "weight")
+    private int weight;
+
+    public Dish() {
     }
 
     public int getId() {
@@ -31,16 +40,12 @@ public class Dish {
         return name;
     }
 
-    public int getCategory() {
+    public Menu getCategory() {
         return category;
     }
 
     public String getNameCategory() {
-        return nameCategory;
-    }
-
-    public void setNameCategory(String nameCategory) {
-        this.nameCategory = nameCategory;
+        return category.getCategory();
     }
 
     public String getIngredientsForDishes() {
@@ -63,8 +68,12 @@ public class Dish {
         this.name = name;
     }
 
-    public void setCategory(int category) {
+    public void setCategory(Menu category) {
         this.category = category;
+    }
+
+    public void setNameCategory(String nameCategory) {
+        this.category.setCategory(nameCategory);
     }
 
     public void setIngredientsForDishes(String ingredientsForDishes) {

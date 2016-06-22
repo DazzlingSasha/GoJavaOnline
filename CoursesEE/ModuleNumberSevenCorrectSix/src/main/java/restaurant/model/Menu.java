@@ -1,9 +1,21 @@
 package restaurant.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+
+@Entity
+@Table(name = "menu")
 public class Menu {
+
+    @Id
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
+    @Column(name = "id")
     private int id;
+
+    @Column(name = "name_category")
     private String category;
-    private String listDishes;
 
     public int getId() {
         return id;
@@ -21,20 +33,11 @@ public class Menu {
         this.category = category;
     }
 
-    public String getListDishes() {
-        return listDishes;
-    }
-
-    public void setListDishes(String listDishes) {
-        this.listDishes = listDishes;
-    }
-
     @Override
     public String toString() {
         return "Menu{" +
                 "id=" + id +
                 ", category='" + category + '\'' +
-                ", listDishes='" + listDishes + '\'' +
                 '}';
     }
 }

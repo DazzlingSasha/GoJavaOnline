@@ -116,7 +116,7 @@ public class ViewsUser {
 
             case "butSearch":
                 usersData.clear();
-                usersData.addAll(Main.beanUserController().findByName(textSearch.getText().toLowerCase()));
+                usersData.addAll(Main.beanUserController().findByName(textSearch.getText().replace(" ", "")));
                 tableUsers.setItems(usersData);
                 break;
 

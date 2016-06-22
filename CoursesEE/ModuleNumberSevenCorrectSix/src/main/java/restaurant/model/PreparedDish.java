@@ -1,27 +1,41 @@
 package restaurant.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 
+@Entity
+@Table(name = "prepared_dish")
 public class PreparedDish {
+    @Id
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
+    @Column(name = "id")
     private int id;
-    private int idDish;
-    private String nameDish;
-    private String categoryDish;
-    private int idUser;
-    private String nameUser;
-    private int idOrder;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_dish")
+    private Dish idDish;
+
+    //    private String nameDish;
+//    private String categoryDish;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_user")
+    private Users idUser;
+
+    //    private String nameUser;
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_order")
+    private OrderWaiter idOrder;
+
+    @Column(name = "data_dish")
     private Date datePreparedDish;
+
+    @Column(name = "prepared_dish")
     private int prepared;
-
-    public void setPrepared(int prepared) {
-        this.prepared = prepared;
-    }
-
-    public int getPrepared() {
-        return prepared;
-    }
 
     public int getId() {
         return id;
@@ -31,60 +45,68 @@ public class PreparedDish {
         this.id = id;
     }
 
-    public int getIdDish() {
+    public Dish getIdDish() {
         return idDish;
     }
 
-    public void setIdDish(int idDish) {
-        this.idDish = idDish;
+    public void setIdDish(Dish dish) {
+        this.idDish = dish;
     }
 
     public String getNameDish() {
-        return nameDish;
+        return idDish.getName();
     }
 
     public void setNameDish(String nameDish) {
-        this.nameDish = nameDish;
+        this.idDish.setName(nameDish);
     }
 
     public String getCategoryDish() {
-        return categoryDish;
+        return idDish.getNameCategory();
     }
 
-    public void setCategoryDish(String categoryDish) {
-        this.categoryDish = categoryDish;
-    }
+//    public void setCategoryDish(String categoryDish) {
+//        new Menu().setCategory(categoryDish);
+//    }
 
     public void setDatePreparedDish(Date datePreparedDish) {
         this.datePreparedDish = datePreparedDish;
     }
 
-    public int getIdUser() {
+    public Users getIdUser() {
         return idUser;
     }
 
-    public void setIdUser(int idUser) {
-        this.idUser = idUser;
+    public void setIdUser(Users user) {
+        this.idUser = user;
     }
 
     public String getNameUser() {
-        return nameUser;
+        return idUser.getFirstName();
     }
 
     public void setNameUser(String nameUser) {
-        this.nameUser = nameUser;
+        this.idUser.setFirstName(nameUser);
     }
 
-    public int getIdOrder() {
+    public OrderWaiter getIdOrder() {
         return idOrder;
     }
 
-    public void setIdOrder(int idOrder) {
-        this.idOrder = idOrder;
+    public void setIdOrder(OrderWaiter order) {
+        this.idOrder = order;
     }
 
     public Date getDatePreparedDish() {
         return datePreparedDish;
+    }
+
+    public void setPrepared(int prepared) {
+        this.prepared = prepared;
+    }
+
+    public int getPrepared() {
+        return prepared;
     }
 
 //    public void formatDatePreparedDish(Time datePreparedDish) {
@@ -97,8 +119,8 @@ public class PreparedDish {
         return "PreparedDish{" +
                 "id=" + id +
                 ", idDish=" + idDish +
-                ", nameDish='" + nameDish + '\'' +
-                ", categoryDish='" + categoryDish + '\'' +
+                ", nameDish='" + idDish.getName() + '\'' +
+                ", categoryDish='" + idDish.getCategory() + '\'' +
                 ", idUser=" + idUser +
                 ", idOrder=" + idOrder +
                 ", datePreparedDish='" + datePreparedDish + '\'' +

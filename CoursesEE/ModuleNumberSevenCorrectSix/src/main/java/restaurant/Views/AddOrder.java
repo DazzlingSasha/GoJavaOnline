@@ -13,6 +13,9 @@ import restaurant.model.OrderWaiter;
 import restaurant.model.PreparedDish;
 import restaurant.model.Users;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AddOrder {
     private ObservableList<Dish> dishData = FXCollections.observableArrayList();
     private ObservableList<PreparedDish> preparedData = FXCollections.observableArrayList();
@@ -57,8 +60,10 @@ public class AddOrder {
     @FXML
     private void handleOk() {
         if (isInputValid()) {
-            order.setId_user(userColumn.getSelectionModel().getSelectedItem().getId());
+            List<Dish> list = new ArrayList<>();
+            order.setId_user(userColumn.getSelectionModel().getSelectedItem());
             order.setNumberTable(Integer.parseInt(tableColumn.getText()));
+            order.setIdsDishes(list.toString());
             okClicked = true;
             dialogStage.close();
         }

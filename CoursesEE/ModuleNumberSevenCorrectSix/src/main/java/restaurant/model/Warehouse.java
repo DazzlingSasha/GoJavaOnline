@@ -13,7 +13,7 @@ public class Warehouse {
     @Column(name = "id")
     private int id;
 
-    @OneToOne
+    @OneToOne (fetch = FetchType.EAGER)
     @JoinColumn(name = "id_ingredient")
     private Ingredient idIngredient;
 
@@ -27,36 +27,38 @@ public class Warehouse {
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public Ingredient getIdIngredient() {
         return idIngredient;
-    }
-
-    public void setIdIngredient(Ingredient idIngredient) {
-        this.idIngredient = idIngredient;
     }
 
     public String getItemWithDatabaseIngredients() {
         return idIngredient.getName();
     }
 
-    public void setItemWithDatabaseIngredients(String itemWithDatabaseIngredients) {
-        idIngredient.setName(itemWithDatabaseIngredients);
-    }
-
     public double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(double quantity) {
-        this.quantity = quantity;
-    }
-
     public String getUnit() {
         return unit;
+    }
+
+
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setIdIngredient(Ingredient idIngredient) {
+        this.idIngredient = idIngredient;
+    }
+
+    public void setItemWithDatabaseIngredients(String itemWithDatabaseIngredients) {
+        idIngredient.setName(itemWithDatabaseIngredients);
+    }
+
+    public void setQuantity(double quantity) {
+        this.quantity = quantity;
     }
 
     public void setUnit(String unit) {

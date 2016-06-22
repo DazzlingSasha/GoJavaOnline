@@ -13,6 +13,9 @@ import restaurant.model.Dish;
 import restaurant.model.OrderWaiter;
 import restaurant.model.PreparedDish;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EditOrder {
 
     private ObservableList<Dish> dishData = FXCollections.observableArrayList();
@@ -87,11 +90,18 @@ public class EditOrder {
     @FXML
     private void handleOk() {
         if (isInputValid()) {
+            order.setIdsDishes(editDishes());
             okClicked = true;
             dialogStage.close();
         }
     }
-
+private static String editDishes(){
+    StringBuilder sb = new StringBuilder();
+    for(int i =0; i < listDises.size(); i++){
+        sb.append(listDises.get(i).getName()).append("\n");
+    }
+    return sb.toString();
+}
     @FXML
     private void handleCancel() {
         dialogStage.close();
@@ -108,14 +118,15 @@ public class EditOrder {
 
 
     }
-
+    private static List<Dish> listDises = new ArrayList<>();
     public void ActionAdd(ActionEvent actionEvent) {
         PreparedDish addInDishToOrder = new PreparedDish();
-        order.setIdsDishes(Integer.toString(preparedData.size()+1));
+//        order.setIdsDishes(Integer.toString(preparedData.size()+1));
         Dish dish = tableDish.getSelectionModel().getSelectedItem();
-        addInDishToOrder.setIdDish(dish.getId());
+        listDises.add(dish);
+        addInDishToOrder.setIdDish(dish);
         addInDishToOrder.setIdUser(order.getId_user());
-        addInDishToOrder.setIdOrder(order.getId());
+        addInDishToOrder.setIdOrder(order);
         addInDishToOrder.setNameDish(dish.getName());
 
         Main.beanPreparedController().addInDatabase(addInDishToOrder);
@@ -128,8 +139,21 @@ public class EditOrder {
         if (selectedIndex >= 0) {
             tablePrepared.getItems().remove(selectedIndex);
             Main.beanPreparedController().deleteWithDatabase(tablePrepared.getSelectionModel().getSelectedItem());
+            listDises = setRemoveDish(tablePrepared.getSelectionModel().getSelectedItem().getIdDish());
         } else {// Ничего не выбрано.
             alertAndErrorMessages.unspecifiedDialog();
         }
+    }
+
+    private static List<Dish> setRemoveDish(Dish dish){
+        int index = 0;
+        for(int i =0; i < listDises.size(); i++){
+            if(listDises.get(i).equals(dish)){
+                index = i;
+                break;
+            }
+        }
+        listDises.remove(index);
+        return listDises;
     }
 }

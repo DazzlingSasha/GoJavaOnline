@@ -113,12 +113,16 @@ public class ViewsOrder {
                 break;
 
             case "butAddEditOrder":
-                if(selectOrder.getCloseOrOpenOrder() != 1) {
-                    handleEditUser(actionEvent);
-                    orderData.set(selectedIndex, Main.beanOrderController().findById(selectOrder.getId()));
-                    tableOrder.setItems(orderData);
-                } else {
-                    alertAndErrorMessages.unspecifiedDialogOrderClose();
+                if (selectedIndex >= 0) {
+                    if (selectOrder.getCloseOrOpenOrder() != 1) {
+                        handleEditUser(actionEvent);
+                        orderData.set(selectedIndex, Main.beanOrderController().findById(selectOrder.getId()));
+                        tableOrder.setItems(orderData);
+                    } else {
+                        alertAndErrorMessages.unspecifiedDialogOrderClose();
+                    }
+                } else {// Ничего не выбрано.
+                    alertAndErrorMessages.unspecifiedDialog();
                 }
                 break;
 

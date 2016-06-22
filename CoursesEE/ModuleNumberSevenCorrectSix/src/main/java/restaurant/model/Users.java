@@ -35,60 +35,62 @@ public class Users {
     @Column(name = "salary")
     private int salary;
 
-    public int getSalary() {
-        return salary;
-    }
-
-    public void setSalary(int salary) {
-        this.salary = salary;
-    }
-
-    public Position getPositionUser() {
-        return positionUser;
-    }
-
-    public void setPositionUser(Position positionUser) {
-        this.positionUser = positionUser;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public Date getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(Date birthday) {
-        this.birthday = birthday;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public int getId() {
+        return id;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
+    public String getLastName() {
+        return lastName;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public Position getPositionUser() {
+        return positionUser;
+    }
+
+    public int getSalary() {
+        return salary;
+    }
+
+
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
-    public int getId() {
-        return id;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setPositionUser(Position positionUser) {
+        this.positionUser = positionUser;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
     }
 
     @Override

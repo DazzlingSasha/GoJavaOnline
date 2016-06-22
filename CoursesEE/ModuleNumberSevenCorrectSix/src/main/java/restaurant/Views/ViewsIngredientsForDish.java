@@ -13,6 +13,9 @@ import restaurant.model.Dish;
 import restaurant.model.DishIngredient;
 import restaurant.model.Ingredient;
 
+import java.util.Collection;
+import java.util.List;
+
 
 public class ViewsIngredientsForDish {
     private ObservableList<DishIngredient> dishIngredientData = FXCollections.observableArrayList();
@@ -46,7 +49,7 @@ public class ViewsIngredientsForDish {
 
         butSelectIngredients.getItems().addAll(Main.beanIngredientController().selectAll());
         dishIngredientData.addAll(Main.beanDishController().selectAllIngredientsDish(dish.getId()));
-
+//        dishIngredientData.addAll(new PropertyValueFactory<DishIngredient, List<Ingredient>>("idIngredient"));
         idColumn.setCellValueFactory(new PropertyValueFactory<DishIngredient, Integer>("idDishIngredient"));
         nameIngredientColumn.setCellValueFactory(new PropertyValueFactory<DishIngredient, String>("nameIngredient"));
         quantityColumn.setCellValueFactory(new PropertyValueFactory<DishIngredient, Double>("quantity"));
