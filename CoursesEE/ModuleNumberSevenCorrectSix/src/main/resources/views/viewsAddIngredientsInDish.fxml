@@ -44,6 +44,8 @@
         <Button fx:id="butDelete" layoutX="238.0" layoutY="52.0" mnemonicParsing="false" onAction="#ActionIngredient"
                 prefWidth="100.0" text="Delete ingredient"/>
 
+        <Button defaultButton="true" layoutX="100" layoutY="537.0" mnemonicParsing="false"
+                onAction="#handleOk" prefWidth="90.0" text="OK"/>
         <Button cancelButton="true" layoutX="243.0" layoutY="537.0" mnemonicParsing="false" onAction="#handleCancel"
                 prefWidth="90.0" text="Cancel"/>
 

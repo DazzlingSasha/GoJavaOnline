@@ -20,8 +20,8 @@ public class Warehouse {
     @Column(name = "quantity")
     private double quantity;
 
-    @Column(name = "unit")
-    private String unit;
+//    @Column(name = "unit")
+//    private String unit;
 
     public int getId() {
         return id;
@@ -40,7 +40,7 @@ public class Warehouse {
     }
 
     public String getUnit() {
-        return unit;
+        return idIngredient.getUnit();
     }
 
 
@@ -61,16 +61,15 @@ public class Warehouse {
         this.quantity = quantity;
     }
 
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
+//    public void setUnit(String unit) {
+//        this.unit = unit;
+//    }
 
     @Override
     public String toString() {
         return "Warehouse {" +
                 "id:" + id +
                 ", idIngredient= " + idIngredient +
-                ", quantity: " + quantity +
-                " " + unit + "}";
+                ", quantity: " + quantity ;
     }
 }

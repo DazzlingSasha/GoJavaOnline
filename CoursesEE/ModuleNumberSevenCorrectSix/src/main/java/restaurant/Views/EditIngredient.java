@@ -10,6 +10,8 @@ public class EditIngredient {
 
     @FXML
     public TextField nameField;
+    @FXML
+    public TextField unit;
 
     @FXML
     private void initialize() {
@@ -28,6 +30,7 @@ public class EditIngredient {
     public void setUser(Ingredient item) {
         this.item = item;
         nameField.setText(item.getName());
+        unit.setText(item.getUnit());
     }
 
     public boolean isOkClicked() {
@@ -38,7 +41,7 @@ public class EditIngredient {
     private void handleOk() {
         if (isInputValid()) {
             item.setName(nameField.getText());
-
+            item.setUnit(unit.getText());
             okClicked = true;
             dialogStage.close();
         }
@@ -52,6 +55,7 @@ public class EditIngredient {
     private boolean isInputValid() {
         StringBuilder errorMessage = new StringBuilder();
         errorMessage.append(alertAndErrorMessages.validStringField(nameField, "first name"));
+        errorMessage.append(alertAndErrorMessages.validStringField(unit, "unit"));
 
         if (errorMessage.length() == 0) {
             return true;

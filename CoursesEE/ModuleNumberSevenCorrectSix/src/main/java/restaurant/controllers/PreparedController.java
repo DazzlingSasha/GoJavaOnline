@@ -61,6 +61,7 @@ public class PreparedController implements MainMethodControllers<PreparedDish> {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("update PreparedDish pd set pd.prepared = 1 where pd.id =:id");
         query.setParameter("id", item.getId());
+        query.executeUpdate();
         LOGGER.info("Status dish cooked prepared "+ item.getPrepared());
 //        preparedDishDao.updateStatusCooked(item);
 //        String query = "UPDATE PREPARED_DISH SET PREPARED_DISH = 1 WHERE id = ?";
@@ -69,7 +70,7 @@ public class PreparedController implements MainMethodControllers<PreparedDish> {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public PreparedDish findById(int id) {
-        LOGGER.info("Find by id dish and cooked dish id = : " + id);
+        LOGGER.info("Find by id dish and cooked dish id = " + id);
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select pd from PreparedDish pd where id =:id");
         query.setParameter("id", id);

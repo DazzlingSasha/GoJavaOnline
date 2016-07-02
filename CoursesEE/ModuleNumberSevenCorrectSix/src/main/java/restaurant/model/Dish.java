@@ -3,6 +3,7 @@ package restaurant.model;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "dish")
@@ -16,9 +17,16 @@ public class Dish {
     @Column(name = "name")
     private String name;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_category")
     private Menu category;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "ingredients_for_dish",
+            joinColumns = @JoinColumn(name = "id_dish"),
+            inverseJoinColumns = @JoinColumn(name = "id_ingredient")
+    )
+    private List<Ingredient> idIngredient;
 
     @Column(name = "ids_ingredients_dish")
     private String ingredientsForDishes;
@@ -49,7 +57,11 @@ public class Dish {
     }
 
     public String getIngredientsForDishes() {
-        return ingredientsForDishes;
+        StringBuilder sb = new StringBuilder();
+        for(Ingredient item : idIngredient){
+            sb.append(item.getName()).append("\n");
+        }
+        return sb.toString();
     }
 
     public int getCost() {
@@ -86,6 +98,14 @@ public class Dish {
 
     public void setWeight(int weight) {
         this.weight = weight;
+    }
+
+    public List<Ingredient> getIdIngredient() {
+        return idIngredient;
+    }
+
+    public void setIdIngredient(List<Ingredient> idIngredient) {
+        this.idIngredient = idIngredient;
     }
 
     @Override

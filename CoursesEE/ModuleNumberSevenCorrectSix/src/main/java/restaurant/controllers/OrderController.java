@@ -5,12 +5,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import restaurant.model.OrderWaiter;
-import restaurant.model.Hibernate.OrderWaiterDao;
-import restaurant.model.Hibernate.PreparedDishDao;
 
 import java.util.List;
 

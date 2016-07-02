@@ -15,6 +15,7 @@
                 <!-- Колонки таблицы -->
                 <TableColumn fx:id="idColumn" prefWidth="50.0" text="№ id"/>
                 <TableColumn fx:id="nameIngredientColumn" prefWidth="150.0" text="Ingredient"/>
+                <TableColumn fx:id="unit" prefWidth="100.0" text="Unit"/>
             </columns>
         </TableView>
 

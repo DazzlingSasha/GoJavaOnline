@@ -16,6 +16,9 @@ public class Ingredient {
     @Column(name = "name_ingredient")
     private String name;
 
+    @Column(name = "unit")
+    private String unit;
+
     public void setId(int id) {
         this.id = id;
     }
@@ -32,10 +35,20 @@ public class Ingredient {
         return name;
     }
 
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
     @Override
     public String toString() {
-        return "Ingredient:{" +
-                "id: " + id +
-                ", name: '" + name + "}";
+        return "Ingredient{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", unit='" + unit + '\'' +
+                '}';
     }
 }

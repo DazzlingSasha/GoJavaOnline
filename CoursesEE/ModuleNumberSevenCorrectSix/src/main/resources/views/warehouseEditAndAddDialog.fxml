@@ -24,10 +24,10 @@
             <children>
                 <Label text="Ingredients" GridPane.rowIndex="0"/>
                 <Label text="Quantity" GridPane.rowIndex="1"/>
-                <Label text="Unit" GridPane.rowIndex="2"/>
+
                 <ComboBox fx:id="idIngredientColumn" prefWidth="150.0" accessibleText="Ingredient" GridPane.columnIndex="1" GridPane.rowIndex="0"/>
                 <TextField fx:id="quantityColumn" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
-                <TextField fx:id="unitColumn" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+
             </children>
         </GridPane>
         <HBox layoutX="197.1875" layoutY="241.0" spacing="5.0" AnchorPane.bottomAnchor="10.0"

@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.util.List;
 
 public class ViewsIngredients {
+
     private ObservableList<Ingredient> ingredientData = FXCollections.observableArrayList();
     private AlertAndErrorMessages alertAndErrorMessages = new AlertAndErrorMessages();
 
@@ -32,6 +33,8 @@ public class ViewsIngredients {
     public TableColumn<Ingredient, Integer> idColumn;
     @FXML
     public TableColumn<Ingredient, String> nameIngredientColumn;
+    @FXML
+    public TableColumn<Ingredient, String> unit;
 
     @FXML
     private void initialize() {
@@ -39,6 +42,7 @@ public class ViewsIngredients {
         // устанавливаем тип и значение которое должно хранится в колонке
         idColumn.setCellValueFactory(new PropertyValueFactory<Ingredient, Integer>("id"));
         nameIngredientColumn.setCellValueFactory(new PropertyValueFactory<Ingredient, String>("name"));
+        unit.setCellValueFactory(new PropertyValueFactory<Ingredient, String>("unit"));
         // заполняем таблицу данными
         ingredientTableView.setItems(ingredientData);
     }

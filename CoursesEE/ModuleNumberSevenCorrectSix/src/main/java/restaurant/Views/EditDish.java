@@ -15,8 +15,8 @@ public class EditDish {
     public TextField nameField;
     @FXML
     public ComboBox<Menu> idCategoryField;
-    @FXML
-    public TextField idsIngredientsDishField;
+//    @FXML
+//    public TextField idsIngredientsDishField;
     @FXML
     public TextField costField;
     @FXML
@@ -41,7 +41,7 @@ public class EditDish {
         idCategoryField.setPromptText("Add category");
         idCategoryField.getItems().addAll(Main.beanMenuController().selectAll());
         idCategoryField.setValue(dish.getCategory());
-        idsIngredientsDishField.setText(dish.getIngredientsForDishes());
+//        idsIngredientsDishField.setText(dish.getIngredientsForDishes());
         costField.setText(Integer.toString(dish.getCost()));
         weightField.setText(Integer.toString(dish.getWeight()));
     }
@@ -55,7 +55,7 @@ public class EditDish {
         if (isInputValid()) {
             dish.setName(nameField.getText());
             dish.setCategory(idCategoryField.getSelectionModel().getSelectedItem());
-            dish.setIngredientsForDishes(idsIngredientsDishField.getText());
+//            dish.setIngredientsForDishes(idsIngredientsDishField.getText());
             dish.setCost(Integer.parseInt(costField.getText()));
             dish.setWeight(Integer.parseInt(weightField.getText()));
 
@@ -73,11 +73,11 @@ public class EditDish {
         StringBuilder errorMessage = new StringBuilder();
 
         errorMessage.append(alertAndErrorMessages.validStringField(nameField, "name dish"));
-        if(idCategoryField.getSelectionModel().getSelectedIndex()<= 0){
+        if (idCategoryField.getSelectionModel().getSelectedIndex() <= 0) {
             errorMessage.append("No valid category!\n");
         }
 //        errorMessage.append(alertAndErrorMessages.validIntegerAndNull(idCategoryField, "id category"));
-        errorMessage.append(alertAndErrorMessages.validStringField(idsIngredientsDishField, "idsIngredientsDishField"));
+//        errorMessage.append(alertAndErrorMessages.validStringField(idsIngredientsDishField, "idsIngredientsDishField"));
         errorMessage.append(alertAndErrorMessages.validIntegerAndNull(costField, "cost"));
         errorMessage.append(alertAndErrorMessages.validIntegerAndNull(weightField, "weight"));
 

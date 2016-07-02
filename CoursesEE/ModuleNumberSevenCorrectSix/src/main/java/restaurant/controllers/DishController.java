@@ -112,6 +112,7 @@ public class DishController implements MainMethodControllers<Dish> {
         Query query = session.createQuery("UPDATE Dish d SET  d.category.id =:numberCategory WHERE d.id =:id");
         query.setParameter("numberCategory", numberCategory);
         query.setParameter("id", id);
+        query.executeUpdate();
 //        dishDao.setDishCategory(id, numberCategory);
     }
 
@@ -128,22 +129,51 @@ public class DishController implements MainMethodControllers<Dish> {
     public List<DishIngredient> selectAllIngredientsDish(int idDish) {
         LOGGER.info("Select all ingredients for dish !");
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select i from Ingredient i where i.idDish =:idDish");
+        Query query = session.createQuery("select di from DishIngredient di where di.idDish =:idDish");
         query.setParameter("idDish", idDish);
         return query.list();
 //        return dishDao.selectIngredientsThisDish(idDish);
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public void addInDishIngredient(int idDish, int idIngredient, double quantity) {
+    public void addInDishIngredient(DishIngredient item) {
         LOGGER.info("Add new ingredient to dish!");
-        dishDao.addNewIngredientForDish(idDish, idIngredient, quantity);
+        Session session = sessionFactory.getCurrentSession();
+        session.save(item);
+        session.flush();
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public void deleteIngredientsWithThisDish(int idIngredient) {
+    public void deleteIngredientsWithThisDish(DishIngredient item) {
         LOGGER.info("Delete ingredient with dish!");
-        dishDao.deleteIngredientForDish(idIngredient);
+        Session session = sessionFactory.getCurrentSession();
+        session.delete(item);
+//        dishDao.deleteIngredientForDish(idIngredient);
+    }
+    @Transactional(propagation = Propagation.REQUIRED)
+    public DishIngredient findInDishIngredient(DishIngredient item) {
+        LOGGER.info("Find ingredient with dish!");
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select d from DishIngredient d where d.idIngredient.id =:id and d.idDish =:idDish");
+        query.setParameter("id", item.getIdIngredient().getId());
+        query.setParameter("idDish", item.getIdDish());
+        if((DishIngredient) query.uniqueResult()==null){
+            LOGGER.info("Not find ingredient!");
+        } else{
+            LOGGER.info("Find ingredient!");
+        }
+        return (DishIngredient) query.uniqueResult();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public int updateInDishIngredient(DishIngredient item) {
+        LOGGER.info("Update ingredient with dish!");
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("UPDATE DishIngredient d SET  d.quantity =:quantity WHERE d.idIngredient.id =:id and d.idDish =:idDish");
+        query.setParameter("quantity", item.getQuantity());
+        query.setParameter("id", item.getIdIngredient().getId());
+        query.setParameter("idDish", item.getIdDish());
+        return query.executeUpdate();
     }
 
     public void setSessionFactory(SessionFactory sessionFactory) {

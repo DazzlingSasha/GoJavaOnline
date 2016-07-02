@@ -13,9 +13,6 @@ import restaurant.model.Dish;
 import restaurant.model.DishIngredient;
 import restaurant.model.Ingredient;
 
-import java.util.Collection;
-import java.util.List;
-
 
 public class ViewsIngredientsForDish {
     private ObservableList<DishIngredient> dishIngredientData = FXCollections.observableArrayList();
@@ -48,13 +45,25 @@ public class ViewsIngredientsForDish {
         nameDish.setText(dish.getId() + " " + dish.getName());
 
         butSelectIngredients.getItems().addAll(Main.beanIngredientController().selectAll());
+//        dishIngredientData.addAll(Main.beanDishController().selectAllIngredientsDish(dish.getId()));
         dishIngredientData.addAll(Main.beanDishController().selectAllIngredientsDish(dish.getId()));
-//        dishIngredientData.addAll(new PropertyValueFactory<DishIngredient, List<Ingredient>>("idIngredient"));
-        idColumn.setCellValueFactory(new PropertyValueFactory<DishIngredient, Integer>("idDishIngredient"));
-        nameIngredientColumn.setCellValueFactory(new PropertyValueFactory<DishIngredient, String>("nameIngredient"));
+        idColumn.setCellValueFactory(new PropertyValueFactory<DishIngredient, Integer>("idDish"));
+        nameIngredientColumn.setCellValueFactory(new PropertyValueFactory<DishIngredient, String>("idIngredient"));
         quantityColumn.setCellValueFactory(new PropertyValueFactory<DishIngredient, Double>("quantity"));
 
         ingredientTableView.setItems(dishIngredientData);
+    }
+
+    private boolean okClicked = false;
+
+    public boolean isOkClicked() {
+        return okClicked;
+    }
+
+    @FXML
+    private void handleOk() {
+        okClicked = true;
+        dialogStage.close();
     }
 
     @FXML
@@ -64,7 +73,6 @@ public class ViewsIngredientsForDish {
 
     private boolean isInputValid() {
         StringBuilder errorMessage = new StringBuilder();
-
         errorMessage.append(alertAndErrorMessages.validDoubleAndNull(nameField, "quantity ingredient"));
 
         if (butSelectIngredients.getSelectionModel().getSelectedItem() == null) {
@@ -101,9 +109,23 @@ public class ViewsIngredientsForDish {
         switch (button.getId()) {
             case "butAdd":
                 if (isInputValid()) {
-                    Main.beanDishController().addInDishIngredient(dish.getId(), selectDish.getId(), Double.parseDouble(nameField.getText()));
-                    dishIngredientData.clear();
-                    dishIngredientData.addAll(Main.beanDishController().selectAllIngredientsDish(dish.getId()));
+                    DishIngredient dishIngredient = new DishIngredient(dish.getId(), selectDish, Integer.parseInt(nameField.getText()));
+
+                    DishIngredient ingredient = Main.beanDishController().findInDishIngredient(dishIngredient);
+                    if (ingredient == null){
+                        Main.beanDishController().addInDishIngredient(dishIngredient);
+                        dishIngredientData.add(dishIngredient);
+                    } else {
+                        ingredient.setQuantity(dishIngredient.getQuantity() + ingredient.getQuantity());
+                        Main.beanDishController().updateInDishIngredient(ingredient);
+                        for(int i = 0; i < dishIngredientData.size(); i++){
+                            if(dishIngredientData.get(i).getIdIngredient().getId() == ingredient.getIdIngredient().getId()){
+                                dishIngredientData.set(i, ingredient);
+                                break;
+                            }
+                        }
+                    }
+
                     ingredientTableView.setItems(dishIngredientData);
                 } else {
                     alertAndErrorMessages.unspecifiedDialog();
@@ -114,7 +136,7 @@ public class ViewsIngredientsForDish {
             case "butDelete":
                 if (selectedIndex >= 0) {
                     ingredientTableView.getItems().remove(selectedIndex);
-                    Main.beanDishController().deleteIngredientsWithThisDish(selectDish.getId());
+                    Main.beanDishController().deleteIngredientsWithThisDish(ingredientTableView.getSelectionModel().getSelectedItem());
                 } else {// Ничего не выбрано.
                     alertAndErrorMessages.unspecifiedDialog();
                 }
@@ -122,4 +144,5 @@ public class ViewsIngredientsForDish {
         }
 
     }
+
 }

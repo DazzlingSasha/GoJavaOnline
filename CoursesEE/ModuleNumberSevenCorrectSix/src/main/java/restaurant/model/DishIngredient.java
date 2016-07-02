@@ -15,15 +15,12 @@ public class DishIngredient {
     private int id;
 
 //    @ManyToOne
-//    @Column(name = "id_dish")
-//    private Dish idDish;
+    @Column(name = "id_dish")
+    private int idDish;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "ingredients_for_dish",
-    joinColumns = @JoinColumn(name = "id_dish"),
-    inverseJoinColumns = @JoinColumn(name = "id_ingredient")
-    )
-    private List<Ingredient> idIngredient;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "id_ingredient")
+    private Ingredient idIngredient;
 
 //    private String nameIngredient;
 
@@ -31,6 +28,17 @@ public class DishIngredient {
     private double quantity;
 
     public DishIngredient() {
+    }
+
+    public DishIngredient(Ingredient idIngredient, double quantity) {
+        this.idIngredient = idIngredient;
+        this.quantity = quantity;
+    }
+
+    public DishIngredient(int idDish, Ingredient idIngredient, double quantity) {
+        this.idDish = idDish;
+        this.idIngredient = idIngredient;
+        this.quantity = quantity;
     }
 
     public int getId() {
@@ -41,11 +49,11 @@ public class DishIngredient {
         this.id = id;
     }
 
-    public List<Ingredient> getIdIngredient() {
+    public Ingredient getIdIngredient() {
         return idIngredient;
     }
 
-    public void setIdIngredient(List<Ingredient> idIngredient) {
+    public void setIdIngredient(Ingredient idIngredient) {
         this.idIngredient = idIngredient;
     }
 
@@ -57,27 +65,30 @@ public class DishIngredient {
         this.quantity = quantity;
     }
 
-    //    public Dish getIdDish() {
-//        return idDish;
-//    }
-//
-//    public void setIdDish(int idDish) {
-//        this.idDish.setId(idDish);
-//    }
+    public int getIdDish() {
+        return idDish;
+    }
 
-    //    public List<Ingredient> getIdIngredient() {
-//        return idIngredient.get(idDish.getId());
-//    }
-//
-//    public void setIdIngredient(int idIngredient) {
-//        this.idIngredient.setId(idIngredient);
-//    }
+    public void setIdDish(int idDish) {
+        this.idDish = idDish;
+    }
 
-//    public String getNameIngredient() {
-//        return idIngredient.getName();
-//    }
-//
-//    public void setNameIngredient(String nameIngredient) {
-//        this.idIngredient.setName(nameIngredient);
-//    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DishIngredient that = (DishIngredient) o;
+
+        if (idDish != that.idDish) return false;
+        return idIngredient != null ? idIngredient.equals(that.idIngredient) : that.idIngredient == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = idDish;
+        result = 31 * result + (idIngredient != null ? idIngredient.hashCode() : 0);
+        return result;
+    }
 }

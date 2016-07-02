@@ -37,7 +37,7 @@ public class EditWarehouse{
         addInComboBox();
         idIngredientColumn.setValue(warehouse.getIdIngredient());
         quantityColumn.setText(Double.toString(warehouse.getQuantity()));
-        unitColumn.setText(warehouse.getUnit());
+
     }
 
     private void addInComboBox() {
@@ -56,7 +56,6 @@ public class EditWarehouse{
             warehouse.setIdIngredient(idIngredientColumn.getSelectionModel().getSelectedItem());
             warehouse.setItemWithDatabaseIngredients(idIngredientColumn.getSelectionModel().getSelectedItem().getName());
             warehouse.setQuantity(Double.parseDouble(quantityColumn.getText()));
-            warehouse.setUnit(unitColumn.getText());
 
             okClicked = true;
             dialogStage.close();
@@ -75,7 +74,7 @@ public class EditWarehouse{
             errorMessage.append("No valid ComboBox Ingredient!\n");
         }
         errorMessage.append(alertAndErrorMessages.validDoubleAndNull(quantityColumn, "quantity"));
-        errorMessage.append(alertAndErrorMessages.validStringField(unitColumn, "unit"));
+
 
         if (errorMessage.length() == 0) {
             return true;
