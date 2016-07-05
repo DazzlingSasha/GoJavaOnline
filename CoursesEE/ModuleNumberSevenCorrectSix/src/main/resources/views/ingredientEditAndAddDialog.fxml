@@ -21,10 +21,10 @@
             <children>
                 <Label prefHeight="17.0" prefWidth="101.0" text="First Name" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
 
-                <Label prefHeight="17.0" prefWidth="101.0" text="Unit" GridPane.columnIndex="0" GridPane.rowIndex="0"/>
+                <Label prefHeight="17.0" prefWidth="101.0" text="Unit" GridPane.columnIndex="0" GridPane.rowIndex="1"/>
 
-                <TextField fx:id="nameField" prefHeight="25.0" prefWidth="176.0" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.rowIndex="1"/>
-                <TextField fx:id="unit" prefHeight="50.0" prefWidth="176.0" GridPane.columnIndex="1" GridPane.columnSpan="1" GridPane.rowIndex="1"/>
+                <TextField fx:id="nameField" prefHeight="25.0" prefWidth="176.0" GridPane.columnIndex="1"  GridPane.rowIndex="0"/>
+                <TextField fx:id="unit" prefHeight="25.0" prefWidth="176.0" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
 
                 <Button defaultButton="true" mnemonicParsing="false" onAction="#handleOk" prefWidth="90.0" text="OK" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                 <Button cancelButton="true" mnemonicParsing="false" onAction="#handleCancel" prefWidth="90.0" text="Cancel" GridPane.columnIndex="2" GridPane.rowIndex="2" />

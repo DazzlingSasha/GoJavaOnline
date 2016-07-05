@@ -9,13 +9,16 @@ import restaurant.Main;
 import restaurant.model.Ingredient;
 import restaurant.model.Warehouse;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class EditWarehouse{
 
     @FXML
     public ComboBox<Ingredient> idIngredientColumn;
     @FXML
     public TextField quantityColumn;
-    @FXML
+
     public TextField unitColumn;
 
     @FXML
@@ -34,16 +37,33 @@ public class EditWarehouse{
     public void setUser(Warehouse warehouse) {
         this.warehouse = warehouse;
         idIngredientColumn.setPromptText("New item");
-        addInComboBox();
-        idIngredientColumn.setValue(warehouse.getIdIngredient());
+
+        if(warehouse.getIdIngredient() == null) {
+            addInComboBox();
+        } else {
+            idIngredientColumn.setValue(warehouse.getIdIngredient());
+        }
+
         quantityColumn.setText(Double.toString(warehouse.getQuantity()));
 
     }
 
     private void addInComboBox() {
-        for (Ingredient item : Main.beanIngredientController().selectAll()) {
-            idIngredientColumn.getItems().add(item);
+        List<Ingredient> arrIngredients = new ArrayList<>();
+        arrIngredients.addAll(Main.beanIngredientController().selectAll());
+        List<Warehouse> arrWarehouse = new ArrayList<>();
+        arrWarehouse.addAll(Main.beanWarehouseController().selectAll());
+
+        for (int k = 0; k < arrWarehouse.size(); k++) {
+            for(int i = 0; i < arrIngredients.size(); i++){
+                if(arrIngredients.get(i).equals(arrWarehouse.get(k).getIdIngredient())){
+                    arrIngredients.remove(i);
+                    break;
+                }
+            }
         }
+
+        idIngredientColumn.getItems().addAll(arrIngredients);
     }
 
     public boolean isOkClicked() {
