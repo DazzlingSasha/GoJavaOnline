@@ -8,24 +8,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import restaurant.model.Cook;
 import restaurant.model.PreparedDish;
 import restaurant.model.Hibernate.PreparedDishDao;
 
 import java.util.List;
 
 public class PreparedController implements MainMethodControllers<PreparedDish> {
-    private DataSourceTransactionManager txManager;
-    private PreparedDishDao preparedDishDao;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(PreparedController.class);
     private SessionFactory sessionFactory;
-
-    public void setTxManager(DataSourceTransactionManager txManager) {
-        this.txManager = txManager;
-    }
-
-    public void setPreparedDishDao(PreparedDishDao preparedDishDao) {
-        this.preparedDishDao = preparedDishDao;
-    }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
@@ -33,7 +25,7 @@ public class PreparedController implements MainMethodControllers<PreparedDish> {
         LOGGER.info("Add new prepared Dish in Database to order №" + item.getIdOrder());
         Session session = sessionFactory.getCurrentSession();
         session.save(item);
-//        preparedDishDao.createInPreparedDish(item);
+        session.flush();
     }
 
     @Override
@@ -42,7 +34,6 @@ public class PreparedController implements MainMethodControllers<PreparedDish> {
         LOGGER.info("Select all dishes prepared and not prepared");
         Session session = sessionFactory.getCurrentSession();
         return session.createQuery("select pd from PreparedDish pd").list();
-//        return preparedDishDao.allInfoAboutPreparedDish();
     }
 
     @Override
@@ -51,7 +42,6 @@ public class PreparedController implements MainMethodControllers<PreparedDish> {
         LOGGER.info("Delete prepared dish by id: "+ preparedDish.getNameDish());
         Session session = sessionFactory.getCurrentSession();
         session.delete(preparedDish);
-//        preparedDishDao.deletePreparedDish(id);
     }
 
     @Override
@@ -59,11 +49,12 @@ public class PreparedController implements MainMethodControllers<PreparedDish> {
     public void updateInDatabase(PreparedDish item) {
         LOGGER.info("Status dish cooked!");
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("update PreparedDish pd set pd.prepared = 1 where pd.id =:id");
-        query.setParameter("id", item.getId());
-        query.executeUpdate();
+        session.update(item);
+//        Query query = session.createQuery("update PreparedDish pd set pd.prepared = 1 where pd.id =:id");
+//        query.setParameter("id", item.getId());
+//        query.executeUpdate();
+        session.flush();
         LOGGER.info("Status dish cooked prepared "+ item.getPrepared());
-//        preparedDishDao.updateStatusCooked(item);
 //        String query = "UPDATE PREPARED_DISH SET PREPARED_DISH = 1 WHERE id = ?";
     }
 
@@ -75,7 +66,6 @@ public class PreparedController implements MainMethodControllers<PreparedDish> {
         Query query = session.createQuery("select pd from PreparedDish pd where id =:id");
         query.setParameter("id", id);
         return (PreparedDish) query.uniqueResult();
-//        return preparedDishDao.findByIdPreparedDish(id);
     }
 
     @Override
@@ -91,27 +81,34 @@ public class PreparedController implements MainMethodControllers<PreparedDish> {
         Query query = session.createQuery("select pd from PreparedDish pd where pd.idOrder.id =:id");
         query.setParameter("id", numberOrder);
         return query.list();
-//        return preparedDishDao.allDishesThisOrder(numberOrder);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public List<PreparedDish> selectAllPreparedCook(Cook cook) {
+        LOGGER.info("Select all not prepared dishes");
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select pd from PreparedDish pd where pd.idOrder.closeOrOpenOrder = 1 and pd.prepared =:cook");
+        query.setParameter("cook", cook);
+        return query.list();
+//        ORDER_WAITER.open_close = 1 AND PREPARED_DISH.prepared_dish = 0";
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
     public List<PreparedDish> selectAllPrepared() {
         LOGGER.info("Select all prepared dishes");
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select pd from PreparedDish pd where pd.idOrder.closeOrOpenOrder = 1 and pd.prepared = 1");
+        Query query = session.createQuery("select pd from PreparedDish pd where pd.idOrder.closeOrOpenOrder = 1 and pd.prepared != null ");
         return query.list();
 //        WHERE ORDER_WAITER.open_close = 1 AND PREPARED_DISH.prepared_dish = 1";
-//        return preparedDishDao.allPreparedDish();
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
     public List<PreparedDish> selectAllNotPrepared() {
         LOGGER.info("Select all not prepared dishes");
         Session session = sessionFactory.getCurrentSession();
-        Query query = session.createQuery("select pd from PreparedDish pd where pd.idOrder.closeOrOpenOrder = 1 and pd.prepared = 0");
+        Query query = session.createQuery("select pd from PreparedDish pd where pd.idOrder.closeOrOpenOrder = 1 and pd.prepared is null");
         return query.list();
 //        ORDER_WAITER.open_close = 1 AND PREPARED_DISH.prepared_dish = 0";
-//        return preparedDishDao.allNotPreparedDish();
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
@@ -120,8 +117,6 @@ public class PreparedController implements MainMethodControllers<PreparedDish> {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("delete from PreparedDish pd where pd.idOrder.id =:id");
         query.setParameter("id", idOrder);
-
-//        preparedDishDao.deleteAllDishesByOrder(idOrder);
     }
 
     public void setSessionFactory(SessionFactory sessionFactory) {

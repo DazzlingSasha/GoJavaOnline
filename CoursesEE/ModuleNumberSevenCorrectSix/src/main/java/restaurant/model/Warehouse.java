@@ -20,8 +20,6 @@ public class Warehouse {
     @Column(name = "quantity")
     private double quantity;
 
-//    @Column(name = "unit")
-//    private String unit;
 
     public int getId() {
         return id;
@@ -39,9 +37,7 @@ public class Warehouse {
         return quantity;
     }
 
-    public String getUnit() {
-        return idIngredient.getUnit();
-    }
+
 
 
 
@@ -61,9 +57,6 @@ public class Warehouse {
         this.quantity = quantity;
     }
 
-//    public void setUnit(String unit) {
-//        this.unit = unit;
-//    }
 
     @Override
     public String toString() {

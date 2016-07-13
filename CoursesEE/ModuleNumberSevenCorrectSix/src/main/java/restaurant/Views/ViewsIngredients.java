@@ -15,9 +15,11 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.hibernate.Session;
 import restaurant.AlertAndErrorMessages;
 import restaurant.Main;
 import restaurant.model.Ingredient;
+import restaurant.model.Users;
 
 import java.io.IOException;
 import java.util.List;
@@ -94,6 +96,12 @@ public class ViewsIngredients {
 
             case "butSelectAll":
                 ingredientData.clear();
+                Session session = Main.getSessionFactory().openSession();
+                int index = 1;
+                for (Ingredient user : Main.beanIngredientController().selectAll()) {
+                    session.load(user, index++);
+                }
+                session.close();
                 ingredientData.addAll(Main.beanIngredientController().selectAll());
                 ingredientTableView.setItems(ingredientData);
                 break;

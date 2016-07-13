@@ -16,19 +16,7 @@ import java.util.List;
 
 public class DishController implements MainMethodControllers<Dish> {
     private static final Logger LOGGER = LoggerFactory.getLogger(DishController.class);
-    private PlatformTransactionManager txManager;
-
-    private DishDao dishDao;
     private SessionFactory sessionFactory;
-
-    public void setTxManager(PlatformTransactionManager txManager) {
-        this.txManager = txManager;
-    }
-
-    public void setDishDao(DishDao dishDao) {
-        this.dishDao = dishDao;
-    }
-
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)

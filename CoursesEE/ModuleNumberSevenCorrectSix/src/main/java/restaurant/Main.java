@@ -5,12 +5,15 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import restaurant.controllers.*;
 
 public class Main extends Application {
     private static ApplicationContext context;
+    private static SessionFactory sessionFactory;
 
     public static void main(String[] args) {
         context = new ClassPathXmlApplicationContext("applicationContext.xml", "hibernateContext.xml");
@@ -32,7 +35,7 @@ public class Main extends Application {
     }
 
     public static DishController beanDishController() {
-         return (DishController) context.getBean("dishController");
+        return (DishController) context.getBean("dishController");
     }
 
     public static WarehouseController beanWarehouseController() {
@@ -40,7 +43,7 @@ public class Main extends Application {
     }
 
     public static IngredientController beanIngredientController() {
-        return  context.getBean(IngredientController.class);
+        return context.getBean(IngredientController.class);
     }
 
     public static OrderController beanOrderController() {
@@ -53,5 +56,13 @@ public class Main extends Application {
 
     public static MenuController beanMenuController() {
         return context.getBean(MenuController.class);
+    }
+
+    public static SessionFactory getSessionFactory() {
+        return sessionFactory;
+    }
+
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
     }
 }

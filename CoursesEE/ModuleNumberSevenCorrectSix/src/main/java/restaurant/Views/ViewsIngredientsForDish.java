@@ -45,8 +45,9 @@ public class ViewsIngredientsForDish {
         nameDish.setText(dish.getId() + " " + dish.getName());
 
         butSelectIngredients.getItems().addAll(Main.beanIngredientController().selectAll());
-//        dishIngredientData.addAll(Main.beanDishController().selectAllIngredientsDish(dish.getId()));
+
         dishIngredientData.addAll(Main.beanDishController().selectAllIngredientsDish(dish.getId()));
+
         idColumn.setCellValueFactory(new PropertyValueFactory<DishIngredient, Integer>("idDish"));
         nameIngredientColumn.setCellValueFactory(new PropertyValueFactory<DishIngredient, String>("idIngredient"));
         quantityColumn.setCellValueFactory(new PropertyValueFactory<DishIngredient, Double>("quantity"));

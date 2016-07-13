@@ -3,6 +3,7 @@ package restaurant;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import restaurant.model.Warehouse;
 
 public class AlertAndErrorMessages {
 
@@ -12,6 +13,30 @@ public class AlertAndErrorMessages {
         alert.setTitle("Invalid Fields");
         alert.setHeaderText("Please correct invalid fields");
         alert.setContentText(errorMessage);
+
+        alert.showAndWait();
+    }
+
+    public void dialogNotAllIngredients(Stage dialogStage, String errorMessage){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.initOwner(dialogStage);
+        alert.setTitle("Add Ingredients on the Warehouse");
+        alert.setHeaderText("The Warehouse is not necessary ingredients:");
+        alert.setContentText(errorMessage);
+
+        alert.showAndWait();
+    }
+    public void dialogEndsWarehouse(Stage dialogStage){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.initOwner(dialogStage);
+        alert.setTitle("Warehouse");
+        alert.setHeaderText("All Goods is ending < 10");
+
+        StringBuilder sb = new StringBuilder();
+        for(Warehouse warehouse : Main.beanWarehouseController().findEndsItemsInWarehouse()){
+            sb.append(warehouse.getIdIngredient().getName()).append(" quantity = ").append(warehouse.getQuantity()).append("\n");
+        }
+        alert.setContentText(sb.toString());
 
         alert.showAndWait();
     }

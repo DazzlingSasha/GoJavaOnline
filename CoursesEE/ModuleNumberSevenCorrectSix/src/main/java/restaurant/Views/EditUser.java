@@ -53,7 +53,6 @@ public class EditUser {
         positionUserField.setPromptText("Position");
         positionUserField.getItems().addAll(Position.values());
         positionUserField.setValue(user.getPositionUser());
-//        positionUserField.setItems(position[user.getPositionUser().ordinal()].toString());
 
         salaryField.setText(Integer.toString(user.getSalary()));
     }

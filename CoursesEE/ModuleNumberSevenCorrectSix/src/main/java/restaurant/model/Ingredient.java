@@ -1,11 +1,17 @@
 package restaurant.model;
 
-import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.*;
+
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "ingredients")
-public class Ingredient {
+@Cacheable(true)
+@org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_ONLY, region = "ingredients")
+public class Ingredient implements Serializable {
 
     @Id
     @GeneratedValue(generator = "increment")
@@ -27,6 +33,10 @@ public class Ingredient {
         this.name = name;
     }
 
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
     public int getId() {
         return id;
     }
@@ -37,10 +47,6 @@ public class Ingredient {
 
     public String getUnit() {
         return unit;
-    }
-
-    public void setUnit(String unit) {
-        this.unit = unit;
     }
 
     @Override

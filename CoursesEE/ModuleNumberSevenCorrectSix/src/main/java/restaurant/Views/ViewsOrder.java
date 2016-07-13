@@ -190,6 +190,7 @@ public class ViewsOrder {
             if(addOrEdit == 1) {
                 EditOrder controller =  getEditOrder(order, dialogStage, loader);
                 dialogStage.showAndWait();
+                alertAndErrorMessages.dialogEndsWarehouse(dialogStage);
                 return controller.isOkClicked();
             } else {
                 AddOrder controller =  getAddOrder(order, dialogStage, loader);

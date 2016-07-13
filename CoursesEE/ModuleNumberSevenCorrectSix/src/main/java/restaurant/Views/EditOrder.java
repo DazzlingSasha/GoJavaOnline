@@ -9,9 +9,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import restaurant.AlertAndErrorMessages;
 import restaurant.Main;
-import restaurant.model.Dish;
-import restaurant.model.OrderWaiter;
-import restaurant.model.PreparedDish;
+import restaurant.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,25 +34,26 @@ public class EditOrder {
 
     private Stage dialogStage;
     private OrderWaiter order;
-    private PreparedDish preparedDish;
     private boolean okClicked = false;
+    private static List<Dish> listDises;
+
     private AlertAndErrorMessages alertAndErrorMessages = new AlertAndErrorMessages();
 
     public void setDialogStage(Stage dialogStage) {
         this.dialogStage = dialogStage;
     }
-
     @FXML
     private TableView<PreparedDish> tablePrepared;
     @FXML
     private TableColumn<PreparedDish, Integer> idPreparedColumn;
     @FXML
     private TableColumn<PreparedDish, String> namePreparedColumn;
-    @FXML
-    private TableColumn<PreparedDish, String> categoryPreparedColumn;
 
     @FXML
+    private TableColumn<PreparedDish, String> categoryPreparedColumn;
+    @FXML
     public Label nameUser;
+
     @FXML
     public Label numberTable;
 
@@ -62,7 +61,7 @@ public class EditOrder {
         this.order = order;
 
         nameUser.setText(order.getNameUser());
-        numberTable.setText(order.getNumberTable()+"");
+        numberTable.setText(order.getNumberTable() + "");
 
         //-----------------------------first initialize the second table------------------------------------------------
         dishData.addAll(Main.beanDishController().selectAll());
@@ -81,6 +80,14 @@ public class EditOrder {
         categoryPreparedColumn.setCellValueFactory(new PropertyValueFactory<PreparedDish, String>("categoryDish"));
 
         tablePrepared.setItems(preparedData);
+        listDishesOrder();
+    }
+
+    private void listDishesOrder() {
+        listDises = new ArrayList<>();
+        for (PreparedDish pDish : tablePrepared.getItems()) {
+            listDises.add(pDish.getIdDish());
+        }
     }
 
     public boolean isOkClicked() {
@@ -95,13 +102,16 @@ public class EditOrder {
             dialogStage.close();
         }
     }
-private static String editDishes(){
-    StringBuilder sb = new StringBuilder();
-    for(int i =0; i < listDises.size(); i++){
-        sb.append(listDises.get(i).getName()).append("\n");
+
+
+    private static String editDishes() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < listDises.size(); i++) {
+            sb.append(listDises.get(i).getName()).append("\n");
+        }
+        return sb.toString();
     }
-    return sb.toString();
-}
+
     @FXML
     private void handleCancel() {
         dialogStage.close();
@@ -118,25 +128,74 @@ private static String editDishes(){
 
 
     }
-    private static List<Dish> listDises = new ArrayList<>();
+
     public void ActionAdd(ActionEvent actionEvent) {
         PreparedDish addInDishToOrder = new PreparedDish();
 //        order.setIdsDishes(Integer.toString(preparedData.size()+1));
         Dish dish = tableDish.getSelectionModel().getSelectedItem();
-        listDises.add(dish);
-        addInDishToOrder.setIdDish(dish);
-        addInDishToOrder.setIdUser(order.getId_user());
-        addInDishToOrder.setIdOrder(order);
-        addInDishToOrder.setNameDish(dish.getName());
 
-        Main.beanPreparedController().addInDatabase(addInDishToOrder);
-        preparedData.add(addInDishToOrder);
-        tablePrepared.setItems(preparedData);
+        if (inStock(dish)) {
+            listDises.add(dish);
+            addInDishToOrder.setIdDish(dish);
+            addInDishToOrder.setIdUser(order.getId_user());
+            addInDishToOrder.setIdOrder(order);
+            addInDishToOrder.setNameDish(dish.getName());
+
+            Main.beanPreparedController().addInDatabase(addInDishToOrder);
+            preparedData.add(addInDishToOrder);
+            tablePrepared.setItems(preparedData);
+        }
+    }
+
+    private boolean inStock(Dish dish) {
+        List<Ingredient> listIngredientsForDish = dish.getIdIngredient();
+        StringBuilder sb = new StringBuilder();
+        int allTrue = 0;
+        for (int i = 0; i < listIngredientsForDish.size(); i++) {
+            Warehouse warehouse = Main.beanWarehouseController().findByIngredient(listIngredientsForDish.get(i));
+            DishIngredient dishIngredient = new DishIngredient(dish.getId(), listIngredientsForDish.get(i));
+            double onceIngredient = Main.beanDishController().findInDishIngredient(dishIngredient).getQuantity();
+            if (warehouse.getQuantity() >= onceIngredient) {
+                allTrue++;
+            } else {
+                sb.append("Ingredients: ").append(warehouse.getIdIngredient().getName());
+                sb.append(" quality: ").append(warehouse.getQuantity()).append(" and you must ");
+                sb.append("quality: ").append(onceIngredient).append("\n");
+            }
+        }
+        if (listIngredientsForDish.size() == allTrue) {
+            System.out.println("Ok");
+            pickUpFromWarehouse(dish, true);
+            return true;
+        } else {
+            alertAndErrorMessages.dialogNotAllIngredients(dialogStage, sb.toString());
+            return false;
+        }
+    }
+
+    private void pickUpFromWarehouse(Dish dish, boolean addOrDelete) {
+        List<Ingredient> listIngredientsForDish = dish.getIdIngredient();
+
+        for (int i = 0; i < listIngredientsForDish.size(); i++) {
+            Warehouse warehouse = Main.beanWarehouseController().findByIngredient(listIngredientsForDish.get(i));
+            DishIngredient dishIngredient = new DishIngredient(dish.getId(), listIngredientsForDish.get(i));
+            double onceIngredient = Main.beanDishController().findInDishIngredient(dishIngredient).getQuantity();
+
+            if (addOrDelete) {
+                warehouse.setQuantity(warehouse.getQuantity() - onceIngredient);
+            } else {
+                warehouse.setQuantity(warehouse.getQuantity() + onceIngredient);
+            }
+            Main.beanWarehouseController().updateInDatabase(warehouse);
+        }
+
     }
 
     public void ActionDelete(ActionEvent actionEvent) {
         int selectedIndex = tablePrepared.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0) {
+            Dish dish = tablePrepared.getSelectionModel().getSelectedItem().getIdDish();
+            pickUpFromWarehouse(dish, false);
             tablePrepared.getItems().remove(selectedIndex);
             Main.beanPreparedController().deleteWithDatabase(tablePrepared.getSelectionModel().getSelectedItem());
             listDises = setRemoveDish(tablePrepared.getSelectionModel().getSelectedItem().getIdDish());
@@ -145,10 +204,10 @@ private static String editDishes(){
         }
     }
 
-    private static List<Dish> setRemoveDish(Dish dish){
+    private static List<Dish> setRemoveDish(Dish dish) {
         int index = 0;
-        for(int i =0; i < listDises.size(); i++){
-            if(listDises.get(i).equals(dish)){
+        for (int i = 0; i < listDises.size(); i++) {
+            if (listDises.get(i).equals(dish)) {
                 index = i;
                 break;
             }

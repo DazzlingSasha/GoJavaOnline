@@ -8,10 +8,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import restaurant.AlertAndErrorMessages;
 import restaurant.Main;
-import restaurant.model.Dish;
-import restaurant.model.OrderWaiter;
-import restaurant.model.PreparedDish;
-import restaurant.model.Users;
+import restaurant.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +39,7 @@ public class AddOrder {
     }
 
     private void addInComboBox() {
-        for (Users item : Main.beanUserController().allUsersWaiter()) {
+        for (Waiter item : Main.beanUserController().allUsersWaiter()) {
             userColumn.getItems().add(item);
         }
     }

@@ -1,14 +1,17 @@
 package restaurant.model;
-
-import org.hibernate.annotations.GenericGenerator;
-import restaurant.model.Position;
+import org.hibernate.annotations.*;
+import org.hibernate.annotations.Cache;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import java.io.Serializable;
 import java.sql.Date;
 
 @Entity
 @Table(name = "users")
-public class Users {
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+public class Users implements Serializable {
 
     @Id
     @GeneratedValue(generator = "increment")

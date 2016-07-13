@@ -13,9 +13,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import org.hibernate.Session;
 import restaurant.AlertAndErrorMessages;
 import restaurant.Main;
+import restaurant.model.Cook;
+import restaurant.model.Position;
 import restaurant.model.Users;
+import restaurant.model.Waiter;
 
 import java.io.IOException;
 
@@ -136,7 +140,7 @@ public class ViewsUser {
 
     @FXML
     private void handleNewUser(ActionEvent actionEvent) {
-        Users user = new Users();
+        Users user = selectUser();
         boolean okClicked = showPersonEditDialog(actionEvent, user);
         System.out.println(okClicked);
         if (okClicked) {
@@ -144,6 +148,30 @@ public class ViewsUser {
             usersData.add(user);
             tableUsers.setItems(usersData);
         }
+    }
+
+    private Users selectUser() {
+        Users user;
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Add new Employee");
+        alert.setHeaderText("Select employee");
+        ComboBox<Position> positionUserField = new ComboBox<>();
+        positionUserField.getItems().addAll(Position.values());
+        alert.setContentText("Please select a user in the table");
+        alert.setGraphic(positionUserField);
+        alert.showAndWait();
+
+        if (positionUserField.getSelectionModel().getSelectedItem().name().equals("WAITER")) {
+            user = new Waiter();
+            user.setPositionUser(positionUserField.getSelectionModel().getSelectedItem());
+        } else if (positionUserField.getSelectionModel().getSelectedItem().name().equals("COOK")) {
+            user = new Cook();
+            user.setPositionUser(positionUserField.getSelectionModel().getSelectedItem());
+        } else {
+            user = new Users();
+        }
+
+        return user;
     }
 
     @FXML
@@ -184,7 +212,6 @@ public class ViewsUser {
         }
         return false;
     }
-
 
 
 }

@@ -3,29 +3,32 @@ package restaurant.controllers;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.stat.Statistics;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import restaurant.model.Cook;
 import restaurant.model.Position;
 import restaurant.model.Users;
-import restaurant.model.Hibernate.UsersDao;
+import restaurant.model.Waiter;
 
 import java.util.List;
+import java.util.Map;
 
 public class UsersController implements MainMethodControllers<Users> {
     private static final Logger LOGGER = LoggerFactory.getLogger(UsersController.class);
-    private UsersDao usersDao;
-
     SessionFactory sessionFactory;
+    private HibernateTransactionManager txManager;
 
+    public void setTxManager(HibernateTransactionManager txManager) {
+        this.txManager = txManager;
+    }
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
-    }
-
-    public void setUsersDao(UsersDao usersDao) {
-        this.usersDao = usersDao;
     }
 
     @Override
@@ -41,7 +44,8 @@ public class UsersController implements MainMethodControllers<Users> {
     public List<Users> selectAll() {
         LOGGER.info("Select all users!");
         Session session = sessionFactory.getCurrentSession();
-        return session.createQuery("select u from Users u").list();
+        Query query = session.createQuery("select u from Users u");
+        return query.list();
     }
 
     @Override
@@ -66,6 +70,8 @@ public class UsersController implements MainMethodControllers<Users> {
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select u from Users u where u.id =:id");
         query.setParameter("id", id);
+        query.setCacheable(true);
+        query.setCacheRegion("users");
         return (Users) query.uniqueResult();
     }
 
@@ -81,11 +87,22 @@ public class UsersController implements MainMethodControllers<Users> {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
-    public List<Users> allUsersWaiter() {
+    public List<Waiter> allUsersWaiter() {
         LOGGER.info("Select all users waiter ");
         Session session = sessionFactory.getCurrentSession();
         Query query = session.createQuery("select u from Users u where u.positionUser =:position");
         query.setParameter("position", Position.WAITER);
         return query.list();
     }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public List<Cook> allUsersCook() {
+        LOGGER.info("Select all users cook ");
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select u from Users u where u.positionUser =:position");
+        query.setParameter("position", Position.COOK);
+        return query.list();
+    }
+
+
 }

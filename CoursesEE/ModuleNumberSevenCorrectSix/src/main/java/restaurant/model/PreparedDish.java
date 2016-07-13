@@ -34,8 +34,9 @@ public class PreparedDish {
     @Column(name = "data_dish")
     private Date datePreparedDish;
 
-    @Column(name = "prepared_dish")
-    private int prepared;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "prepared_dish")
+    private Cook prepared;
 
     public int getId() {
         return id;
@@ -101,18 +102,13 @@ public class PreparedDish {
         return datePreparedDish;
     }
 
-    public void setPrepared(int prepared) {
+    public void setPrepared(Cook prepared) {
         this.prepared = prepared;
     }
 
-    public int getPrepared() {
+    public Cook getPrepared() {
         return prepared;
     }
-
-//    public void formatDatePreparedDish(Time datePreparedDish) {
-//        SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-//        this.datePreparedDish = f.format(datePreparedDish);
-//    }
 
     @Override
     public String toString() {

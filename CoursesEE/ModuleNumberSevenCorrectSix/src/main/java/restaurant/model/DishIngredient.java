@@ -35,6 +35,11 @@ public class DishIngredient {
         this.quantity = quantity;
     }
 
+    public DishIngredient(int idDish, Ingredient idIngredient) {
+        this.idDish = idDish;
+        this.idIngredient = idIngredient;
+    }
+
     public DishIngredient(int idDish, Ingredient idIngredient, double quantity) {
         this.idDish = idDish;
         this.idIngredient = idIngredient;

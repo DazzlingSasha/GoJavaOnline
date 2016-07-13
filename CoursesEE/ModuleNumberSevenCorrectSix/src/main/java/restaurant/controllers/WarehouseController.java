@@ -78,6 +78,14 @@ public class WarehouseController implements MainMethodControllers<Warehouse>{
 //        return warehouseDao.endsItemsInWarehouseJOINIngredients();
     }
 
+    @Transactional(propagation = Propagation.REQUIRED)
+    public Warehouse findByIngredient(Ingredient ingredient) {
+        LOGGER.info("Find ingredient = " + ingredient.getName() + " id ingredient = "+ ingredient.getId());
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("SELECT w FROM Warehouse w WHERE w.idIngredient =:idIngredient");
+        query.setParameter("idIngredient", ingredient);
+        return (Warehouse) query.uniqueResult();
+    }
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
