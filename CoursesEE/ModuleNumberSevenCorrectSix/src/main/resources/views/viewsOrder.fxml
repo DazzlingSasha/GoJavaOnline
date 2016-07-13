@@ -27,6 +27,8 @@
             </font>
         </Label>
 
+        <ComboBox fx:id="butSelectWaiter" layoutX="400.0" layoutY="7.0" prefWidth="100.0" promptText="select waiter" />
+
         <Button fx:id="butCloseOrder" layoutX="113.0" layoutY="39.0" maxWidth="130.0" minWidth="130.0"
                 mnemonicParsing="false" onAction="#ActionOrder" prefWidth="130.0" text="Close order"/>
         <Button fx:id="butSelectAllOpen" layoutX="517.0" layoutY="7.0" maxWidth="100.0" minWidth="100.0"

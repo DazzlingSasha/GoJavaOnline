@@ -9,6 +9,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -17,11 +18,13 @@ import javafx.stage.Stage;
 import restaurant.AlertAndErrorMessages;
 import restaurant.Main;
 import restaurant.model.OrderWaiter;
+import restaurant.model.Waiter;
 
 import java.io.IOException;
 
 
 public class ViewsOrder {
+
 
 
     private ObservableList<OrderWaiter> orderData = FXCollections.observableArrayList();
@@ -39,9 +42,15 @@ public class ViewsOrder {
     public TableColumn<OrderWaiter, Integer> tableColumn;
     @FXML
     public TableColumn<OrderWaiter, Integer> openOrCloseColumn;
+    @FXML
+    public ComboBox<Waiter> butSelectWaiter;
 
     @FXML
     private void initialize() {
+        Waiter waiter = new Waiter();
+        waiter.setFirstName("All");
+        butSelectWaiter.getItems().add(waiter);
+        butSelectWaiter.getItems().addAll(Main.beanUserController().allUsersWaiter());
         initData();
         // устанавливаем тип и значение которое должно хранится в колонке
         idColumn.setCellValueFactory(new PropertyValueFactory<OrderWaiter, Integer>("id"));
@@ -71,6 +80,7 @@ public class ViewsOrder {
     public Button butSelectAllClose;
     @FXML
     public Button butSelectAll;
+
 
     public void ActionOrder(ActionEvent actionEvent) {
         Object source = actionEvent.getSource();
@@ -140,8 +150,13 @@ public class ViewsOrder {
 
             case "butSelectAll":
                 orderData.clear();
-                orderData.addAll(Main.beanOrderController().selectAll());
-                tableOrder.setItems(orderData);
+                if(butSelectWaiter.getSelectionModel().getSelectedIndex() > 0){
+                    orderData.addAll(butSelectWaiter.getSelectionModel().getSelectedItem().getOrder());
+                    tableOrder.setItems(orderData);
+                } else {
+                    orderData.addAll(Main.beanOrderController().selectAll());
+                    tableOrder.setItems(orderData);
+                }
                 break;
 
         }
