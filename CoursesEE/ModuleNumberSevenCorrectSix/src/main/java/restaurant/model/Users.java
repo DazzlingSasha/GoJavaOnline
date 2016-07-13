@@ -11,7 +11,7 @@ import java.sql.Date;
 @Entity
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Users implements Serializable {
+public class Users {
 
     @Id
     @GeneratedValue(generator = "increment")
