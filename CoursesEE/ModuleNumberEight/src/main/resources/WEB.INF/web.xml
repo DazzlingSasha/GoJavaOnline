@@ -16,12 +16,30 @@
         <servlet-class>com.todoList.servlets.HelloServlet</servlet-class>
     </servlet>
 
+    <servlet>
+        <servlet-name>index.jsp?add</servlet-name>
+        <servlet-class>com.todoList.servlets.AddServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>update</servlet-name>
+        <servlet-class>com.todoList.servlets.UpdateServlet</servlet-class>
+    </servlet>
+
     <servlet-mapping>
         <servlet-name>clock</servlet-name>
         <url-pattern>/clock</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>Hello</servlet-name>
-        <url-pattern>/hello</url-pattern>
+        <url-pattern>/hello1</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>index.jsp?add</servlet-name>
+        <url-pattern>/index.jsp?add</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>update</servlet-name>
+        <url-pattern>/index.jsp?update</url-pattern>
     </servlet-mapping>
 </web-app>
