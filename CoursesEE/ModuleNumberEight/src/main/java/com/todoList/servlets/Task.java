@@ -1,20 +1,50 @@
 package com.todoList.servlets;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class Task {
-    private static Map<String, String> task = new HashMap<>();
+    private int id;
+    private String name;
+    private String category;
+    private String styleClass = "addTask";
 
-    public static Map<String, String> getTask() {
-        return task;
+    public int getId() {
+        return id;
     }
 
-    public void setTask(Map<String, String> task) {
-        Task.task = task;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public static void addTask(String name, String category) {
-        task.put(name, category);
+    public String getName() {
+        return name;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getStyleClass() {
+        return styleClass;
+    }
+
+    public void setStyleClass(String styleClass) {
+        this.styleClass = styleClass;
+    }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", category='" + category + '\'' +
+                '}';
+    }
+
 }

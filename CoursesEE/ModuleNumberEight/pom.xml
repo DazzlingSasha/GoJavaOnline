@@ -23,7 +23,9 @@
                 <configuration>
                     <webXml>src/main/resources/WEB.INF/web.xml</webXml>
                     <warName>todo</warName>
-                    <!--<webResources>src/webapp</webResources>-->
+                    <webResources>
+                        <resource>src/main/webapp</resource>
+                    </webResources>
                 </configuration>
             </plugin>
         </plugins>
