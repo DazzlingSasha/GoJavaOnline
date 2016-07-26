@@ -21,35 +21,57 @@
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
                 <configuration>
-                    <webXml>src/main/resources/WEB.INF/web.xml</webXml>
                     <warName>todo</warName>
-                    <webResources>
-                        <resource>src/main/webapp</resource>
-                    </webResources>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
+    <properties>
+        <servlet-api>3.1.0</servlet-api>
+        <jsp-api>2.2</jsp-api>
+        <jstl>1.2</jstl>
+        <slf4j-api-version>1.7.21</slf4j-api-version>
+        <logback-version>1.1.7</logback-version>
+        <c3po-version>0.9.2.1</c3po-version>
+    </properties>
+
     <dependencies>
 
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
-            <version>3.1.0</version>
+            <version>${servlet-api}</version>
         </dependency>
         <dependency>
             <groupId>javax.servlet.jsp</groupId>
             <artifactId>jsp-api</artifactId>
-            <version>2.2</version>
+            <version>${jsp-api}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/jstl/jstl -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
-            <version>1.2</version>
+            <version>${jstl}</version>
             <!--<scope>provided</scope>-->
         </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j-api-version}</version>
+        </dependency>
 
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback-version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.mchange</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>${c3po-version}</version>
+        </dependency>
     </dependencies>
 
 </project>
