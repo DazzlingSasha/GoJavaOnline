@@ -1,0 +1,26 @@
+group 'com.panadiy.spring.mvc'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'war'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile group: 'org.springframework', name: 'spring-webmvc', version: '4.3.1.RELEASE'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.7'
+    compile group: 'javax.servlet', name: 'jstl', version: '1.2'
+    compile group: 'org.hibernate', name: 'hibernate-core', version: '5.2.1.Final'
+    compile group: 'postgresql', name: 'postgresql', version: '9.1-901-1.jdbc4'
+    compile group: 'org.springframework', name: 'spring-tx', version: '4.3.1.RELEASE'
+    compile group: 'org.springframework', name: 'spring-orm', version: '4.3.1.RELEASE'
+    compile group: 'com.mchange', name: 'c3p0', version: '0.9.5.2'
+    compile group: 'org.hibernate', name: 'hibernate-entitymanager', version: '5.1.0.Final'
+    compile group: 'org.hibernate', name: 'hibernate-ehcache', version: '5.2.1.Final'
+    compile group: 'net.sf.ehcache', name: 'ehcache-core', version: '2.5.1'
+}
