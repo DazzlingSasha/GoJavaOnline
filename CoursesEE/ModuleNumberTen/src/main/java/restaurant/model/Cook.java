@@ -1,0 +1,26 @@
+package restaurant.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.*;
+
+import javax.persistence.*;
+import javax.persistence.Entity;
+import java.util.List;
+
+@Entity
+public class Cook  extends Users{
+
+    @JsonIgnore
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "prepared_dish")
+    @Fetch(FetchMode.SELECT)
+    private List<PreparedDish> cookedDishes;
+
+    public List<PreparedDish> getCookedDishes() {
+        return cookedDishes;
+    }
+
+    public void setCookedDishes(List<PreparedDish> cookedDishes) {
+        this.cookedDishes = cookedDishes;
+    }
+}

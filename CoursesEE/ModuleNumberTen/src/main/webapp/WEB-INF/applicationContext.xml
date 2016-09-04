@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/cache
+                           http://www.springframework.org/schema/cache/spring-cache.xsd"
+default-autowire="byName">
+
+    <bean name="usersService" class="restaurant.service.UsersService"/>
+    <bean name="usersDao" class="restaurant.dao.UsersDao"/>
+
+    <bean name="menuService" class="restaurant.service.MenuService"/>
+    <bean name="menuDao" class="restaurant.dao.MenuDao"/>
+    <bean name="dishDao" class="restaurant.dao.DishDao"/>
+    <bean name="ingredientDao" class="restaurant.dao.IngredientDao"/>
+
+    <bean name="orderService" class="restaurant.service.OrderService"/>
+    <bean name="orderDao" class="restaurant.dao.OrderDao"/>
+
+</beans>
