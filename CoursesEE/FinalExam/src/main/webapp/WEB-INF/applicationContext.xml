@@ -22,4 +22,7 @@ default-autowire="byName">
     <bean name="warehouseService" class="restaurant.service.WarehouseService"/>
     <bean name="warehouseDao" class="restaurant.dao.WarehouseDao"/>
 
+    <bean name="preparedService" class="restaurant.service.PreparedService"/>
+    <bean name="preparedDao" class="restaurant.dao.PreparedDao"/>
+
 </beans>

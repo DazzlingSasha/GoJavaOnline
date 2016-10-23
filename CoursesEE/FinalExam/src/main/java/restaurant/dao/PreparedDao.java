@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import restaurant.model.Cook;
 import restaurant.model.PreparedDish;
 
+import java.sql.Date;
 import java.util.List;
 
 public class PreparedDao implements MainMethodDao<PreparedDish> {
@@ -69,7 +70,11 @@ public class PreparedDao implements MainMethodDao<PreparedDish> {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public List<PreparedDish> findByName(String name) {
-        return null;
+        LOGGER.info("Select all dishes WAITER by your name: "+name);
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select pd from PreparedDish pd where pd.idOrder.id_user.firstName like :name OR pd.idOrder.id_user.lastName like :name");
+        query.setParameter("name", "%"+name+"%");
+        return query.list();
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
@@ -119,5 +124,23 @@ public class PreparedDao implements MainMethodDao<PreparedDish> {
 
     public void setSessionFactory(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public List<PreparedDish> findByNubberTable(int numberTable) {
+        LOGGER.info("Select all dishes by number table = " + numberTable);
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select pd from PreparedDish pd where pd.idOrder.numberTable =:numberTable");
+        query.setParameter("numberTable", numberTable);
+        return query.list();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public List<PreparedDish> findByDate(String date) {
+        LOGGER.info("Select all dishes by date:"+date);
+        Session session = sessionFactory.getCurrentSession();
+        Query query = session.createQuery("select pd from PreparedDish pd where pd.idOrder.dateOrder =:date");
+        query.setParameter("date", "%"+date+"%");
+        return query.list();
     }
 }

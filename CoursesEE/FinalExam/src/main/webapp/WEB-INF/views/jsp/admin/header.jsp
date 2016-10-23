@@ -5,7 +5,7 @@
 <html>
 <head>
     <title>Admin</title>
-    <link href="../css/style.css" rel="stylesheet" type="text/css">
+    <link href="../../css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class="header">
@@ -16,10 +16,11 @@
         <p>Email: restaurant@restaurant.ua</p>
     </div>
     <div class="menu_header">
-        <a href="../admin/menu">Menu</a>
-        <a href="../admin/dish">Dish</a>
-        <a href="../admin/users">Employees</a>
-        <a href="../admin/warehouse">Warehouse</a>
-        <a href="../admin/history_orders">History orders</a>
+        <a href="../../admin/menu">Menu</a>
+        <a href="../../admin/dish">Dish</a>
+        <a href="../../admin/users">Employees</a>
+        <a href="../../admin/warehouse">Warehouse</a>
+        <a href="../../admin/history">History orders</a>
+        <a href="../../">Go to web site</a>
     </div>
 </div>
