@@ -1,5 +1,6 @@
 package restaurant.service;
 
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import restaurant.dao.WarehouseDao;
@@ -7,7 +8,7 @@ import restaurant.model.Ingredient;
 import restaurant.model.Warehouse;
 
 import java.util.List;
-
+@Service
 public class WarehouseService {
 
     private WarehouseDao warehouseDao;
@@ -33,6 +34,7 @@ public class WarehouseService {
     public void removeWarehouse(Warehouse warehouse) {
         warehouseDao.deleteWithDatabase(warehouse);
     }
+
     @Transactional(propagation = Propagation.REQUIRED)
     public void createWarehouse(Ingredient itemIngredient) {
         Warehouse warehouse = new Warehouse();

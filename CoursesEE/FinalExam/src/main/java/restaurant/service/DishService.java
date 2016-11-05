@@ -1,5 +1,6 @@
 package restaurant.service;
 
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import restaurant.dao.DishDao;
@@ -10,7 +11,7 @@ import restaurant.model.DishIngredient;
 import restaurant.model.Menu;
 
 import java.util.List;
-
+@Service
 public class DishService {
 
     private DishDao dishDao;

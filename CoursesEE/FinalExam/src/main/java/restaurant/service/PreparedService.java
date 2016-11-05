@@ -1,5 +1,6 @@
 package restaurant.service;
 
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import restaurant.dao.PreparedDao;
@@ -7,7 +8,7 @@ import restaurant.model.PreparedDish;
 
 import java.sql.Date;
 import java.util.List;
-
+@Service
 public class PreparedService {
     private PreparedDao preparedDao;
 

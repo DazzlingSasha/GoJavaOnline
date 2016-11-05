@@ -1,11 +1,13 @@
 package restaurant.service;
 
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import restaurant.dao.UsersDao;
 import restaurant.model.Users;
 
 import java.util.List;
+
 
 public class UsersService {
 
