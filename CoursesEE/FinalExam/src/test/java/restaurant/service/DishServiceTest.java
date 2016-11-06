@@ -132,48 +132,6 @@ public class DishServiceTest {
     }
 
     @Test
-    public void testAddIngredientForDish() throws Exception {
-        Ingredient one = new Ingredient();
-        one.setId(2);
-        one.setName("one");
-        one.setUnit("kg");
-
-        Ingredient two = new Ingredient();
-        two.setId(5);
-        two.setName("two");
-        two.setUnit("gram");
-
-        DishIngredient dishIngredient = new DishIngredient();
-        dishIngredient.setId(2);
-        dishIngredient.setIdDish(4);
-        dishIngredient.setIdIngredient(one);
-        dishIngredient.setQuantity(2.2);
-
-        DishIngredient dishIngredientTwo = new DishIngredient();
-        dishIngredientTwo.setId(3);
-        dishIngredientTwo.setIdDish(4);
-        dishIngredientTwo.setIdIngredient(two);
-        dishIngredientTwo.setQuantity(12.2);
-
-        List<DishIngredient> list = new ArrayList<>();
-        list.add(dishIngredient);
-//        list.add(dishIngredientTwo);
-
-        dishService.addIngredientForDish(dishIngredient);
-
-        when(dishDao.getAllIngredientsForDishes()).thenReturn(list);
-        when(dishDao.findInDishIngredient(dishIngredientTwo)).thenReturn(dishIngredientTwo);
-
-        dishService.addIngredientForDish(dishService.getOneIngredientDish(5));
-        List<DishIngredient> mDoc = dishService.getIngredientsByAllDishes();
-
-        assertNotNull(mDoc);
-        System.out.println(mDoc.size());
-
-        assertTrue(mDoc.get(1).equals(dishService.getOneIngredientDish(3)) );
-    }
-
-    @Test
     public void testDeleteIngredientForDish() throws Exception {
         Ingredient one = new Ingredient();
         one.setId(2);
@@ -237,16 +195,6 @@ public class DishServiceTest {
         System.out.println(mDoc.size());
 
         assertTrue(mDoc.size() == 2);
-    }
-
-    @Test
-    public void testGetOneIngredientDish() throws Exception {
-
-    }
-
-    @Test
-    public void testGetDishByName() throws Exception {
-
     }
 
 }

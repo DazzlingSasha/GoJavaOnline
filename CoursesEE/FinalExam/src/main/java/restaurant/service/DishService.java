@@ -62,12 +62,6 @@ public class DishService {
         return dishDao.findIngredient(id);
     }
 
-    @Transactional(propagation = Propagation.REQUIRED)
-    public List<Dish> getDishByName(String name){
-        return dishDao.findByName(name);
-    }
-
-
     public void setDishDao(DishDao dishDao) {
         this.dishDao = dishDao;
     }
